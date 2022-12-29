@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Session, unstable_getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import prisma from '@/lib/prisma';
-import { WithProjectAuth } from '@/types/auth';
+import { UserProps, WithProjectAuth, WithUserAuth } from '@/types/auth';
 
 export async function getServerSession(
 	req: NextApiRequest,
@@ -71,4 +71,39 @@ export const withProjectAuth =
 		}
 
 		return handler(req, res, project, session);
+	};
+
+export const withUserAuth =
+	(
+		handler: WithUserAuth,
+		{
+			needUserDetails,
+		}: {
+			needUserDetails?: boolean;
+		} = {
+			needUserDetails: false,
+		}
+	) =>
+	async (req: NextApiRequest, res: NextApiResponse) => {
+		const session = await getServerSession(req, res);
+		if (!session?.user?.id) return res.status(401).end('Unauthorized');
+
+		if (req.method === 'GET') return handler(req, res, session);
+
+		if (needUserDetails) {
+			const user = (await prisma.user.findUnique({
+				where: {
+					id: session.user.id,
+				},
+				select: {
+					id: true,
+					name: true,
+					email: true,
+				},
+			})) as UserProps;
+
+			return handler(req, res, session, user);
+		}
+
+		return handler(req, res, session);
 	};
