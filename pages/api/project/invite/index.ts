@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { withUserAuth } from '@/lib/auth';
+import { withProjectAuth } from '@/lib/auth';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default withUserAuth(
+export default withProjectAuth(
 	async (req: NextApiRequest, res: NextApiResponse) => {
 		if (req.method === 'GET') {
 			/**
@@ -38,8 +38,5 @@ export default withUserAuth(
 				.status(405)
 				.json({ error: `Method ${req.method} Not Allowed` });
 		}
-	},
-	{
-		needUserDetails: true,
 	}
 );
