@@ -42,7 +42,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  projects   ProjectUser[]
+  projects      ProjectUser[]
 }
 
 model VerificationToken {
@@ -54,10 +54,11 @@ model VerificationToken {
 }
 
 model Project {
-  id          String        @id @default(cuid())
-  name        String
-  description String?
-  ProjectUser ProjectUser[]
+  id            String          @id @default(cuid())
+  name          String
+  description   String?
+  ProjectUser   ProjectUser[]
+  ProjectInvite ProjectInvite[]
 }
 
 model ProjectUser {
@@ -69,4 +70,14 @@ model ProjectUser {
   userId    String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
+}
+
+model ProjectInvite {
+  email     String
+  expires   DateTime
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  createdAt DateTime @default(now())
+
+  @@unique([email, projectId])
 }
