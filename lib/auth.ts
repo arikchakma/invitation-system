@@ -2,30 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Session, unstable_getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import prisma from '@/lib/prisma';
+import { WithProjectAuth } from '@/types/auth';
 
 export async function getServerSession(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
 	return (await unstable_getServerSession(req, res, authOptions)) as Session;
-}
-
-interface ProjectProps {
-	id: string;
-	name: string;
-	slug: string;
-	users?: {
-		role: string;
-	}[];
-}
-
-interface WithProjectAuth {
-	(
-		req: NextApiRequest,
-		res: NextApiResponse,
-		project?: ProjectProps,
-		session?: Session
-	): Promise<void>;
 }
 
 export const withProjectAuth =
