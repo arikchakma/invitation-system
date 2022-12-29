@@ -2,7 +2,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-	if (req.method === 'POST') {
+	if (req.method === 'GET') {
+		/**
+		 * GET: /api/projects/[slug]/invite – get all pending invitations
+		 * TODO: 1. Check if the user is authenticated
+		 * TODO: 2. Check if the user is the owner of the project
+		 * TODO: 3. Get all pending invitations for the project
+		 * TODO: 4. Return the invitations
+		 */
+	} else if (req.method === 'POST') {
 		/**
 		 * POST: /api/projects/[slug]/invite – invite a teammate
 		 * TODO: 1. Check if the user is authenticated
