@@ -10,6 +10,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		 * TODO: 3. Get all pending invitations for the project
 		 * TODO: 4. Return the invitations
 		 */
+		const { slug } = req.query;
+
+		// Check if the slug is valid
+		if (!slug || typeof slug !== 'string')
+			return res.status(400).json({ error: 'Invalid project slug' });
+
+		// 1. Check if the user is authenticated
+		
 	} else if (req.method === 'POST') {
 		/**
 		 * POST: /api/projects/[slug]/invite – invite a teammate
