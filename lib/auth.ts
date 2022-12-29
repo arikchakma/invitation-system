@@ -10,11 +10,25 @@ export async function getServerSession(
 	return (await unstable_getServerSession(req, res, authOptions)) as Session;
 }
 
-interface WithProjectAuth {
-	(req: NextApiRequest, res: NextApiResponse): Promise<void>;
+interface ProjectProps {
+	id: string;
+	name: string;
+	slug: string;
+	users?: {
+		role: string;
+	}[];
 }
 
-const withProjectAuth =
+interface WithProjectAuth {
+	(
+		req: NextApiRequest,
+		res: NextApiResponse,
+		project?: ProjectProps,
+		session?: Session
+	): Promise<void>;
+}
+
+export const withProjectAuth =
 	(handler: WithProjectAuth) =>
 	async (req: NextApiRequest, res: NextApiResponse) => {
 		const session = await getServerSession(req, res);
@@ -73,5 +87,5 @@ const withProjectAuth =
 			return res.status(404).json({ error: 'Project not found' });
 		}
 
-		return handler(req, res);
+		return handler(req, res, project, session);
 	};
