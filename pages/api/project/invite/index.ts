@@ -23,5 +23,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		 * TODO: 8. Send an email to the user
 		 * TODO: 9. Return a success message
 		 */
+	} else {
+		res.setHeader('Allow', ['GET', 'POST']);
+		return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
 	}
 }
