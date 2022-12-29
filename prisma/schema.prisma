@@ -54,11 +54,12 @@ model VerificationToken {
 }
 
 model Project {
-  id            String          @id @default(cuid())
-  name          String
-  description   String?
-  ProjectUser   ProjectUser[]
-  ProjectInvite ProjectInvite[]
+  id          String          @id @default(cuid())
+  name        String
+  slug        String          @unique
+  description String?
+  users       ProjectUser[]
+  invites     ProjectInvite[]
 }
 
 model ProjectUser {
