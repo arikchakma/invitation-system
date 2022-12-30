@@ -1,12 +1,14 @@
-import Head from 'next/head';
 import { Inter } from '@next/font/google';
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+	const [email, setEmail] = useState('');
+
 	return (
 		<main>
-			<div className="max-w-md mx-auto">
+			<form className="max-w-md mx-auto">
 				<div>
 					<label htmlFor="email" className="block text-xs text-gray-600">
 						EMAIL ADDRESS
@@ -15,9 +17,11 @@ export default function Home() {
 						id="email"
 						name="email"
 						type="email"
-						placeholder="panic@thedis.co"
+						placeholder="hello@arikko.dev"
 						autoComplete="email"
 						required
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 						className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
 					/>
 				</div>
@@ -28,7 +32,7 @@ export default function Home() {
 				>
 					Send magic link
 				</button>
-			</div>
+			</form>
 		</main>
 	);
 }
