@@ -1,5 +1,6 @@
 import { Inter } from '@next/font/google';
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -8,7 +9,13 @@ export default function Home() {
 
 	return (
 		<main>
-			<form className="max-w-md mx-auto">
+			<form
+				className="max-w-md mx-auto"
+				onSubmit={async (e) => {
+					e.preventDefault();
+					await signIn('email', { email, redirect: false });
+				}}
+			>
 				<div>
 					<label htmlFor="email" className="block text-xs text-gray-600">
 						EMAIL ADDRESS
