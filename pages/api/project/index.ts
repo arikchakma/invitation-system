@@ -37,6 +37,45 @@ export default withUserAuth(
 
 			// 2. Return the projects
 			return res.status(200).json(projects);
+		} else if (req.method === 'POST') {
+			/**
+			 * TODO: 1. Check if the user already has a project with the same name
+			 * TODO: 2. Create a slug
+			 * TODO: 3. Create a project
+			 * TODO: 4. Add the user as a member of the project
+			 * TODO: 5. Return the project
+			 * TODO: 6. Handle errors
+			 * TODO: 7. Return a success message
+			 */
+			const { name, slug } = req.body as {
+				name: string;
+				slug: string;
+			};
+
+			// Guard clause to check if the name and slug are valid
+			if (!name || !slug)
+				return res.status(400).json({ error: 'Invalid project name or slug' });
+
+			// Chekc slug for invalid characters
+			if (!/^[a-z0-9-]+$/.test(slug) || slug.includes(' '))
+				return res.status(400).json({ error: 'Invalid project slug' });
+
+			// 1. Check if the user already has a project with the same name
+			const existingProject = await prisma.project.findFirst({
+				where: {
+					slug,
+					users: {
+						some: {
+							userId: user?.id,
+						},
+					},
+				},
+			});
+
+			if (existingProject)
+				return res
+					.status(400)
+					.json({ error: 'Project with this name already exists' });
 		}
 	},
 	{
