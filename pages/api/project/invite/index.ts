@@ -29,7 +29,7 @@ export default withProjectAuth(
 			return res.status(200).json(
 				invites.map((invite) => ({
 					email: invite.email,
-					joinedAt: invite.createdAt,
+					invitedAt: invite.createdAt,
 				}))
 			);
 		} else if (req.method === 'POST') {
