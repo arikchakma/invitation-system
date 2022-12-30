@@ -8,9 +8,9 @@ export default function Home() {
 	const [email, setEmail] = useState('');
 
 	return (
-		<main>
+		<main className="flex items-center justify-center px-5 h-screen">
 			<form
-				className="max-w-md mx-auto"
+				className="w-[min(100vw,424px)] mx-auto p-5 bg-white rounded-md shadow-2xl"
 				onSubmit={async (e) => {
 					e.preventDefault();
 					await signIn('email', { email, redirect: false });
