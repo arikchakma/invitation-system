@@ -73,8 +73,9 @@ export default function Projects() {
 				</button>
 			</form>
 
-			<div>
-				<div className="grid grid-cols-4 gap-5">
+			<div className="mt-10">
+				<h2 className="text-2xl font-bold">Projects</h2>
+				<div className="grid grid-cols-4 gap-5 mt-5">
 					{projects?.map((project) => (
 						<NextLink
 							href={`/${project.slug}`}
