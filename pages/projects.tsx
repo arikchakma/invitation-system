@@ -27,10 +27,10 @@ export default function Projects() {
 	}
 
 	return (
-		<main>
-			<form onSubmit={onSubmit}>
-				<input type="text" {...register('name')} />
-				<input type="text" {...register('slug')} />
+		<main className="p-2">
+			<form onSubmit={onSubmit} className="flex flex-col gap-2">
+				<input type="text" {...register('name')} placeholder="Name" />
+				<input type="text" {...register('slug')} placeholder="Slug" />
 				<button type="submit">Create project</button>
 			</form>
 			<div>
