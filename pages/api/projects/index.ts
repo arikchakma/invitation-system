@@ -41,7 +41,7 @@ export default withUserAuth(
 			 * TODO: 3. Create a project
 			 * TODO: 4. Return a success message
 			 */
-			const { name, slug } = req.body as {
+			const { name, slug } = JSON.parse(req.body) as {
 				name: string;
 				slug: string;
 			};
