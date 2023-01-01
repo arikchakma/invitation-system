@@ -1,7 +1,8 @@
 import { timeAgo } from '@/lib/utils';
-import { Project, ProjectUser } from '@prisma/client';
+import { Project } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
 interface ProjectUserProps {
 	id: string;
@@ -12,6 +13,7 @@ interface ProjectUserProps {
 
 export default function ProjectPage() {
 	const router = useRouter();
+	const { register, handleSubmit } = useForm();
 	const { slug } = router.query as {
 		slug: string;
 	};
@@ -35,6 +37,10 @@ export default function ProjectPage() {
 		}
 	);
 
+	const onSubmit = handleSubmit((data) => {
+		console.log(data);
+	});
+
 	console.log(router.query, project, users);
 
 	return (
@@ -47,15 +53,14 @@ export default function ProjectPage() {
 			<div className="mt-10">
 				<h2 className="text-2xl font-bold">Users</h2>
 
-				<form>
+				<form onSubmit={onSubmit}>
 					<label>
-						<span>
-							Invite a user to <strong>{project?.name}</strong>
-						</span>
+						<span>Invite a user to {project?.name}</span>
 						<input
 							type="text"
 							placeholder="Email"
 							className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+							{...register('email')}
 						/>
 					</label>
 					<button
