@@ -46,7 +46,7 @@ export default withProjectAuth(
 			 * TODO: 6. Send an email to the user
 			 * TODO: 7. Return a success message
 			 */
-			const { email } = req.body;
+			const { email } = JSON.parse(req.body);
 			const alreadyInTeam = await prisma.projectUser.findFirst({
 				where: {
 					projectId: project?.id,

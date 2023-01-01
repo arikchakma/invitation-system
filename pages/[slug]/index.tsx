@@ -1,6 +1,6 @@
 import { timeAgo } from '@/lib/utils';
 import { Project } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
@@ -37,8 +37,23 @@ export default function ProjectPage() {
 		}
 	);
 
+	const inviteUser = useMutation({
+		mutationFn: async (data: { email: string }) => {
+			return (
+				await fetch(`/api/projects/${slug}/invite`, {
+					method: 'POST',
+					body: JSON.stringify(data),
+				})
+			).json();
+		},
+	});
+
 	const onSubmit = handleSubmit((data) => {
-		console.log(data);
+		inviteUser.mutate(data as { email: string }, {
+			onSuccess: (data) => {
+				console.log(data);
+			},
+		});
 	});
 
 	console.log(router.query, project, users);
@@ -72,7 +87,7 @@ export default function ProjectPage() {
 				</form>
 
 				<ul className="mt-2">
-					{users?.map((user) => (
+					{users && users?.map((user) => (
 						<li key={user.id}>
 							<div className="flex items-center gap-5">
 								<h4 className="font-medium text-sm">{user?.email}</h4>
