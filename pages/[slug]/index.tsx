@@ -11,6 +11,11 @@ interface ProjectUserProps {
 	joinedAt: Date;
 }
 
+interface InvitationsProps {
+	email: string;
+	invitedAt: Date;
+}
+
 export default function ProjectPage() {
 	const router = useRouter();
 	const { register, handleSubmit } = useForm();
@@ -37,6 +42,16 @@ export default function ProjectPage() {
 		}
 	);
 
+	const { data: invitations } = useQuery<InvitationsProps[]>(
+		['invitations', slug],
+		async () => {
+			return (await fetch(`/api/projects/${slug}/invite`)).json();
+		},
+		{
+			enabled: !!slug,
+		}
+	);
+
 	const inviteUser = useMutation({
 		mutationFn: async (data: { email: string }) => {
 			return (
@@ -56,7 +71,7 @@ export default function ProjectPage() {
 		});
 	});
 
-	console.log(router.query, project, users);
+	console.log(router.query, project, users, invitations);
 
 	return (
 		<main className="p-10">
@@ -65,29 +80,29 @@ export default function ProjectPage() {
 				<p>{project?.slug}</p>
 			</div>
 
+			<form onSubmit={onSubmit} className="mt-10">
+				<label>
+					<span>Invite a user to {project?.name}</span>
+					<input
+						type="text"
+						placeholder="Email"
+						className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+						{...register('email')}
+					/>
+				</label>
+				<button
+					type="submit"
+					className="mt-2 w-full justify-center inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+				>
+					Invite
+				</button>
+			</form>
+
 			<div className="mt-10">
 				<h2 className="text-2xl font-bold">Users</h2>
 
-				<form onSubmit={onSubmit}>
-					<label>
-						<span>Invite a user to {project?.name}</span>
-						<input
-							type="text"
-							placeholder="Email"
-							className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-							{...register('email')}
-						/>
-					</label>
-					<button
-						type="submit"
-						className="mt-2 w-full justify-center inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-					>
-						Invite
-					</button>
-				</form>
-
 				<ul className="mt-2">
-					{users && users?.map((user) => (
+					{users?.map((user) => (
 						<li key={user.id}>
 							<div className="flex items-center gap-5">
 								<h4 className="font-medium text-sm">{user?.email}</h4>
@@ -98,6 +113,22 @@ export default function ProjectPage() {
 						</li>
 					))}
 				</ul>
+
+				<div>
+					<h2 className="text-2xl font-bold mt-10">Invitations</h2>
+					<ul className="mt-2">
+						{invitations?.map((invite) => (
+							<li key={invite.email}>
+								<div className="flex items-center gap-5">
+									<h4 className="font-medium text-sm">{invite?.email}</h4>
+									<span className="text-xs text-gray-600">
+										Invited {timeAgo(invite?.invitedAt)}
+									</span>
+								</div>
+							</li>
+						))}
+					</ul>
+				</div>
 			</div>
 		</main>
 	);
