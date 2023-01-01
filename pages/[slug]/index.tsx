@@ -46,12 +46,14 @@ export default function ProjectPage() {
 
 			<div className="mt-10">
 				<h2 className="text-2xl font-bold">Users</h2>
-				<ul>
+				<ul className="mt-2">
 					{users?.map((user) => (
 						<li key={user.id}>
-							<div>
-								<h4>{user?.email}</h4>
-								<span>{timeAgo(user?.joinedAt)}</span>
+							<div className="flex items-center gap-5">
+								<h4 className="font-medium text-sm">{user?.email}</h4>
+								<span className="text-xs text-gray-600">
+									Joined {timeAgo(user?.joinedAt)}
+								</span>
 							</div>
 						</li>
 					))}
