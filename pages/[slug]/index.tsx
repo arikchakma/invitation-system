@@ -38,7 +38,7 @@ export default function ProjectPage() {
 	console.log(router.query, project, users);
 
 	return (
-		<main>
+		<main className="p-10">
 			<div>
 				<h1 className="font-bold text-3xl">{project?.name}</h1>
 				<p>{project?.slug}</p>
@@ -46,6 +46,26 @@ export default function ProjectPage() {
 
 			<div className="mt-10">
 				<h2 className="text-2xl font-bold">Users</h2>
+
+				<form>
+					<label>
+						<span>
+							Invite a user to <strong>{project?.name}</strong>
+						</span>
+						<input
+							type="text"
+							placeholder="Email"
+							className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+						/>
+					</label>
+					<button
+						type="submit"
+						className="mt-2 w-full justify-center inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+					>
+						Invite
+					</button>
+				</form>
+
 				<ul className="mt-2">
 					{users?.map((user) => (
 						<li key={user.id}>
