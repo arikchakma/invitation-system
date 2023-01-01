@@ -1,11 +1,19 @@
 import { Inter } from '@next/font/google';
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
 	const [email, setEmail] = useState('');
+	const router = useRouter();
+	const session = useSession();
+	useEffect(() => {
+		if (session?.status === 'authenticated') {
+			router.push('/projects');
+		}
+	});
 
 	return (
 		<main className="flex items-center justify-center px-5 h-screen">

@@ -1,6 +1,11 @@
-import { Project, User } from '@prisma/client';
+import { Project, ProjectUser } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+
+interface ProjectUserProps extends ProjectUser {
+	email: string;
+	name: string;
+}
 
 export default function ProjectPage() {
 	const router = useRouter();
@@ -17,7 +22,7 @@ export default function ProjectPage() {
 		}
 	);
 
-	const { data: users } = useQuery<User[]>(
+	const { data: users } = useQuery<ProjectUserProps[]>(
 		['users', slug],
 		async () => {
 			return (await fetch(`/api/projects/${slug}/users`)).json();
@@ -29,5 +34,18 @@ export default function ProjectPage() {
 
 	console.log(router.query, project, users);
 
-	return <div>index</div>;
+	return (
+		<main>
+			<h1>{project?.name}</h1>
+
+			<div>
+				<h2>Users</h2>
+				<ul>
+					{users?.map((user) => (
+						<li key={user.id}>{user?.email}</li>
+					))}
+				</ul>
+			</div>
+		</main>
+	);
 }
