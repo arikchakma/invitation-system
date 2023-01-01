@@ -1,23 +1,38 @@
 import { Project } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 export default function Projects() {
 	const { data: session } = useSession();
-	const { register, handleSubmit } = useForm();
+	const utils = useQueryClient();
+	const { register, handleSubmit } = useForm<{
+		name: string;
+		slug: string;
+	}>();
 	const { data: projects } = useQuery<Project[]>(['projects'], async () => {
 		const res = await fetch('/api/projects');
 		return res.json();
 	});
 
+	const createProject = useMutation({
+		mutationFn: async (data: { name: string; slug: string }) => {
+			return (
+				await fetch('/api/projects', {
+					method: 'POST',
+					body: JSON.stringify(data),
+				})
+			).json() as Promise<Project>;
+		},
+	});
+
 	const onSubmit = handleSubmit(async (data) => {
-		const project = (await (
-			await fetch('/api/projects', {
-				method: 'POST',
-				body: JSON.stringify(data),
-			})
-		).json()) as Project;
+		const project = await createProject.mutateAsync(data, {
+			onSuccess: async (project) => {
+				console.log(project);
+				utils.invalidateQueries(['projects']);
+			},
+		});
 
 		console.log(project);
 	});
