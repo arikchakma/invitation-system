@@ -1,10 +1,13 @@
+import { timeAgo } from '@/lib/utils';
 import { Project, ProjectUser } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-interface ProjectUserProps extends ProjectUser {
+interface ProjectUserProps {
+	id: string;
 	email: string;
 	name: string;
+	joinedAt: Date;
 }
 
 export default function ProjectPage() {
@@ -45,7 +48,12 @@ export default function ProjectPage() {
 				<h2 className="text-2xl font-bold">Users</h2>
 				<ul>
 					{users?.map((user) => (
-						<li key={user.id}>{user?.email}</li>
+						<li key={user.id}>
+							<div>
+								<h4>{user?.email}</h4>
+								<span>{timeAgo(user?.joinedAt)}</span>
+							</div>
+						</li>
 					))}
 				</ul>
 			</div>
