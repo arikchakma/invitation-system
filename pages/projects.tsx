@@ -29,8 +29,24 @@ export default function Projects() {
 	return (
 		<main className="p-2">
 			<form onSubmit={onSubmit} className="flex flex-col gap-2">
-				<input type="text" {...register('name')} placeholder="Name" />
-				<input type="text" {...register('slug')} placeholder="Slug" />
+				<label className="block">
+					<span className="text-gray-700">Name</span>
+					<input
+						type="text"
+						{...register('name', { required: true })}
+						placeholder="Arik Chakma"
+						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+					/>
+				</label>
+				<label>
+					<span className="text-gray-700">Slug</span>
+					<input
+						type="text"
+						{...register('slug', { required: true })}
+						placeholder="arik-chakma"
+						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+					/>
+				</label>
 				<button type="submit">Create project</button>
 			</form>
 			<div>
