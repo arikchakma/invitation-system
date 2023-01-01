@@ -36,10 +36,13 @@ export default function ProjectPage() {
 
 	return (
 		<main>
-			<h1>{project?.name}</h1>
-
 			<div>
-				<h2>Users</h2>
+				<h1 className="font-bold text-3xl">{project?.name}</h1>
+				<p>{project?.slug}</p>
+			</div>
+
+			<div className="mt-10">
+				<h2 className="text-2xl font-bold">Users</h2>
 				<ul>
 					{users?.map((user) => (
 						<li key={user.id}>{user?.email}</li>
