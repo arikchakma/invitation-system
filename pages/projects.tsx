@@ -2,6 +2,7 @@ import { Project } from '@prisma/client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import NextLink from 'next/link';
 
 export default function Projects() {
 	const { data: session } = useSession();
@@ -71,10 +72,19 @@ export default function Projects() {
 					Create project
 				</button>
 			</form>
+
 			<div>
-				{projects?.map((project) => (
-					<div key={project.id}>{project.name}</div>
-				))}
+				<div className="grid grid-cols-4 gap-5">
+					{projects?.map((project) => (
+						<NextLink
+							href={`/${project.slug}`}
+							key={project.id}
+							className="bg-white rounded-md shadow hover:shadow-md p-5"
+						>
+							{project.name}
+						</NextLink>
+					))}
+				</div>
 			</div>
 		</main>
 	);
