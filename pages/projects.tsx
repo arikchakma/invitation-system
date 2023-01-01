@@ -77,12 +77,10 @@ export default function Projects() {
 				<h2 className="text-2xl font-bold">Projects</h2>
 				<div className="grid grid-cols-4 gap-5 mt-5">
 					{projects?.map((project) => (
-						<NextLink
-							href={`/${project.slug}`}
-							key={project.id}
-							className="bg-white rounded-md shadow hover:shadow-md p-5"
-						>
-							{project.name}
+						<NextLink href={`/${project.slug}`} key={project.id}>
+							<div className="bg-white rounded-md shadow hover:shadow-md p-5 border border-gray-100/40 transition">
+								<p>{project.name}</p>
+							</div>
 						</NextLink>
 					))}
 				</div>
