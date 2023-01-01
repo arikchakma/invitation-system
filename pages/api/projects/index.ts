@@ -32,9 +32,6 @@ export default withUserAuth(
 				},
 			});
 
-			if (!projects)
-				return res.status(404).json({ error: 'No projects found' });
-
 			// 2. Return the projects
 			return res.status(200).json(projects);
 		} else if (req.method === 'POST') {
