@@ -1,7 +1,6 @@
 import { Inter } from '@next/font/google';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { timeAgo } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] });

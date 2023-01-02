@@ -1,6 +1,6 @@
 import { timeAgo } from '@/lib/utils';
 import { Project } from '@prisma/client';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
@@ -18,6 +18,7 @@ interface InvitationsProps {
 
 export default function ProjectPage() {
 	const router = useRouter();
+	const utils = useQueryClient();
 	const { register, handleSubmit } = useForm();
 	const { slug } = router.query as {
 		slug: string;
@@ -60,6 +61,9 @@ export default function ProjectPage() {
 					body: JSON.stringify(data),
 				})
 			).json();
+		},
+		onSuccess: (data) => {
+			utils.invalidateQueries(['invitations', slug]);
 		},
 	});
 
