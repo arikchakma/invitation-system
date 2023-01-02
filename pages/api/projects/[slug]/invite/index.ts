@@ -98,8 +98,31 @@ export default withProjectAuth(
 			} catch (error) {
 				return res.status(400).json({ error: 'User already invited' });
 			}
+		} else if (req.method === 'DELETE') {
+			/**
+			 * DELETE: /api/projects/[slug]/invite – delete an invitation
+			 */
+			const { email } = JSON.parse(req.body);
+			const invite = await prisma.projectInvite.findFirst({
+				where: {
+					projectId: project?.id,
+					email,
+				},
+			});
+			if (!invite) {
+				return res.status(404).json({ error: 'Invite not found' });
+			}
+			await prisma.projectInvite.delete({
+				where: {
+					email_projectId: {
+						email,
+						projectId: String(project?.id),
+					},
+				},
+			});
+			return res.status(200).json({ message: 'Invite deleted' });
 		} else {
-			res.setHeader('Allow', ['GET', 'POST']);
+			res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
 			return res
 				.status(405)
 				.json({ error: `Method ${req.method} Not Allowed` });
