@@ -46,50 +46,48 @@ export default function Projects() {
 	return (
 		<main className="mt-20">
 			<MaxWidthWrapper>
-					<form onSubmit={onSubmit} className="flex flex-col gap-2">
-						<label className="block">
-							<span className="text-gray-700">Project Name</span>
+				<h1 className="font-bold text-3xl">Create Project</h1>
+				<form onSubmit={onSubmit} className="flex flex-col gap-2 mt-5">
+					<label className="block">
+						<span className="text-gray-700">Project Name</span>
+						<input
+							type="text"
+							{...register('name', { required: true })}
+							placeholder="Arik Chakma"
+							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+						/>
+					</label>
+					<label>
+						<span className="text-gray-700">Project Slug</span>
+						<div className="flex mt-1">
+							<span className="inline-flex border border-gray-300 border-r-0 bg-gray-100 items-center px-4 rounded-l-md text-gray-600">
+								wth.is
+							</span>
 							<input
 								type="text"
-								{...register('name', { required: true })}
-								placeholder="Arik Chakma"
-								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+								{...register('slug', { required: true })}
+								placeholder="arik-chakma"
+								className="block w-full rounded-r-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
 							/>
-						</label>
-						<label>
-							<span className="text-gray-700">Project Slug</span>
-							<div className="flex mt-1">
-								<span className="inline-flex border border-gray-300 border-r-0 bg-gray-100 items-center px-4 rounded-l-md text-gray-600">
-									wth.is
-								</span>
-								<input
-									type="text"
-									{...register('slug', { required: true })}
-									placeholder="arik-chakma"
-									className="block w-full rounded-r-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								/>
-							</div>
-						</label>
-						<button
-							type="submit"
-							className="bg-black rounded-md text-white p-2"
-						>
-							Create project
-						</button>
-					</form>
-
-					<div className="mt-10">
-						<h2 className="text-2xl font-bold">Projects</h2>
-						<div className="grid grid-cols-4 gap-5 mt-5">
-							{projects?.map((project) => (
-								<NextLink href={`/${project.slug}`} key={project.id}>
-									<div className="bg-white rounded-md shadow hover:shadow-md p-5 border border-gray-100/40 transition">
-										<p>{project.name}</p>
-									</div>
-								</NextLink>
-							))}
 						</div>
+					</label>
+					<button type="submit" className="bg-black rounded-md text-white p-2">
+						Create project
+					</button>
+				</form>
+
+				<div className="mt-10">
+					<h2 className="text-2xl font-bold">Projects</h2>
+					<div className="grid grid-cols-4 gap-5 mt-5">
+						{projects?.map((project) => (
+							<NextLink href={`/${project.slug}`} key={project.id}>
+								<div className="bg-white rounded-md shadow hover:shadow-md p-5 border border-gray-100/40 transition">
+									<p>{project.name}</p>
+								</div>
+							</NextLink>
+						))}
 					</div>
+				</div>
 			</MaxWidthWrapper>
 		</main>
 	);
