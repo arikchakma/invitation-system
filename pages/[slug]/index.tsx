@@ -2,11 +2,11 @@ import UsersTable from '@/components/projects/users-table';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { timeAgo } from '@/lib/utils';
 import { ProjectUserProps } from '@/types/project';
-import { Project } from '@prisma/client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import useProject from '@/utils/use-project';
 
 interface InvitationsProps {
 	email: string;
@@ -21,15 +21,7 @@ export default function ProjectPage() {
 	const { slug } = router.query as {
 		slug: string;
 	};
-	const { data: project } = useQuery<Project>(
-		['project', slug],
-		async () => {
-			return (await fetch(`/api/projects/${slug}`)).json();
-		},
-		{
-			enabled: !!slug,
-		}
-	);
+	const { project, isOwner } = useProject();
 
 	const { data: users } = useQuery<ProjectUserProps[]>(
 		['users', slug],
@@ -40,11 +32,6 @@ export default function ProjectPage() {
 			enabled: !!slug,
 		}
 	);
-
-	const isOwner =
-		users &&
-		users?.find((user) => user.role === 'owner')?.email ===
-			session?.data?.user?.email;
 
 	const { data: invitations } = useQuery<InvitationsProps[]>(
 		['invitations', slug],

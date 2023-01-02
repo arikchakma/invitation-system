@@ -19,7 +19,6 @@ export default withProjectAuth(
 					projectId,
 				},
 				select: {
-					role: true,
 					user: {
 						select: {
 							id: true,
@@ -33,7 +32,6 @@ export default withProjectAuth(
 			return res.status(200).json(
 				users.map((u) => ({
 					...u.user,
-					role: u.role,
 					joinedAt: u.createdAt,
 				}))
 			);
