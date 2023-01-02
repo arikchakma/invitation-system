@@ -100,7 +100,6 @@ export default function ProjectPage() {
 
 			<div className="mt-10">
 				<h2 className="text-2xl font-bold">Users</h2>
-
 				<ul className="mt-2">
 					{users?.map((user) => (
 						<li key={user.id}>
