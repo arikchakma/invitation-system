@@ -1,14 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Session } from 'next-auth';
-
-export interface ProjectProps {
-	id: string;
-	name: string;
-	slug: string;
-	users?: {
-		role: string;
-	}[];
-}
+import { ProjectProps } from './project';
 
 export interface UserProps {
 	id: string;

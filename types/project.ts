@@ -5,3 +5,12 @@ export interface ProjectUserProps {
 	role: string;
 	joinedAt: Date;
 }
+
+export interface ProjectProps {
+	id: string;
+	name: string;
+	slug: string;
+	users?: {
+		role: string;
+	}[];
+}
