@@ -8,7 +8,11 @@ export default function useProject() {
 	const { slug } = router.query as {
 		slug: string;
 	};
-	const { data: project, error } = useQuery<ProjectProps>(
+	const {
+		data: project,
+		error,
+		status,
+	} = useQuery<ProjectProps>(
 		['project', slug],
 		async () => {
 			return (await fetch(`/api/projects/${slug}`)).json();
@@ -28,5 +32,6 @@ export default function useProject() {
 		project,
 		error,
 		isOwner,
+		status,
 	};
 }
