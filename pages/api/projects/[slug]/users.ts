@@ -19,6 +19,7 @@ export default withProjectAuth(
 					projectId,
 				},
 				select: {
+					role: true,
 					user: {
 						select: {
 							id: true,

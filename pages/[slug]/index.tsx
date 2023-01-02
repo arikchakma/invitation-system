@@ -127,6 +127,8 @@ export default function ProjectPage() {
 									<span className="text-xs text-gray-600">
 										Invited {timeAgo(invite?.invitedAt)}
 									</span>
+
+									<button>Cancel</button>
 								</div>
 							</li>
 						))}
