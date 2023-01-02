@@ -2,11 +2,14 @@ import { Inter } from '@next/font/google';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { timeAgo } from '@/lib/utils';
 import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
 	const router = useRouter();
+	const session = useSession();
 	const { data: pendingInivatations } = useQuery<
 		{
 			email: string;
@@ -27,9 +30,21 @@ export default function Home() {
 		});
 	});
 
+	useEffect(() => {
+		if (!session) router.push('/login');
+	});
+
 	return (
 		<main className="p-10">
-			<ul className="max-w-xl">
+			<button
+				className="bg-black text-white px-4 py-1 mt-2 rounded"
+				onClick={() => {
+					signOut();
+				}}
+			>
+				Log Out
+			</button>
+			<ul className="max-w-xl mt-10 flex flex-col gap-5">
 				{pendingInivatations?.map((invitation, index) => (
 					<li key={invitation.email + index}>
 						<div>
