@@ -16,7 +16,7 @@ export default withUserAuth(
 				where: {
 					users: {
 						some: {
-							userId: user?.id,
+							userId: session?.user?.id,
 						},
 					},
 				},
