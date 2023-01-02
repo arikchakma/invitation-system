@@ -1,6 +1,7 @@
 import { Inter } from '@next/font/google';
 import { useQuery } from '@tanstack/react-query';
 import { timeAgo } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,8 +18,9 @@ export default function Home() {
 	>(['pendingInvitations'], async () => {
 		return (await fetch('/api/projects/get-user-invitations')).json();
 	});
+	const session = useSession();
 
-	console.log(pendingInivatations);
+	console.log(pendingInivatations, session);
 
 	return (
 		<main className="flex items-center justify-center px-5 h-screen">
