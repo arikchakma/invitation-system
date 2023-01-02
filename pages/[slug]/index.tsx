@@ -1,6 +1,7 @@
 import { timeAgo } from '@/lib/utils';
 import { Project } from '@prisma/client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
@@ -8,6 +9,7 @@ interface ProjectUserProps {
 	id: string;
 	email: string;
 	name: string;
+	role: string;
 	joinedAt: Date;
 }
 
@@ -19,6 +21,7 @@ interface InvitationsProps {
 export default function ProjectPage() {
 	const router = useRouter();
 	const utils = useQueryClient();
+	const session = useSession();
 	const { register, handleSubmit } = useForm();
 	const { slug } = router.query as {
 		slug: string;
@@ -42,6 +45,9 @@ export default function ProjectPage() {
 			enabled: !!slug,
 		}
 	);
+
+	const owner = users?.find((user) => user.role === 'owner');
+	console.log('Owner: ', owner);
 
 	const { data: invitations } = useQuery<InvitationsProps[]>(
 		['invitations', slug],
