@@ -1,18 +1,12 @@
+import UsersTable from '@/components/projects/users-table';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { timeAgo } from '@/lib/utils';
+import { ProjectUserProps } from '@/types/project';
 import { Project } from '@prisma/client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-
-interface ProjectUserProps {
-	id: string;
-	email: string;
-	name: string;
-	role: string;
-	joinedAt: Date;
-}
 
 interface InvitationsProps {
 	email: string;
@@ -113,19 +107,7 @@ export default function ProjectPage() {
 				</form>
 
 				<div className="mt-10">
-					<h2 className="text-2xl font-bold">Users</h2>
-					<ul className="mt-2">
-						{users?.map((user) => (
-							<li key={user.id}>
-								<div className="flex items-center gap-5">
-									<h4 className="font-medium text-sm">{user?.email}</h4>
-									<span className="text-xs text-gray-600">
-										Joined {timeAgo(user?.joinedAt)}
-									</span>
-								</div>
-							</li>
-						))}
-					</ul>
+					<UsersTable />
 
 					<div>
 						<h2 className="text-2xl font-bold mt-10">Invitations</h2>
