@@ -7,9 +7,14 @@ import { useQuery } from '@tanstack/react-query';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const {data: pendingInivatations} = useQuery(['pendingInvitations'], async () => {
-    return (await fetch('/api/projects/get-user')).json();
-  });
+	const { data: pendingInivatations } = useQuery(
+		['pendingInvitations'],
+		async () => {
+			return (await fetch('/api/projects/get-user-invitations')).json();
+		}
+	);
+
+	console.log(pendingInivatations);
 
 	return (
 		<main className="flex items-center justify-center px-5 h-screen">

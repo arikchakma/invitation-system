@@ -87,7 +87,7 @@ export default withProjectAuth(
 				});
 
 				const params = new URLSearchParams({
-					callbackUrl: `${process.env.NEXTAUTH_URL}/${slug}`,
+					callbackUrl: `${process.env.NEXTAUTH_URL}/`,
 					email,
 					token,
 				});
