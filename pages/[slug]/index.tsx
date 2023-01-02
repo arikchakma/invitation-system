@@ -46,8 +46,10 @@ export default function ProjectPage() {
 		}
 	);
 
-	const owner = users?.find((user) => user.role === 'owner');
-	console.log('Owner: ', owner);
+	const isOwner =
+		users &&
+		users?.find((user) => user.role === 'owner')?.email ===
+			session?.data?.user?.email;
 
 	const { data: invitations } = useQuery<InvitationsProps[]>(
 		['invitations', slug],
@@ -134,7 +136,11 @@ export default function ProjectPage() {
 										Invited {timeAgo(invite?.invitedAt)}
 									</span>
 
-									<button>Cancel</button>
+									{isOwner && (
+										<button className="text-xs bg-black text-white rounded px-2 py-1">
+											Cancel
+										</button>
+									)}
 								</div>
 							</li>
 						))}
