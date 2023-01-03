@@ -12,12 +12,6 @@ const inter = Inter({ subsets: ['latin'] });
 export default function Home() {
 	const router = useRouter();
 	const session = useSession();
-	const { data: pendingInivatations } = useQuery<InvitationsProps[]>(
-		['pendingInvitations'],
-		async () => {
-			return (await fetch('/api/projects/get-user-invitations')).json();
-		}
-	);
 
 	useEffect(() => {
 		if (!session) router.push('/login');
@@ -35,10 +29,6 @@ export default function Home() {
 					Log Out
 				</button>
 				<PendingInvitationsTable />
-
-				<div>
-					{pendingInivatations?.length === 0 && <p>No pending invitations</p>}
-				</div>
 			</MaxWidthWrapper>
 		</main>
 	);

@@ -47,6 +47,10 @@ export default function PendingInvitationsTable() {
 					</li>
 				))}
 			</ul>
+
+			<div>
+				{pendingInivatations?.length === 0 && <p>No pending invitations</p>}
+			</div>
 		</div>
 	);
 }
