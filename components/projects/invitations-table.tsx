@@ -1,8 +1,7 @@
 import { timeAgo } from '@/lib/utils';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
-
 
 interface InvitationsProps {
 	email: string;
@@ -14,7 +13,7 @@ export default function InvitationsTable() {
 	const { slug } = router.query as {
 		slug: string;
 	};
-  const {project, isOwner} = useProject()
+	const { project, isOwner } = useProject();
 	const { data: invitations } = useQuery<InvitationsProps[]>(
 		['invitations', slug],
 		async () => {
@@ -24,6 +23,14 @@ export default function InvitationsTable() {
 			enabled: !!slug,
 		}
 	);
+
+	const deleteInvitation = useMutation(async (email: string) => {
+		return await fetch(`/api/projects/${slug}/invite`, {
+			method: 'DELETE',
+			body: JSON.stringify({ email }),
+		});
+	});
+
 	return (
 		<div>
 			<h2 className="text-2xl font-bold mt-10">Invitations</h2>
