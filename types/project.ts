@@ -13,3 +13,12 @@ export interface ProjectProps {
 		role: string;
 	}[];
 }
+
+export interface InvitationsProps {
+	email: string;
+	createdAt: Date;
+	project: {
+		name: string;
+		slug: string;
+	};
+}

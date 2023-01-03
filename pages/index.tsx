@@ -5,24 +5,19 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
+import { InvitationsProps } from '@/types/project';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
 	const router = useRouter();
 	const session = useSession();
-	const { data: pendingInivatations } = useQuery<
-		{
-			email: string;
-			createdAt: Date;
-			project: {
-				name: string;
-				slug: string;
-			};
-		}[]
-	>(['pendingInvitations'], async () => {
-		return (await fetch('/api/projects/get-user-invitations')).json();
-	});
+	const { data: pendingInivatations } = useQuery<InvitationsProps[]>(
+		['pendingInvitations'],
+		async () => {
+			return (await fetch('/api/projects/get-user-invitations')).json();
+		}
+	);
 
 	const acceptInvitation = useMutation(async (slug: string) => {
 		return await fetch(`/api/projects/${slug}/invite/accept`, {
