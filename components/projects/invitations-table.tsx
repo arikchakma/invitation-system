@@ -1,5 +1,5 @@
 import { timeAgo } from '@/lib/utils';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 
@@ -13,7 +13,8 @@ export default function InvitationsTable() {
 	const { slug } = router.query as {
 		slug: string;
 	};
-	const { project, isOwner } = useProject();
+	const utils = useQueryClient();
+	const { isOwner } = useProject();
 	const { data: invitations } = useQuery<InvitationsProps[]>(
 		['invitations', slug],
 		async () => {
@@ -31,6 +32,14 @@ export default function InvitationsTable() {
 		});
 	});
 
+	const handleDeleteInvitation = (email: string) => {
+		deleteInvitation.mutate(email, {
+			onSuccess: () => {
+				utils.invalidateQueries(['invitations', slug]);
+			},
+		});
+	};
+
 	return (
 		<div>
 			<h2 className="text-2xl font-bold mt-10">Invitations</h2>
@@ -44,7 +53,10 @@ export default function InvitationsTable() {
 							</span>
 
 							{isOwner && (
-								<button className="text-xs bg-black text-white rounded px-2 py-1">
+								<button
+									className="text-xs bg-black text-white rounded px-2 py-1"
+									onClick={() => handleDeleteInvitation(invite.email)}
+								>
 									Cancel
 								</button>
 							)}
