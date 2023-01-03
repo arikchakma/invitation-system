@@ -1,17 +1,12 @@
 import UsersTable from '@/components/projects/users-table';
+import InvitationsTable from '@/components/projects/invitations-table';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
-import { timeAgo } from '@/lib/utils';
 import { ProjectUserProps } from '@/types/project';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import useProject from '@/utils/use-project';
-
-interface InvitationsProps {
-	email: string;
-	invitedAt: Date;
-}
 
 export default function ProjectPage() {
 	const router = useRouter();
@@ -27,16 +22,6 @@ export default function ProjectPage() {
 		['users', slug],
 		async () => {
 			return (await fetch(`/api/projects/${slug}/users`)).json();
-		},
-		{
-			enabled: !!slug,
-		}
-	);
-
-	const { data: invitations } = useQuery<InvitationsProps[]>(
-		['invitations', slug],
-		async () => {
-			return (await fetch(`/api/projects/${slug}/invite`)).json();
 		},
 		{
 			enabled: !!slug,
@@ -65,7 +50,7 @@ export default function ProjectPage() {
 		});
 	});
 
-	console.log(router.query, project, users, invitations);
+	console.log(router.query, project, users);
 
 	return (
 		<main className="mt-20">
@@ -95,28 +80,7 @@ export default function ProjectPage() {
 
 				<div className="mt-10">
 					<UsersTable />
-
-					<div>
-						<h2 className="text-2xl font-bold mt-10">Invitations</h2>
-						<ul className="mt-2">
-							{invitations?.map((invite) => (
-								<li key={invite.email}>
-									<div className="flex items-center gap-5">
-										<h4 className="font-medium text-sm">{invite?.email}</h4>
-										<span className="text-xs text-gray-600">
-											Invited {timeAgo(invite?.invitedAt)}
-										</span>
-
-										{isOwner && (
-											<button className="text-xs bg-black text-white rounded px-2 py-1">
-												Cancel
-											</button>
-										)}
-									</div>
-								</li>
-							))}
-						</ul>
-					</div>
+					<InvitationsTable />
 				</div>
 			</MaxWidthWrapper>
 		</main>
