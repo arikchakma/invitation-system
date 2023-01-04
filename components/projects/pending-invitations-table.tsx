@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { timeAgo } from '@/lib/utils';
 import { useRouter } from 'next/router';
-import { InvitationsProps } from '@/types/project';
+import { PendingInvitationsProps } from '@/types/project';
 
 export default function PendingInvitationsTable() {
 	const router = useRouter();
-	const { data: pendingInivatations } = useQuery<InvitationsProps[]>(
+	const { data: pendingInivatations } = useQuery<PendingInvitationsProps[]>(
 		['pendingInvitations'],
 		async () => {
 			return (await fetch('/api/projects/get-user-invitations')).json();

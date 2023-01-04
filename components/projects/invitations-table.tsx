@@ -2,11 +2,7 @@ import { timeAgo } from '@/lib/utils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
-
-interface InvitationsProps {
-	email: string;
-	invitedAt: Date;
-}
+import { InvitationsProps } from '@/types/project';
 
 export default function InvitationsTable() {
 	const router = useRouter();

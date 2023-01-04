@@ -14,7 +14,7 @@ export interface ProjectProps {
 	}[];
 }
 
-export interface InvitationsProps {
+export interface PendingInvitationsProps {
 	email: string;
 	createdAt: Date;
 	project: {
@@ -23,3 +23,7 @@ export interface InvitationsProps {
 	};
 }
 
+export interface InvitationsProps {
+	email: string;
+	invitedAt: Date;
+}
