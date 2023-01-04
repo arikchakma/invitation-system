@@ -18,6 +18,7 @@ export default function Home() {
 	return (
 		<main className="mt-20">
 			<MaxWidthWrapper>
+				<h1 className="text-3xl font-bold">{session?.data?.user?.email}</h1>
 				<button
 					className="bg-black text-white px-4 py-1 mt-2 rounded"
 					onClick={() => {
