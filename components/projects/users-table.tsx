@@ -22,7 +22,7 @@ export default function UsersTable() {
 		<div>
 			<h2 className="text-2xl font-bold">Users</h2>
 			<ul className="mt-2 flex flex-col gap-2">
-				{status === 'loading' ? (
+				{!(status === 'success') ? (
 					<>
 						{[1, 2].map((item) =>
 							cloneElement(

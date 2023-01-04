@@ -41,7 +41,7 @@ export default function InvitationsTable() {
 		<div>
 			<h2 className="text-2xl font-bold mt-10">Invitations</h2>
 			<ul className="mt-2 flex flex-col gap-2">
-				{status === 'loading' ? (
+				{!(status === 'success') ? (
 					<>
 						{[1, 2].map((item) =>
 							cloneElement(

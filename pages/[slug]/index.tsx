@@ -18,7 +18,7 @@ export default function ProjectPage() {
 			<MaxWidthWrapper>
 				<Header />
 				<div>
-					{status === 'loading' ? (
+					{!(status === 'success') ? (
 						<>
 							<div className="h-9 bg-slate-300 rounded w-56" />
 							<div className="h-6 bg-slate-200 mt-1 w-36 rounded" />
