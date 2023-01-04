@@ -10,21 +10,21 @@ export default function ProjectPage() {
 	const { slug } = router.query as {
 		slug: string;
 	};
-	const { project } = useProject();
+	const { project, status } = useProject();
 
 	return (
 		<main className="mt-20">
 			<MaxWidthWrapper>
 				<div>
-					{project ? (
-						<>
-							<h1 className="font-bold text-3xl">{project?.name}</h1>
-							<p className="mt-1">{project?.slug}</p>
-						</>
-					) : (
+					{status === 'loading' ? (
 						<>
 							<div className="h-9 bg-slate-300 rounded w-56" />
 							<div className="h-6 bg-slate-200 mt-1 w-36 rounded" />
+						</>
+					) : (
+						<>
+							<h1 className="font-bold text-3xl">{project?.name}</h1>
+							<p className="mt-1">{project?.slug}</p>
 						</>
 					)}
 				</div>
