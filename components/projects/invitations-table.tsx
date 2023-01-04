@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import { InvitationsProps } from '@/types/project';
+import { cloneElement } from 'react';
 
 export default function InvitationsTable() {
 	const router = useRouter();
@@ -11,7 +12,7 @@ export default function InvitationsTable() {
 	};
 	const utils = useQueryClient();
 	const { isOwner } = useProject();
-	const { data: invitations } = useQuery<InvitationsProps[]>(
+	const { data: invitations, status } = useQuery<InvitationsProps[]>(
 		['invitations', slug],
 		async () => {
 			return (await fetch(`/api/projects/${slug}/invite`)).json();
@@ -39,26 +40,41 @@ export default function InvitationsTable() {
 	return (
 		<div>
 			<h2 className="text-2xl font-bold mt-10">Invitations</h2>
-			<ul className="mt-2">
-				{invitations?.map((invite) => (
-					<li key={invite.email}>
-						<div className="flex items-center gap-5">
-							<h4 className="font-medium text-sm">{invite?.email}</h4>
-							<span className="text-xs text-gray-600">
-								Invited {timeAgo(invite?.invitedAt)}
-							</span>
+			<ul className="mt-2 flex flex-col gap-2">
+				{status === 'loading' ? (
+					<>
+						{[1, 2].map((item) =>
+							cloneElement(
+								<li>
+									<div className="h-8 bg-slate-200 rounded-sm" />
+								</li>,
+								{ key: item }
+							)
+						)}
+					</>
+				) : (
+					<>
+						{invitations?.map((invite) => (
+							<li key={invite.email}>
+								<div className="flex items-center gap-5 bg-slate-200 rounded-sm px-2 py-1">
+									<h4 className="font-medium text-sm">{invite?.email}</h4>
+									<span className="text-xs text-gray-600">
+										Invited {timeAgo(invite?.invitedAt)}
+									</span>
 
-							{isOwner && (
-								<button
-									className="text-xs bg-black text-white rounded px-2 py-1"
-									onClick={() => handleDeleteInvitation(invite.email)}
-								>
-									Cancel
-								</button>
-							)}
-						</div>
-					</li>
-				))}
+									{isOwner && (
+										<button
+											className="text-xs bg-black text-white rounded px-2 py-1"
+											onClick={() => handleDeleteInvitation(invite.email)}
+										>
+											Cancel
+										</button>
+									)}
+								</div>
+							</li>
+						))}
+					</>
+				)}
 			</ul>
 		</div>
 	);
