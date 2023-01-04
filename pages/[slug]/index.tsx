@@ -4,6 +4,7 @@ import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import InviteUserForm from '@/components/projects/invite-user-form';
+import Header from '@/layouts/header';
 
 export default function ProjectPage() {
 	const router = useRouter();
@@ -15,6 +16,7 @@ export default function ProjectPage() {
 	return (
 		<main className="mt-20">
 			<MaxWidthWrapper>
+				<Header />
 				<div>
 					{status === 'loading' ? (
 						<>

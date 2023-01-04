@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import NextLink from 'next/link';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import CreateProject from '@/components/projects/create-project';
+import Header from '@/layouts/header';
 
 export default function Projects() {
 	const { data: session } = useSession();
@@ -22,6 +23,7 @@ export default function Projects() {
 	return (
 		<main className="mt-20">
 			<MaxWidthWrapper>
+				<Header />
 				<CreateProject />
 				
 				<div className="mt-10">
