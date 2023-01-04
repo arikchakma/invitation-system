@@ -10,7 +10,7 @@ export default function InviteUserForm() {
 	};
 	const utils = useQueryClient();
 	const { register, handleSubmit } = useForm();
-	const { project } = useProject();
+	const { project, status } = useProject();
 
 	const inviteUser = useMutation({
 		mutationFn: async (data: { email: string }) => {
@@ -36,7 +36,14 @@ export default function InviteUserForm() {
 	return (
 		<form onSubmit={onSubmit} className="mt-10">
 			<label>
-				<span>Invite a user to {project?.name}</span>
+				<span>
+					Invite a user to{' '}
+					{status === 'loading' ? (
+						<span className="w-28 inline-block bg-slate-200 rounded h-4" />
+					) : (
+						<span>{project?.name}</span>
+					)}
+				</span>
 				<input
 					type="text"
 					placeholder="Email"
