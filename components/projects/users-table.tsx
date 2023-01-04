@@ -20,10 +20,10 @@ export default function UsersTable() {
 	return (
 		<div>
 			<h2 className="text-2xl font-bold">Users</h2>
-			<ul className="mt-2">
+			<ul className="mt-2 flex flex-col gap-2">
 				{users?.map((user) => (
 					<li key={user.id}>
-						<div className="flex items-center gap-5">
+						<div className="flex items-center justify-between bg-slate-200 gap-5 rounded-sm px-2 py-1">
 							<h4 className="font-medium text-sm">{user?.email}</h4>
 							<span className="text-xs text-gray-600">
 								Joined {timeAgo(user?.joinedAt)}
