@@ -22,3 +22,4 @@ export interface InvitationsProps {
 		slug: string;
 	};
 }
+

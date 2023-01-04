@@ -1,10 +1,8 @@
 import { Inter } from '@next/font/google';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
-import { InvitationsProps } from '@/types/project';
 import PendingInvitationsTable from '@/components/projects/pending-invitations-table';
 
 const inter = Inter({ subsets: ['latin'] });
