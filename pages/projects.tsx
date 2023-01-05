@@ -1,11 +1,10 @@
 import { Project } from '@prisma/client';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
 import NextLink from 'next/link';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import CreateProject from '@/components/projects/create-project';
-import Header from '@/layouts/header';
+import Container from '@/layouts/Container';
 
 export default function Projects() {
 	const { data: session } = useSession();
@@ -21,11 +20,10 @@ export default function Projects() {
 	}
 
 	return (
-		<main className="mt-20">
+		<Container>
 			<MaxWidthWrapper>
-				<Header />
 				<CreateProject />
-				
+
 				<div className="mt-10">
 					<h2 className="text-2xl font-bold">Projects</h2>
 					<div className="grid grid-cols-4 gap-5 mt-5">
@@ -39,6 +37,6 @@ export default function Projects() {
 					</div>
 				</div>
 			</MaxWidthWrapper>
-		</main>
+		</Container>
 	);
 }
