@@ -4,7 +4,7 @@ import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import InviteUserForm from '@/components/projects/invite-user-form';
-import Header from '@/layouts/header';
+import Container from '@/layouts/Container';
 
 export default function ProjectPage() {
 	const router = useRouter();
@@ -14,9 +14,8 @@ export default function ProjectPage() {
 	const { project, status } = useProject();
 
 	return (
-		<main className="mt-20">
+		<Container>
 			<MaxWidthWrapper>
-				<Header />
 				<div>
 					{!(status === 'success') ? (
 						<>
@@ -36,6 +35,6 @@ export default function ProjectPage() {
 					<InvitationsTable />
 				</div>
 			</MaxWidthWrapper>
-		</main>
+		</Container>
 	);
 }
