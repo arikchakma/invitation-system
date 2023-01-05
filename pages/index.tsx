@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import PendingInvitationsTable from '@/components/projects/pending-invitations-table';
-import Header from '@/layouts/header';
+import Container from '@/layouts/Container';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,11 +17,10 @@ export default function Home() {
 	});
 
 	return (
-		<main className="mt-20">
+		<Container>
 			<MaxWidthWrapper>
-				<Header />
 				<PendingInvitationsTable />
 			</MaxWidthWrapper>
-		</main>
+		</Container>
 	);
 }

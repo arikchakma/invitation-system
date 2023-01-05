@@ -8,7 +8,6 @@ import Container from '@/layouts/Container';
 
 export default function Projects() {
 	const { data: session } = useSession();
-	const utils = useQueryClient();
 
 	const { data: projects } = useQuery<Project[]>(['projects'], async () => {
 		const res = await fetch('/api/projects');
