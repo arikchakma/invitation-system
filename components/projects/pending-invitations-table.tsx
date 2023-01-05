@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { timeAgo } from '@/lib/utils';
 import { useRouter } from 'next/router';
 import { PendingInvitationsProps } from '@/types/project';
+import Balancer from 'react-wrap-balancer';
 
 export default function PendingInvitationsTable() {
 	const router = useRouter();
@@ -26,10 +27,12 @@ export default function PendingInvitationsTable() {
 					<li key={invitation.email + index}>
 						<div>
 							<p>
-								<strong>{invitation.project.name}</strong> has invited you{' '}
-								<strong>{timeAgo(invitation.createdAt)}</strong> to join their
-								project. By accepting this invitation you will be able to view
-								and edit the project.
+								<Balancer>
+									<strong>{invitation.project.name}</strong> has invited you{' '}
+									<strong>{timeAgo(invitation.createdAt)}</strong> to join their
+									project. By accepting this invitation you will be able to view
+									and edit the project.
+								</Balancer>
 							</p>
 							<button
 								onClick={() => {
