@@ -14,7 +14,7 @@ const transport = nodemailer.createTransport({
 
 const sendMail = buildSendMail({
   transport,
-  defaultFrom: "hello@arikko.dev",
+  defaultFrom: "Arik from Invitation System <hello@arikko.dev>",
   configPath: "./mailing.config.json",
 });
 
