@@ -4,7 +4,7 @@ import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import InviteUserForm from '@/components/projects/invite-user-form';
-import Container from '@/layouts/Container';
+import Container from '@/layouts/container';
 
 export default function ProjectPage() {
 	const router = useRouter();

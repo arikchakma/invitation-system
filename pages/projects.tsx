@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import CreateProject from '@/components/projects/create-project';
-import Container from '@/layouts/Container';
+import Container from '@/layouts/container';
 
 export default function Projects() {
 	const { data: session } = useSession();
