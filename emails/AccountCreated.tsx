@@ -1,48 +1,56 @@
-import React from 'react';
-import { MjmlSection, MjmlColumn, MjmlImage } from 'mjml-react';
-import { Template } from 'mailing-core';
-import Button from './components/Button';
+import {
+	Mjml,
+	MjmlBody,
+	MjmlColumn,
+	MjmlSection,
+	MjmlText,
+	MjmlWrapper,
+} from 'mjml-react';
+import ButtonPrimary from './components/ButtonPrimary';
+import Divider from './components/Divider';
+import Head from './components/Head';
 import Header from './components/Header';
-import Heading from './components/Heading';
-import Footer from './components/Footer';
-import BaseLayout from './components/BaseLayout';
-import Text from './components/Text';
-import { spacing, fontSize } from './theme';
+import { purple } from './theme';
 
-type AccountCreatedProps = { email: string; url: string };
-
-const AccountCreated: Template<AccountCreatedProps> = ({ email, url }) => (
-	<BaseLayout width={600} preview="Excited to help you enjoy great meals.">
-		<Header loose />
-		{/* <MjmlSection cssClass="lg-gutter" paddingBottom={spacing.s9}>
-      <MjmlColumn>
-        <MjmlImage
-          align="left"
-          src="https://s3.amazonaws.com/lab.campsh.com/bb-hero%402x.jpg"
-        />
-      </MjmlColumn>
-    </MjmlSection> */}
-		<MjmlSection cssClass="gutter">
-			<MjmlColumn>
-				<Heading fontSize={fontSize.xl}>{email}, your table awaits.</Heading>
-				<Text paddingTop={spacing.s7} paddingBottom={spacing.s7}>
-					Thank you for joining BookBook! We’re excited to help you enjoy great
-					meals without any begging, guessing, waiting or phone calls. Just a
-					couple taps, and the table is yours.
-				</Text>
-				<Button href={url}>Sign In</Button>
-				<Text paddingTop={spacing.s7}>
-					Enjoy!
-					<br />
-					The Invitation System
-				</Text>
-			</MjmlColumn>
-		</MjmlSection>
-		<Footer includeUnsubscribe />
-	</BaseLayout>
-);
-
-AccountCreated.subject = ({ email }) =>
-	`Welcome to Invitation System, ${email}!`;
-
-export default AccountCreated;
+export default function AccountCreated({ url }: { url: string }): JSX.Element {
+	return (
+		<Mjml>
+			<Head />
+			<MjmlBody width={500}>
+				<MjmlWrapper cssClass="container">
+					<Header title="Your Login Link" />
+					<MjmlSection cssClass="smooth">
+						<MjmlColumn>
+							<MjmlText cssClass="paragraph">
+								Welcome to Invitation System!
+							</MjmlText>
+							<MjmlText cssClass="paragraph">
+								Please click the magic link below to sign in to your account.
+							</MjmlText>
+							<ButtonPrimary link={url} uiText="Sign In" />
+							<MjmlText cssClass="paragraph">
+								If you&apos;re on a mobile device, you can also copy the link
+								below and paste it into the browser of your choice.
+							</MjmlText>
+							<MjmlText cssClass="paragraph">
+								<a
+									rel="nofollow"
+									style={{
+										textDecoration: 'none',
+										color: `${purple} !important`,
+									}}
+								>
+									{url.replace(/^https?:\/\//, '')}
+								</a>
+							</MjmlText>
+							<MjmlText cssClass="paragraph">
+								If you did not request this email, you can safely ignore it.
+							</MjmlText>
+							<Divider />
+						</MjmlColumn>
+					</MjmlSection>
+				</MjmlWrapper>
+			</MjmlBody>
+		</Mjml>
+	);
+}
