@@ -45,18 +45,7 @@ export default function InvitationsTable() {
 		<div>
 			<h2 className="text-2xl font-bold mt-10">Invitations</h2>
 			<ul className="mt-2 flex flex-col gap-2">
-				{!(status === 'success') ? (
-					<>
-						{Array.from({ length: 2 }).map((_, i) =>
-							cloneElement(
-								<li>
-									<div className="h-8 bg-slate-200 rounded-sm" />
-								</li>,
-								{ key: i }
-							)
-						)}
-					</>
-				) : (
+				{status === 'success' ? (
 					<>
 						{invitations?.map((invite) => (
 							<li key={invite.email}>
@@ -77,6 +66,17 @@ export default function InvitationsTable() {
 								</div>
 							</li>
 						))}
+					</>
+				) : (
+					<>
+						{Array.from({ length: 2 }).map((_, i) =>
+							cloneElement(
+								<li>
+									<div className="h-8 bg-slate-200 rounded-sm" />
+								</li>,
+								{ key: i }
+							)
+						)}
 					</>
 				)}
 			</ul>
