@@ -1,17 +1,12 @@
 import UsersTable from '@/components/projects/users-table';
 import InvitationsTable from '@/components/projects/invitations-table';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
-import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import InviteUserForm from '@/components/projects/invite-user-form';
 import Container from '@/layouts/container';
 
 export default function ProjectPage() {
-	const router = useRouter();
-	const { slug } = router.query as {
-		slug: string;
-	};
-	const { project, status } = useProject();
+	const { project, status, error } = useProject();
 
 	return (
 		<Container>
@@ -29,11 +24,21 @@ export default function ProjectPage() {
 						</>
 					)}
 				</div>
-				<InviteUserForm />
-				<div className="mt-10">
-					<UsersTable />
-					<InvitationsTable />
-				</div>
+				{status === 'success' && (
+					<>
+						<InviteUserForm />
+						<div className="mt-10">
+							<UsersTable />
+							<InvitationsTable />
+						</div>
+					</>
+				)}
+
+				{status === 'error' && (
+					<div className="text-red-500 font-semibold">
+						<p>{error?.message}</p>
+					</div>
+				)}
 			</MaxWidthWrapper>
 		</Container>
 	);

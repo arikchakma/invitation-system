@@ -2,6 +2,7 @@ import { ProjectProps } from '@/types/project';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import { fetcher, QueryError } from './fetcher';
 
 export default function useProject() {
 	const router = useRouter();
@@ -12,10 +13,10 @@ export default function useProject() {
 		data: project,
 		error,
 		status,
-	} = useQuery<ProjectProps>(
+	} = useQuery<ProjectProps, QueryError>(
 		['project', slug],
 		async () => {
-			return (await fetch(`/api/projects/${slug}`)).json();
+			return fetcher(`/api/projects/${slug}`);
 		},
 		{
 			enabled: !!slug,
