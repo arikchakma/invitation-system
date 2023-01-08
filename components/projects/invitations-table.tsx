@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import { InvitationsProps } from '@/types/project';
 import { cloneElement } from 'react';
-import { QueryError } from '@/utils/fetcher';
+import { QueryError, fetcher } from '@/utils/fetcher';
 
 export default function InvitationsTable() {
 	const router = useRouter();
@@ -13,13 +13,14 @@ export default function InvitationsTable() {
 	};
 	const utils = useQueryClient();
 	const { isOwner } = useProject();
-	const { data: invitations, status } = useQuery<
-		InvitationsProps[],
-		QueryError
-	>(
+	const {
+		data: invitations,
+		status,
+		error,
+	} = useQuery<InvitationsProps[], QueryError>(
 		['invitations', slug],
 		async () => {
-			return (await fetch(`/api/projects/${slug}/invite`)).json();
+			return fetcher(`/api/projects/${slug}/invite`);
 		},
 		{
 			enabled: !!slug,
@@ -45,7 +46,7 @@ export default function InvitationsTable() {
 		<div>
 			<h2 className="text-2xl font-bold mt-10">Invitations</h2>
 			<ul className="mt-2 flex flex-col gap-2">
-				{status === 'success' ? (
+				{status === 'success' && (
 					<>
 						{invitations?.map((invite) => (
 							<li key={invite.email}>
@@ -67,7 +68,8 @@ export default function InvitationsTable() {
 							</li>
 						))}
 					</>
-				) : (
+				)}
+				{status === 'loading' && (
 					<>
 						{Array.from({ length: 2 }).map((_, i) =>
 							cloneElement(
@@ -77,6 +79,16 @@ export default function InvitationsTable() {
 								{ key: i }
 							)
 						)}
+					</>
+				)}
+
+				{status === 'error' && (
+					<>
+						<li>
+							<div className="h-8 bg-slate-200 rounded-sm">
+								{error?.message}
+							</div>
+						</li>
 					</>
 				)}
 			</ul>

@@ -28,6 +28,10 @@ export default withProjectAuth(
 				},
 			});
 
+			if (!invites) {
+				return res.status(404).json({ error: 'No invitations found' });
+			}
+
 			// 2. Return the invitations
 			return res.status(200).json(
 				invites.map((invite) => ({
