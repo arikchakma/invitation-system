@@ -69,6 +69,19 @@ export default function InvitationsTable() {
 						))}
 					</>
 				)}
+
+				{status === 'success' && (
+					<>
+						{invitations.length === 0 && (
+							<li>
+								<div className="bg-slate-200 rounded-sm font-semibold px-2">
+									No invitations found
+								</div>
+							</li>
+						)}
+					</>
+				)}
+
 				{status === 'loading' && (
 					<>
 						{Array.from({ length: 2 }).map((_, i) =>
@@ -85,7 +98,7 @@ export default function InvitationsTable() {
 				{status === 'error' && (
 					<>
 						<li>
-							<div className="h-8 bg-slate-200 rounded-sm">
+							<div className="bg-slate-200 rounded-sm font-semibold px-2">
 								{error?.message}
 							</div>
 						</li>
