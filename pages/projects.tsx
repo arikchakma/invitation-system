@@ -5,14 +5,15 @@ import NextLink from 'next/link';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import CreateProject from '@/components/projects/create-project';
 import Container from '@/layouts/container';
+import { QueryError, fetcher } from '@/utils/fetcher';
 
 export default function Projects() {
 	const { data: session } = useSession();
 
-	const { data: projects } = useQuery<Project[]>(['projects'], async () => {
-		const res = await fetch('/api/projects');
-		return res.json();
-	});
+	const { data: projects, isSuccess } = useQuery<Project[], QueryError>(
+		['projects'],
+		async () => fetcher('/api/projects')
+	);
 
 	if (!session) {
 		return <div>Not signed in</div>;
@@ -26,13 +27,14 @@ export default function Projects() {
 				<div className="mt-10">
 					<h2 className="text-2xl font-bold">Projects</h2>
 					<div className="grid grid-cols-4 gap-5 mt-5">
-						{projects?.map((project) => (
-							<NextLink href={`/${project.slug}`} key={project.id}>
-								<div className="bg-white rounded-md shadow hover:shadow-md p-5 border border-gray-100/40 transition">
-									<p>{project.name}</p>
-								</div>
-							</NextLink>
-						))}
+						{isSuccess &&
+							projects?.map((project) => (
+								<NextLink href={`/${project.slug}`} key={project.id}>
+									<div className="bg-white rounded-md shadow hover:shadow-md p-5 border border-gray-100/40 transition">
+										<p>{project.name}</p>
+									</div>
+								</NextLink>
+							))}
 					</div>
 				</div>
 			</MaxWidthWrapper>
