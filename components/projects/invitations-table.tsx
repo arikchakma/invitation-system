@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import useProject from '@/utils/use-project';
 import { InvitationsProps } from '@/types/project';
 import { cloneElement } from 'react';
+import { QueryError } from '@/utils/fetcher';
 
 export default function InvitationsTable() {
 	const router = useRouter();
@@ -12,7 +13,10 @@ export default function InvitationsTable() {
 	};
 	const utils = useQueryClient();
 	const { isOwner } = useProject();
-	const { data: invitations, status } = useQuery<InvitationsProps[]>(
+	const { data: invitations, status } = useQuery<
+		InvitationsProps[],
+		QueryError
+	>(
 		['invitations', slug],
 		async () => {
 			return (await fetch(`/api/projects/${slug}/invite`)).json();
@@ -43,12 +47,12 @@ export default function InvitationsTable() {
 			<ul className="mt-2 flex flex-col gap-2">
 				{!(status === 'success') ? (
 					<>
-						{[1, 2].map((item) =>
+						{Array.from({ length: 2 }).map((_, i) =>
 							cloneElement(
 								<li>
 									<div className="h-8 bg-slate-200 rounded-sm" />
 								</li>,
-								{ key: item }
+								{ key: i }
 							)
 						)}
 					</>
