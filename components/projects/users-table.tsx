@@ -3,17 +3,20 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { ProjectUserProps } from '@/types/project';
 import { timeAgo } from '@/lib/utils';
+import { QueryError, fetcher } from '@/utils/fetcher';
 
 export default function UsersTable() {
 	const router = useRouter();
 	const { slug } = router.query as {
 		slug: string;
 	};
-	const { data: users, status } = useQuery<ProjectUserProps[]>(
+	const {
+		data: users,
+		status,
+		error,
+	} = useQuery<ProjectUserProps[], QueryError>(
 		['users', slug],
-		async () => {
-			return (await fetch(`/api/projects/${slug}/users`)).json();
-		},
+		async () => fetcher(`/api/projects/${slug}/users`),
 		{
 			enabled: !!slug,
 		}
@@ -22,18 +25,7 @@ export default function UsersTable() {
 		<div>
 			<h2 className="text-2xl font-bold">Users</h2>
 			<ul className="mt-2 flex flex-col gap-2">
-				{!(status === 'success') ? (
-					<>
-						{[1, 2].map((item) =>
-							cloneElement(
-								<li>
-									<div className="h-7 bg-slate-200 rounded-sm" />
-								</li>,
-								{ key: item }
-							)
-						)}
-					</>
-				) : (
+				{status === 'success' && (
 					<>
 						{users?.map((user) => (
 							<li key={user.id}>
@@ -45,6 +37,41 @@ export default function UsersTable() {
 								</div>
 							</li>
 						))}
+					</>
+				)}
+
+				{status === 'success' && (
+					<>
+						{users.length === 0 && (
+							<li>
+								<div className="bg-slate-200 rounded-sm font-semibold px-2">
+									No Users found
+								</div>
+							</li>
+						)}
+					</>
+				)}
+
+				{status === 'loading' && (
+					<>
+						{Array.from({ length: 2 }).map((_, i) =>
+							cloneElement(
+								<li>
+									<div className="h-8 bg-slate-200 rounded-sm" />
+								</li>,
+								{ key: i }
+							)
+						)}
+					</>
+				)}
+
+				{status === 'error' && (
+					<>
+						<li>
+							<div className="bg-slate-200 rounded-sm font-semibold px-2">
+								{error?.message}
+							</div>
+						</li>
 					</>
 				)}
 			</ul>
