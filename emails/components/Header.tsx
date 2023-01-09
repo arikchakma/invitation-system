@@ -12,7 +12,7 @@ export default function Header({ title }: { title: string }): JSX.Element {
 					src="https://arikko.dev/static/favicons/favicon.ico"
 					cssClass="logo"
 				/>
-				<MjmlText cssClass="title" align="center">
+				<MjmlText cssClass="title" align="center" fontWeight={700}>
 					{title}
 				</MjmlText>
 			</MjmlColumn>
