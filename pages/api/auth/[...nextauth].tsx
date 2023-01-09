@@ -4,6 +4,7 @@ import EmailProvider from 'next-auth/providers/email';
 import prisma from '@/lib/prisma';
 import sendMail from 'emails';
 import AccountCreated from 'emails/AccountCreated';
+import NewSignIn from 'emails/NewSignIn';
 
 export const authOptions: NextAuthOptions = {
 	adapter: PrismaAdapter(prisma),
@@ -34,6 +35,17 @@ export const authOptions: NextAuthOptions = {
 	},
 	secret: process.env.NEXTAUTH_SECRET,
 	debug: process.env.NODE_ENV === 'development',
+	events: {
+		async signIn(message) {
+			if (message.isNewUser) {
+				sendMail({
+					subject: 'Welcome to Invitation System',
+					to: message.user.email as string,
+					component: <NewSignIn headline='Welcome to Invitation System' />,
+				});
+			}
+		},
+	},
 };
 
 export default NextAuth(authOptions);
