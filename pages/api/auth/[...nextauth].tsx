@@ -12,6 +12,7 @@ export const authOptions: NextAuthOptions = {
 		EmailProvider({
 			sendVerificationRequest({ identifier, url }) {
 				sendMail({
+					subject: 'Verify your email',
 					to: identifier,
 					component: <AccountCreated url={url} />,
 				});
