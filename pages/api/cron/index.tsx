@@ -1,4 +1,5 @@
 import sendMail from 'emails';
+import ReminderEmail from 'emails/ReminderEmail';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -17,7 +18,7 @@ export default async function handler(
 				sendMail({
 					subject: `${today} - Did you code today?`,
 					to: 'hello@arikko.com',
-					html: `<p>Did you code today?</p>`,
+					component: <ReminderEmail headline={`${today} - Reminder`} />,
 				});
 
 				res.status(200).json({ success: true });
