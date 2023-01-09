@@ -1,3 +1,4 @@
+import sendMail from 'emails';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -9,6 +10,16 @@ export default async function handler(
 			const { authorization } = req.headers;
 
 			if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
+				const today = `${new Date().getDate()}-${
+					new Date().getMonth() + 1
+				}-${new Date().getFullYear()}`;
+
+				sendMail({
+					subject: `${today} - Did you code today?`,
+					to: 'hello@arikko.com',
+					html: `<p>Did you code today?</p>`,
+				});
+
 				res.status(200).json({ success: true });
 			} else {
 				res.status(401).json({ success: false });
