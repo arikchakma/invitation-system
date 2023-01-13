@@ -1,0 +1,6 @@
+coverage
+.next
+dist
+CHANGELOG.md
+.contentlayer
+build
