@@ -1,44 +1,44 @@
 import React from 'react';
 import {
-	Mjml,
-	MjmlBody,
-	MjmlHead,
-	MjmlFont,
-	MjmlStyle,
-	MjmlAttributes,
-	MjmlAll,
-	MjmlRaw,
-	MjmlPreview,
+  Mjml,
+  MjmlAll,
+  MjmlAttributes,
+  MjmlBody,
+  MjmlFont,
+  MjmlHead,
+  MjmlPreview,
+  MjmlRaw,
+  MjmlStyle,
 } from 'mjml-react';
-import { colors, screens, themeDefaults, spacing } from '../theme';
+import { colors, screens, spacing, themeDefaults } from '../theme';
 
 type BaseLayoutProps = {
-	width: number;
-	children: React.ReactNode;
-	preview?: string;
+  width: number;
+  children: React.ReactNode;
+  preview?: string;
 };
 
 export default function BaseLayout({
-	width,
-	children,
-	preview,
+  width,
+  children,
+  preview,
 }: BaseLayoutProps) {
-	return (
-		<Mjml>
-			<MjmlHead>
-				{preview && <MjmlPreview>{preview}</MjmlPreview>}
-				<MjmlRaw>
-					<meta name="color-scheme" content="light dark" />
-					<meta name="supported-color-schemes" content="light dark" />
-				</MjmlRaw>
-				<MjmlFont
-					name="Inter"
-					href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700"
-				/>
-				<MjmlAttributes>
-					<MjmlAll {...themeDefaults} />
-				</MjmlAttributes>
-				<MjmlStyle>{`
+  return (
+    <Mjml>
+      <MjmlHead>
+        {preview && <MjmlPreview>{preview}</MjmlPreview>}
+        <MjmlRaw>
+          <meta name="color-scheme" content="light dark" />
+          <meta name="supported-color-schemes" content="light dark" />
+        </MjmlRaw>
+        <MjmlFont
+          name="Inter"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700"
+        />
+        <MjmlAttributes>
+          <MjmlAll {...themeDefaults} />
+        </MjmlAttributes>
+        <MjmlStyle>{`
           body {
             -webkit-font-smoothing: antialiased;
           }
@@ -147,9 +147,9 @@ export default function BaseLayout({
             }
           }
       `}</MjmlStyle>
-			</MjmlHead>
+      </MjmlHead>
 
-			<MjmlBody width={width}>{children}</MjmlBody>
-		</Mjml>
-	);
+      <MjmlBody width={width}>{children}</MjmlBody>
+    </Mjml>
+  );
 }

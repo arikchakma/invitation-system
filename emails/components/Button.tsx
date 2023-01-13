@@ -1,7 +1,6 @@
-import React from "react";
-import { MjmlButton } from "mjml-react";
-
-import { colors, fontSize, borderRadius, lineHeight, spacing } from "../theme";
+import React from 'react';
+import { MjmlButton } from 'mjml-react';
+import { borderRadius, colors, fontSize, lineHeight, spacing } from '../theme';
 
 type ButtonProps = React.ComponentProps<typeof MjmlButton>;
 

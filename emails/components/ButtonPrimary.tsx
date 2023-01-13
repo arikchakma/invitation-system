@@ -1,6 +1,6 @@
-import { MjmlButton } from "mjml-react";
-import { black, grayLight, white } from "../theme";
-import { borderBase, leadingTight, textSm } from "../theme";
+import { MjmlButton } from 'mjml-react';
+import { black, grayLight, white } from '../theme';
+import { borderBase, leadingTight, textSm } from '../theme';
 
 export default function ButtonPrimary({
   link,

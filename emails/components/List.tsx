@@ -1,7 +1,6 @@
-import React from "react";
-import { MjmlRaw } from "mjml-react";
-
-import { themeDefaults } from "../theme";
+import React from 'react';
+import { MjmlRaw } from 'mjml-react';
+import { themeDefaults } from '../theme';
 
 type ListProps = {
   items: string[];

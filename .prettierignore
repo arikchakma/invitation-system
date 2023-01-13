@@ -4,3 +4,5 @@ dist
 CHANGELOG.md
 .contentlayer
 build
+node_modules
+.mailing

@@ -1,13 +1,13 @@
 export const colors = {
-  black: "#000",
-  white: "#FFF",
-  gold: "#FADF98",
-  neutral100: "#F5F5F5",
-  neutral200: "#EEE",
-  neutral400: "#888",
-  neutral500: "#777",
-  neutral600: "#666",
-  neutral800: "#444",
+  black: '#000',
+  white: '#FFF',
+  gold: '#FADF98',
+  neutral100: '#F5F5F5',
+  neutral200: '#EEE',
+  neutral400: '#888',
+  neutral500: '#777',
+  neutral600: '#666',
+  neutral800: '#444',
 };
 
 export const fontSize = {
@@ -19,8 +19,8 @@ export const fontSize = {
 };
 
 export const lineHeight = {
-  tight: "125%",
-  relaxed: "160%",
+  tight: '125%',
+  relaxed: '160%',
 };
 
 export const fontWeight = {
@@ -54,8 +54,8 @@ export const spacing = {
 };
 
 export const screens = {
-  xs: "480px",
-  sm: "640px",
+  xs: '480px',
+  sm: '640px',
 };
 
 export const themeDefaults = {
@@ -68,21 +68,21 @@ export const themeDefaults = {
 };
 
 // Colors
-export const black = "#000";
-export const white = "#fff";
-export const purple = "#bd11e0";
-export const blue = "#2563EB";
-export const gold = "#fadf98";
-export const grayDark = "#888";
-export const grayLight = "#eaeaea";
+export const black = '#000';
+export const white = '#fff';
+export const purple = '#bd11e0';
+export const blue = '#2563EB';
+export const gold = '#fadf98';
+export const grayDark = '#888';
+export const grayLight = '#eaeaea';
 
 // Typography
 export const textSm = 14;
 export const textBase = 16;
 export const textLg = 24;
 export const textXl = 30;
-export const leadingTight = "120%";
-export const leadingRelaxed = "160%";
+export const leadingTight = '120%';
+export const leadingRelaxed = '160%';
 
 // Borders
 export const borderBase = 100;

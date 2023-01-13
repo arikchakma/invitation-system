@@ -1,27 +1,27 @@
 import React from 'react';
 import {
-	MjmlAll,
-	MjmlAttributes,
-	MjmlFont,
-	MjmlHead,
-	MjmlRaw,
-	MjmlStyle,
+  MjmlAll,
+  MjmlAttributes,
+  MjmlFont,
+  MjmlHead,
+  MjmlRaw,
+  MjmlStyle,
 } from 'mjml-react';
 import { black, blue, grayDark, grayLight, purple } from '../theme';
 
 export default function Head(): JSX.Element {
-	return (
-		<MjmlHead>
-			<>
-				<MjmlRaw>
-					<meta name="color-scheme" content="light dark" />
-					<meta name="supported-color-schemes" content="light dark" />
-				</MjmlRaw>
-				<MjmlFont
-					name="Inter"
-					href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700"
-				/>
-				<MjmlStyle>{`
+  return (
+    <MjmlHead>
+      <>
+        <MjmlRaw>
+          <meta name="color-scheme" content="light dark" />
+          <meta name="supported-color-schemes" content="light dark" />
+        </MjmlRaw>
+        <MjmlFont
+          name="Inter"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700"
+        />
+        <MjmlStyle>{`
         .container {
           border: solid 1px ${grayLight};
           border-radius: 8px;
@@ -110,10 +110,10 @@ export default function Head(): JSX.Element {
           }
         }
       `}</MjmlStyle>
-				<MjmlAttributes>
-					<MjmlAll font-family='Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' />
-				</MjmlAttributes>
-			</>
-		</MjmlHead>
-	);
+        <MjmlAttributes>
+          <MjmlAll font-family='Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' />
+        </MjmlAttributes>
+      </>
+    </MjmlHead>
+  );
 }

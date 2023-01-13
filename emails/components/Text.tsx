@@ -1,5 +1,5 @@
-import React from "react";
-import { MjmlText } from "mjml-react";
+import React from 'react';
+import { MjmlText } from 'mjml-react';
 
 type TextProps = {
   maxWidth?: number;
