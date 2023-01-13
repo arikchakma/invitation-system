@@ -38,6 +38,7 @@
 		"@types/ms": "^0.7.31",
 		"@types/nodemailer": "^6.4.7",
 		"autoprefixer": "^10.4.13",
+		"eslint-plugin-tailwindcss": "^3.8.0",
 		"mailing": "^0.9.7",
 		"postcss": "^8.4.20",
 		"prisma": "^4.8.0",

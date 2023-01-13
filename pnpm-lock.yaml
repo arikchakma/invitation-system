@@ -18,6 +18,7 @@ specifiers:
   encoding: ^0.1.13
   eslint: 8.29.0
   eslint-config-next: 13.0.7
+  eslint-plugin-tailwindcss: ^3.8.0
   mailing: ^0.9.7
   mailing-core: ^0.9.7
   mjml: ^4.13.0
@@ -68,6 +69,7 @@ devDependencies:
   '@types/ms': 0.7.31
   '@types/nodemailer': 6.4.7
   autoprefixer: 10.4.13_postcss@8.4.20
+  eslint-plugin-tailwindcss: 3.8.0
   mailing: 0.9.7_nzh57chu37smzgf75s4cysjspy
   postcss: 8.4.20
   prisma: 4.8.1
@@ -2073,6 +2075,17 @@ packages:
       semver: 6.3.0
       string.prototype.matchall: 4.0.8
     dev: false
+
+  /eslint-plugin-tailwindcss/3.8.0:
+    resolution: {integrity: sha512-Lsyncgp/eXZriAEUK9zfGHOH+9iQplygHiOuGY8SFFHKIeT0BYjyST/ownHF8UPa1TEh+jJPkdE2vlV3778C3w==}
+    engines: {node: '>=12.13.0'}
+    dependencies:
+      fast-glob: 3.2.12
+      postcss: 8.4.20
+      tailwindcss: 3.2.4_postcss@8.4.20
+    transitivePeerDependencies:
+      - ts-node
+    dev: true
 
   /eslint-scope/7.1.1:
     resolution: {integrity: sha512-QKQM/UXpIiHcLqJ5AOyIW7XZmzjkzQXYE54n1++wb0u9V/abW3l9uQnxX8Z5Xd18xyKIMTUAyQ0k1e8pz6LUrw==}

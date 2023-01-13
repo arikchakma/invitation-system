@@ -14,12 +14,12 @@ export default function ProjectPage() {
 				<div>
 					{!(status === 'success') ? (
 						<>
-							<div className="h-9 bg-slate-300 rounded w-56" />
-							<div className="h-6 bg-slate-200 mt-1 w-36 rounded" />
+							<div className="h-9 w-56 rounded bg-slate-300" />
+							<div className="mt-1 h-6 w-36 rounded bg-slate-200" />
 						</>
 					) : (
 						<>
-							<h1 className="font-bold text-3xl">{project?.name}</h1>
+							<h1 className="text-3xl font-bold">{project?.name}</h1>
 							<p className="mt-1">{project?.slug}</p>
 						</>
 					)}
@@ -35,7 +35,7 @@ export default function ProjectPage() {
 				)}
 
 				{status === 'error' && (
-					<div className="text-red-500 font-semibold">
+					<div className="font-semibold text-red-500">
 						<p>{error?.message}</p>
 					</div>
 				)}

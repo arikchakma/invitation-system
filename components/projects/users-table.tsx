@@ -29,8 +29,8 @@ export default function UsersTable() {
 					<>
 						{users?.map((user) => (
 							<li key={user.id}>
-								<div className="flex items-center justify-between bg-slate-200 gap-5 rounded-sm px-2 py-1">
-									<h4 className="font-medium text-sm">{user?.email}</h4>
+								<div className="flex items-center justify-between gap-5 rounded-sm bg-slate-200 px-2 py-1">
+									<h4 className="text-sm font-medium">{user?.email}</h4>
 									<span className="text-xs text-gray-600">
 										Joined {timeAgo(user?.joinedAt)}
 									</span>
@@ -44,7 +44,7 @@ export default function UsersTable() {
 					<>
 						{users.length === 0 && (
 							<li>
-								<div className="bg-slate-200 rounded-sm font-semibold px-2">
+								<div className="rounded-sm bg-slate-200 px-2 font-semibold">
 									No Users found
 								</div>
 							</li>
@@ -57,7 +57,7 @@ export default function UsersTable() {
 						{Array.from({ length: 2 }).map((_, i) =>
 							cloneElement(
 								<li>
-									<div className="h-8 bg-slate-200 rounded-sm" />
+									<div className="h-8 rounded-sm bg-slate-200" />
 								</li>,
 								{ key: i }
 							)
@@ -68,7 +68,7 @@ export default function UsersTable() {
 				{status === 'error' && (
 					<>
 						<li>
-							<div className="bg-slate-200 rounded-sm font-semibold px-2">
+							<div className="rounded-sm bg-slate-200 px-2 font-semibold">
 								{error?.message}
 							</div>
 						</li>

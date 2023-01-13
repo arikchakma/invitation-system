@@ -22,7 +22,7 @@ export default function PendingInvitationsTable() {
 
 	return (
 		<div>
-			<ul className="max-w-xl mt-10 flex flex-col gap-5">
+			<ul className="mt-10 flex max-w-xl flex-col gap-5">
 				{pendingInivatations?.map((invitation, index) => (
 					<li key={invitation.email + index}>
 						<div>
@@ -42,7 +42,7 @@ export default function PendingInvitationsTable() {
 										},
 									});
 								}}
-								className="bg-black text-white px-4 py-1 mt-2 rounded"
+								className="mt-2 rounded bg-black px-4 py-1 text-white"
 							>
 								Accept
 							</button>

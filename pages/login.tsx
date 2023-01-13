@@ -16,9 +16,9 @@ export default function Home() {
 	});
 
 	return (
-		<main className="flex items-center justify-center px-5 h-screen">
+		<main className="flex h-screen items-center justify-center px-5">
 			<form
-				className="w-[min(100vw,424px)] mx-auto p-5 bg-white rounded-md shadow-2xl"
+				className="mx-auto w-[min(100vw,424px)] rounded-md bg-white p-5 shadow-2xl"
 				onSubmit={async (e) => {
 					e.preventDefault();
 					await signIn('email', { email, redirect: false });
@@ -37,12 +37,12 @@ export default function Home() {
 						required
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-						className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+						className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-black focus:outline-none focus:ring-black sm:text-sm"
 					/>
 				</div>
 				<button
 					className={
-						'border-black bg-black text-white hover:bg-white hover:text-black flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none mt-3'
+						'mt-3 flex h-10 w-full items-center justify-center rounded-md border border-black bg-black text-sm text-white transition-all hover:bg-white hover:text-black focus:outline-none'
 					}
 				>
 					Send magic link
