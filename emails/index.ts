@@ -2,13 +2,11 @@ import { buildSendMail } from 'mailing-core';
 import nodemailer from 'nodemailer';
 
 const transport = nodemailer.createTransport({
-  pool: true,
-  secure: true, // use TLS
-  host: process.env.EMAIL_SERVER_HOST,
-  port: Number(process.env.EMAIL_SERVER_PORT),
+  host: 'smtp.postmarkapp.com',
+  port: 587,
   auth: {
-    user: process.env.EMAIL_SERVER_USER,
-    pass: process.env.EMAIL_SERVER_PASSWORD,
+    user: process.env.POSTMARK_API_KEY,
+    pass: process.env.POSTMARK_API_KEY,
   },
 });
 
