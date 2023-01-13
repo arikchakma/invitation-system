@@ -12,9 +12,9 @@ This project is a simple invite system built using Next.js, Prisma, Next-Auth, R
 
 ### Roadmap
 
-[] Add `app` subdomain for the application
-[] Add `api` subdomain for the API
-[] Add multi-tenancy
+- [ ] Add `app` subdomain for the application
+- [ ] Add `api` subdomain for the API
+- [ ] Add multi-tenancy
 
 ### Getting Started
 
