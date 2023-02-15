@@ -7,13 +7,6 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [email, setEmail] = useState('');
-  const router = useRouter();
-  const session = useSession();
-  useEffect(() => {
-    if (session?.status === 'authenticated') {
-      router.push('/projects');
-    }
-  });
 
   return (
     <main className="flex h-screen items-center justify-center px-5">
