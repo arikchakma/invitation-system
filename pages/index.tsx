@@ -9,17 +9,6 @@ import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const router = useRouter();
-  const session = useSession();
-
-  console.log(session);
-
-  useEffect(() => {
-    if (session?.status !== 'authenticated') {
-      router.push('/login');
-    }
-  }, [session?.status, router]);
-
   return (
     <Container>
       <MaxWidthWrapper>
