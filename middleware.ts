@@ -25,12 +25,12 @@ export const config = {
 
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain, path, key } = parse(req);
-  // if (domain === 'app.localhost:3000') {
-  //   return NextResponse.rewrite(new URL(`/app${path}`, req.url));
-  // }
-  // if (domain === 'api.localhost:3000') {
-  //   return NextResponse.rewrite(new URL(`/api${path}`, req.url));
-  // }
+  if (domain === 'app.localhost:3000') {
+    return NextResponse.rewrite(new URL(`/app${path}`, req.url));
+  }
+  if (domain === 'api.localhost:3000') {
+    return NextResponse.rewrite(new URL(`/api${path}`, req.url));
+  }
 
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (!session?.email && path !== '/login') {
