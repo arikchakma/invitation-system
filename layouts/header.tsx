@@ -7,27 +7,27 @@ export default function Header() {
   return (
     <header className="mb-10">
       {session.data ? (
-        <h1 className="text-3xl font-bold bg-gradient-to-br bg-clip-text text-transparent from-slate-900 to-slate-200">
+        <h1 className="bg-gradient-to-br from-slate-900 to-slate-200 bg-clip-text text-3xl font-bold text-transparent">
           {session?.data?.user?.email}
         </h1>
       ) : (
-        <div className="h-9 rounded bg-slate-200 w-72" />
+        <div className="h-9 w-72 rounded bg-slate-200" />
       )}
       <div className="flex gap-2">
         <NextLink
           href="/"
-          className="bg-black inline-block text-white px-4 py-1 mt-2 rounded"
+          className="mt-2 inline-block rounded bg-black px-4 py-1 text-white"
         >
           Home
         </NextLink>
         <NextLink
           href="/projects"
-          className="bg-black inline-block text-white px-4 py-1 mt-2 rounded"
+          className="mt-2 inline-block rounded bg-black px-4 py-1 text-white"
         >
           Projects
         </NextLink>
         <button
-          className="bg-black text-white px-4 py-1 mt-2 rounded"
+          className="mt-2 rounded bg-black px-4 py-1 text-white"
           onClick={() => {
             signOut();
           }}
