@@ -1,4 +1,9 @@
 import NextLink from 'next/link';
+import {
+  InvitationsProps,
+  ProjectProps,
+  ProjectUserProps,
+} from '@/types/project';
 import { Project } from '@prisma/client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
@@ -14,6 +19,28 @@ export default function Projects() {
     async () => fetcher('/api/projects')
   );
 
+  const cache = new Map<string, boolean>();
+
+  // const prefetchProjectData = async (slug: string) => {
+  //   if (cache.has(slug)) return;
+  //   const project = await fetcher(`/api/projects/${slug}`);
+  //   cache.set(slug, project);
+  // }
+
+  const prefetchProjectData = (slug: string) => {
+    if (cache.has(slug)) return;
+    queryClient.prefetchQuery(['project', slug], async () => {
+      return fetcher(`/api/projects/${slug}`);
+    });
+    queryClient.prefetchQuery(['users', slug], async () => {
+      return fetcher(`/api/projects/${slug}/users`);
+    });
+    queryClient.prefetchQuery(['invitations', slug], async () => {
+      return fetcher(`/api/projects/${slug}/invite`);
+    });
+    cache.set(slug, true);
+  };
+
   return (
     <Container>
       <MaxWidthWrapper>
@@ -27,14 +54,8 @@ export default function Projects() {
                 <NextLink
                   href={`/${project.slug}`}
                   key={project.id}
-                  onMouseEnter={() => {
-                    queryClient.prefetchQuery(
-                      ['project', project.slug],
-                      async () => {
-                        return fetcher(`/api/projects/${project.slug}`);
-                      }
-                    );
-                  }}
+                  onMouseEnter={async () => prefetchProjectData(project.slug)}
+                  onFocus={async () => prefetchProjectData(project.slug)}
                 >
                   <div className="rounded-md border border-gray-100/40 bg-white p-5 shadow transition hover:shadow-md">
                     <p>{project.name}</p>
