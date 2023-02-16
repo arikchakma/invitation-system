@@ -1,29 +1,39 @@
 import NextLink from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import KBD from '@/components/shared/kbd';
+import { useRouter } from 'next/router';
 
 export default function Header() {
   const session = useSession();
-  const projectRef = useRef<HTMLAnchorElement>(null);
-  const homeRef = useRef<HTMLAnchorElement>(null);
+  const router = useRouter()
+  const downedKeys: Set<string> = useMemo(() => new Set(), []);
 
   useEffect(() => {
-    const goTo = (e: KeyboardEvent) => {
-      e.preventDefault();
+    const down = (e: KeyboardEvent) => {
+      downedKeys.add(e.key);
+      console.log(downedKeys);
+
       if (e.key === 'p') {
-        projectRef.current?.click();
+        router.push('/projects')
       }
       if (e.key === 'h') {
-        homeRef.current?.click();
+        router.push('/')
       }
     };
 
-    document.addEventListener('keydown', goTo);
-    return () => {
-      document.removeEventListener('keydown', goTo);
+    const up = (e: KeyboardEvent) => {
+      downedKeys.delete(e.key);
+      console.log(downedKeys);
     };
-  }, []);
+
+    document.addEventListener('keydown', down);
+    document.addEventListener('keyup', up);
+    return () => {
+      document.removeEventListener('keydown', down);
+      document.removeEventListener('keyup', up);
+    };
+  }, [downedKeys, router]);
 
   return (
     <header className="mb-10">
@@ -36,14 +46,12 @@ export default function Header() {
       )}
       <div className="mt-2 flex gap-2">
         <NextLink
-          ref={homeRef}
           href="/"
           className="inline-block rounded bg-black px-4 py-1 text-white"
         >
           Home
         </NextLink>
         <NextLink
-          ref={projectRef}
           href="/projects"
           className="inline-block rounded bg-black px-4 py-1 text-white"
         >
