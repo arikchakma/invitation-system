@@ -21,12 +21,6 @@ export default function Projects() {
 
   const cache = new Map<string, boolean>();
 
-  // const prefetchProjectData = async (slug: string) => {
-  //   if (cache.has(slug)) return;
-  //   const project = await fetcher(`/api/projects/${slug}`);
-  //   cache.set(slug, project);
-  // }
-
   const prefetchProjectData = (slug: string) => {
     if (cache.has(slug)) return;
     queryClient.prefetchQuery(['project', slug], async () => {
