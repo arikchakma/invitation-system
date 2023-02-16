@@ -1,6 +1,6 @@
-import { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, forwardRef, useState } from 'react';
 import cn from 'clsx';
-import { useDownKeysStore } from '@/lib/stores/use-down-keys-store';
+import { useHotkeysHandler } from '@/utils/use-hotkeys-handler';
 
 type KBDProps = {
   children: React.ReactNode;
@@ -8,9 +8,13 @@ type KBDProps = {
 
 const KBD: React.FC<KBDProps> = forwardRef(
   ({ children, className }, ref: ForwardedRef<HTMLUnknownElement>) => {
-    const downKeys = useDownKeysStore(state => state.downKeys);
+    const [isDown, setIsDown] = useState(false)
     const key = children as string;
-    const isDown = downKeys.has(key);
+    useHotkeysHandler([key], () => {
+      setIsDown(true)
+    }, () => {
+      setIsDown(false)
+    },);
     return (
       <kbd
         className={cn(
