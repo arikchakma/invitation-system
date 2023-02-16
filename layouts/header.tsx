@@ -16,10 +16,10 @@ export default function Header() {
       console.log(downKeys);
 
       if (e.key === 'p') {
-        router.push('/projects');
+        if (router.pathname !== '/projects') router.push('/projects');
       }
       if (e.key === 'h') {
-        router.push('/');
+        if (router.pathname !== '/') router.push('/');
       }
     };
 
