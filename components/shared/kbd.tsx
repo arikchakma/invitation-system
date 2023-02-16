@@ -14,7 +14,7 @@ const KBD: React.FC<KBDProps> = forwardRef(
     return (
       <kbd
         className={cn(
-          'inline-flex h-[22px] w-[22px] text-sm select-none items-center justify-center rounded border border-gray-600 bg-gray-200 uppercase text-gray-900',
+          'inline-flex h-[22px] px-1.5 text-sm select-none items-center justify-center rounded border border-gray-600 bg-gray-200 uppercase text-gray-900',
           isDown && 'opacity-70',
           className
         )}
