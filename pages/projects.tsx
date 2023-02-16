@@ -38,19 +38,14 @@ export default function Projects() {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       projects?.forEach((project, index) => {
-        if (
-          e.key === `${index + 1}` &&
-          (e.ctrlKey || e.metaKey) &&
-          e.shiftKey
-        ) {
-          prefetchProjectData(project.slug);
+        if (e.key === `${index + 1}`) {
           router.push(`/${project.slug}`);
         }
       });
     };
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [projects, prefetchProjectData, router]);
+  }, [projects, router]);
 
   return (
     <Container>
@@ -65,8 +60,8 @@ export default function Projects() {
                 <NextLink
                   href={`/${project.slug}`}
                   key={project.id}
-                  onMouseEnter={async () => prefetchProjectData(project.slug)}
-                  onFocus={async () => prefetchProjectData(project.slug)}
+                  onMouseEnter={() => prefetchProjectData(project.slug)}
+                  onFocus={() => prefetchProjectData(project.slug)}
                 >
                   <div className="rounded-md border border-gray-100/40 bg-white p-5 shadow transition hover:shadow-md">
                     <p>{project.name}</p>
