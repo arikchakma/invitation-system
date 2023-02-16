@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Inter } from '@next/font/google';
 import { signIn } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
-
+let i =0
 export default function Home() {
   const [email, setEmail] = useState('');
   const [status = 'idle', setStatus] = useState<
     'idle' | 'loading' | 'error' | 'success'
   >();
+  i++;
+  console.log(`Rendering ${i}`)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (status === 'success') {
+        setStatus('idle');
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [status]);
 
   return (
     <main className="flex h-screen items-center justify-center px-5">
