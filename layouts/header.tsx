@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import KBD from '@/components/shared/kbd';
 import { useDownKeysStore } from '@/lib/stores/use-down-keys-store';
