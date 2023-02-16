@@ -10,10 +10,10 @@ export default function Header() {
   useEffect(() => {
     const goTo = (e: KeyboardEvent) => {
       e.preventDefault();
-      if (e.key === 'p' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'p') {
         projectRef.current?.click();
       }
-      if (e.key === 'h' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'h') {
         homeRef.current?.click();
       }
     };
