@@ -1,6 +1,7 @@
 import NextLink from 'next/link';
 import { useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+import KBD from '@/components/shared/kbd';
 
 export default function Header() {
   const session = useSession();
@@ -33,29 +34,31 @@ export default function Header() {
       ) : (
         <div className="h-9 w-72 rounded bg-slate-200" />
       )}
-      <div className="flex gap-2">
+      <div className="mt-2 flex gap-2">
         <NextLink
           ref={homeRef}
           href="/"
-          className="mt-2 inline-block rounded bg-black px-4 py-1 text-white"
+          className="inline-block rounded bg-black px-4 py-1 text-white"
         >
           Home
         </NextLink>
         <NextLink
           ref={projectRef}
           href="/projects"
-          className="mt-2 inline-block rounded bg-black px-4 py-1 text-white"
+          className="inline-block rounded bg-black px-4 py-1 text-white"
         >
           Projects
         </NextLink>
         <button
-          className="mt-2 rounded bg-black px-4 py-1 text-white"
+          className="rounded bg-black px-4 py-1 text-white"
           onClick={() => {
             signOut();
           }}
         >
           Log Out
         </button>
+        <KBD>h</KBD>
+        <KBD>p</KBD>
       </div>
     </header>
   );
