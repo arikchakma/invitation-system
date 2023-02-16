@@ -12,6 +12,7 @@ export default function Header() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
+      // Add the key to the downKeys map.
       addKey(e.key);
 
       // If the user is holding down the "p" key, go to the projects page.
@@ -27,6 +28,7 @@ export default function Header() {
     };
 
     const up = (e: KeyboardEvent) => {
+      // Remove the key from the downKeys map.
       clearKeys();
     };
 
