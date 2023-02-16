@@ -12,20 +12,24 @@ export default function Header() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
+      // Add the key to the downKeys map.
       addKey(e.key);
-      console.log(downKeys);
 
+      // If the user is holding down the "p" key, go to the projects page.
       if (e.key === 'p') {
+        // If the route is already "/projects", don't do anything.
         if (router.pathname !== '/projects') router.push('/projects');
       }
+      // If the user is holding down the "h" key, go to the home page.
       if (e.key === 'h') {
+        // If the route is already "/", don't do anything.
         if (router.pathname !== '/') router.push('/');
       }
     };
 
     const up = (e: KeyboardEvent) => {
+      // Remove the key from the downKeys map.
       clearKeys();
-      console.log(downKeys);
     };
 
     document.addEventListener('keydown', down);

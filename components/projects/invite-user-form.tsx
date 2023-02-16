@@ -28,9 +28,7 @@ export default function InviteUserForm() {
 
   const onSubmit = handleSubmit(data => {
     inviteUser.mutate(data as { email: string }, {
-      onSuccess: data => {
-        console.log(data);
-      },
+      onSuccess: data => {},
     });
   });
   return (
