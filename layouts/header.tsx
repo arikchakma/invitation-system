@@ -1,30 +1,31 @@
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import KBD from '@/components/shared/kbd';
-import { useRouter } from 'next/router';
+import { useDownKeysStore } from '@/lib/stores/use-down-keys-store';
 
 export default function Header() {
   const session = useSession();
-  const router = useRouter()
-  const downedKeys: Set<string> = useMemo(() => new Set(), []);
+  const router = useRouter();
+  const { downKeys, addKey, removeKey } = useDownKeysStore();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      downedKeys.add(e.key);
-      console.log(downedKeys);
+      addKey(e.key);
+      console.log(downKeys);
 
       if (e.key === 'p') {
-        router.push('/projects')
+        router.push('/projects');
       }
       if (e.key === 'h') {
-        router.push('/')
+        router.push('/');
       }
     };
 
     const up = (e: KeyboardEvent) => {
-      downedKeys.delete(e.key);
-      console.log(downedKeys);
+      removeKey(e.key);
+      console.log(downKeys);
     };
 
     document.addEventListener('keydown', down);
@@ -33,7 +34,7 @@ export default function Header() {
       document.removeEventListener('keydown', down);
       document.removeEventListener('keyup', up);
     };
-  }, [downedKeys, router]);
+  }, [router, addKey, removeKey, downKeys]);
 
   return (
     <header className="mb-10">
