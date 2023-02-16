@@ -68,7 +68,7 @@ export default function Header() {
         </button>
       </div>
 
-      <p className="mt-5 font-semibold">
+      <p className="mt-5 font-semibold text-gray-800">
         Press <KBD>h</KBD> to go home and <KBD>p</KBD> to go projects.
       </p>
     </header>
