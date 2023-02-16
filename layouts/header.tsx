@@ -66,9 +66,11 @@ export default function Header() {
         >
           Log Out
         </button>
-        <KBD>h</KBD>
-        <KBD>p</KBD>
       </div>
+
+      <p className="mt-5 font-semibold">
+        Press <KBD>h</KBD> to go home and <KBD>p</KBD> to go projects.
+      </p>
     </header>
   );
 }
