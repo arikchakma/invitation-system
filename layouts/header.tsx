@@ -1,8 +1,28 @@
 import NextLink from 'next/link';
+import { useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 
 export default function Header() {
   const session = useSession();
+  const projectRef = useRef<HTMLAnchorElement>(null);
+  const homeRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const goTo = (e: KeyboardEvent) => {
+      e.preventDefault();
+      if (e.key === 'p' && (e.metaKey || e.ctrlKey)) {
+        projectRef.current?.click();
+      }
+      if (e.key === 'h' && (e.metaKey || e.ctrlKey)) {
+        homeRef.current?.click();
+      }
+    };
+
+    document.addEventListener('keydown', goTo);
+    return () => {
+      document.removeEventListener('keydown', goTo);
+    };
+  }, []);
 
   return (
     <header className="mb-10">
@@ -15,12 +35,14 @@ export default function Header() {
       )}
       <div className="flex gap-2">
         <NextLink
+          ref={homeRef}
           href="/"
           className="mt-2 inline-block rounded bg-black px-4 py-1 text-white"
         >
           Home
         </NextLink>
         <NextLink
+          ref={projectRef}
           href="/projects"
           className="mt-2 inline-block rounded bg-black px-4 py-1 text-white"
         >
