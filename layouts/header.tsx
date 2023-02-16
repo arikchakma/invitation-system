@@ -1,44 +1,19 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import KBD from '@/components/shared/kbd';
-import { useDownKeysStore } from '@/lib/stores/use-down-keys-store';
+import { useHotkeysHandler } from '@/utils/use-hotkeys-handler';
 
 export default function Header() {
   const session = useSession();
   const router = useRouter();
-  const { downKeys, addKey, clearKeys } = useDownKeysStore();
+  useHotkeysHandler(['p'], () => {
+    if (router.pathname !== '/projects') router.push('/projects');
+  });
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      // Add the key to the downKeys map.
-      addKey(e.key);
-
-      // If the user is holding down the "p" key, go to the projects page.
-      if (e.key === 'p') {
-        // If the route is already "/projects", don't do anything.
-        if (router.pathname !== '/projects') router.push('/projects');
-      }
-      // If the user is holding down the "h" key, go to the home page.
-      if (e.key === 'h') {
-        // If the route is already "/", don't do anything.
-        if (router.pathname !== '/') router.push('/');
-      }
-    };
-
-    const up = (e: KeyboardEvent) => {
-      // Remove the key from the downKeys map.
-      clearKeys();
-    };
-
-    document.addEventListener('keydown', down);
-    document.addEventListener('keyup', up);
-    return () => {
-      document.removeEventListener('keydown', down);
-      document.removeEventListener('keyup', up);
-    };
-  }, [router, addKey, clearKeys, downKeys]);
+  useHotkeysHandler(['h'], () => {
+    if (router.pathname !== '/') router.push('/');
+  });
 
   return (
     <header className="mb-10">
