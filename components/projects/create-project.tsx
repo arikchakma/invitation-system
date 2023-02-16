@@ -23,12 +23,9 @@ export default function CreateProject() {
   const onSubmit = handleSubmit(async data => {
     const project = await createProject.mutateAsync(data, {
       onSuccess: async project => {
-        console.log(project);
         utils.invalidateQueries(['projects']);
       },
     });
-
-    console.log(project);
   });
 
   return (

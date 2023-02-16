@@ -10,7 +10,6 @@ export default function Home() {
     'idle' | 'loading' | 'error' | 'success'
   >();
   i++;
-  console.log(`Rendering ${i}`)
 
   useEffect(() => {
     const timer = setTimeout(() => {
