@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { Project } from '@prisma/client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import CreateProject from '@/components/projects/create-project';
+import KBD from '@/components/shared/kbd';
 import Container from '@/layouts/container';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { QueryError, fetcher } from '@/utils/fetcher';
@@ -56,15 +57,19 @@ export default function Projects() {
           <h2 className="text-2xl font-bold">Projects</h2>
           <div className="mt-5 grid grid-cols-4 gap-5">
             {isSuccess &&
-              projects?.map(project => (
+              projects?.map((project, index) => (
                 <NextLink
                   href={`/${project.slug}`}
                   key={project.id}
                   onMouseEnter={() => prefetchProjectData(project.slug)}
                   onFocus={() => prefetchProjectData(project.slug)}
+                  className="relative"
                 >
                   <div className="rounded-md border border-gray-100/40 bg-white p-5 shadow transition hover:shadow-md">
                     <p>{project.name}</p>
+                  </div>
+                  <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 ring-2 ring-white">
+                    <KBD>{index + 1}</KBD>
                   </div>
                 </NextLink>
               ))}
