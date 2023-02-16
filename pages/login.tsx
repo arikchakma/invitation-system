@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Inter } from '@next/font/google';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [email, setEmail] = useState('');
+  const [status = 'idle', setStatus] = useState<'idle' | 'loading' | 'error'>();
 
   return (
     <main className="flex h-screen items-center justify-center px-5">
@@ -14,7 +14,14 @@ export default function Home() {
         className="mx-auto w-[min(100vw,424px)] rounded-md bg-white p-5 shadow-2xl"
         onSubmit={async e => {
           e.preventDefault();
-          await signIn('email', { email, redirect: false });
+          setStatus('loading');
+          signIn('email', { email, redirect: false })
+            .then(() => {
+              setStatus('idle');
+            })
+            .catch(() => {
+              setStatus('error');
+            });
         }}
       >
         <div>
