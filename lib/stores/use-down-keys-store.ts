@@ -4,6 +4,7 @@ type DownKeysStore = {
   downKeys: Set<string>;
   addKey: (key: string) => void;
   removeKey: (key: string) => void;
+  clearKeys: () => void;
 };
 
 export const useDownKeysStore = create<DownKeysStore>(set => ({
@@ -19,5 +20,9 @@ export const useDownKeysStore = create<DownKeysStore>(set => ({
       const downKeys = new Set(state.downKeys);
       downKeys.delete(key);
       return { downKeys };
+    }),
+  clearKeys: () =>
+    set(() => {
+      return {downKeys: new Set()}
     }),
 }));

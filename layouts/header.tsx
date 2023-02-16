@@ -8,7 +8,7 @@ import { useDownKeysStore } from '@/lib/stores/use-down-keys-store';
 export default function Header() {
   const session = useSession();
   const router = useRouter();
-  const { downKeys, addKey, removeKey } = useDownKeysStore();
+  const { downKeys, addKey, clearKeys } = useDownKeysStore();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -24,7 +24,7 @@ export default function Header() {
     };
 
     const up = (e: KeyboardEvent) => {
-      removeKey(e.key);
+      clearKeys();
       console.log(downKeys);
     };
 
@@ -34,7 +34,7 @@ export default function Header() {
       document.removeEventListener('keydown', down);
       document.removeEventListener('keyup', up);
     };
-  }, [router, addKey, removeKey, downKeys]);
+  }, [router, addKey, clearKeys, downKeys]);
 
   return (
     <header className="mb-10">
