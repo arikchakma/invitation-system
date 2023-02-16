@@ -6,7 +6,9 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [email, setEmail] = useState('');
-  const [status = 'idle', setStatus] = useState<'idle' | 'loading' | 'error'>();
+  const [status = 'idle', setStatus] = useState<
+    'idle' | 'loading' | 'error' | 'success'
+  >();
 
   return (
     <main className="flex h-screen items-center justify-center px-5">
@@ -16,8 +18,13 @@ export default function Home() {
           e.preventDefault();
           setStatus('loading');
           signIn('email', { email, redirect: false })
-            .then(() => {
-              setStatus('idle');
+            .then(res => {
+              if (res?.ok && !res?.error) {
+                setStatus('success');
+                setEmail('');
+              } else {
+                setStatus('error');
+              }
             })
             .catch(() => {
               setStatus('error');
@@ -45,7 +52,10 @@ export default function Home() {
             'mt-3 flex h-10 w-full items-center justify-center rounded-md border border-black bg-black text-sm text-white transition-all hover:bg-white hover:text-black focus:outline-none'
           }
         >
-          Send magic link
+          {status === 'loading' && 'Loading...'}
+          {status === 'error' && 'Error sending email - try again?'}
+          {status === 'success' && 'Email sent - check your inbox!'}
+          {status === 'idle' && 'Send magic link'}
         </button>
       </form>
     </main>
