@@ -74,13 +74,7 @@ function Chat() {
 
 export default function ChatWrapper() {
   const { project } = useProject();
-
-  if (!project) {
-    return null;
-  }
-
-  console.log(project.id);
-
+  
   return (
     <PusherProvider slug={`project-${project?.id}`}>
       <Chat />
