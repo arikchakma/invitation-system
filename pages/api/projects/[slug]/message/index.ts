@@ -5,7 +5,8 @@ import { pusherServerClient } from '@/lib/pusher';
 export default withProjectAuth(async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
-  project
+  project,
+  session
 ) {
   if (req.method === 'GET') {
     // GET /api/projects/[slug]/message
@@ -16,9 +17,9 @@ export default withProjectAuth(async function handler(
     console.log(message, sender);
     await pusherServerClient.trigger(`project-${project?.id}`, 'chat-event', {
       message,
-      sender,
+      sender: session?.user?.email,
     });
-    res.status(200).json({ message, sender });
+    res.status(200).json({ message, sender: session?.user?.email });
   } else {
     res.setHeader('Allow', ['GET', 'POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
