@@ -89,11 +89,11 @@ function Chat() {
         </div>
         <div
           className={cn(
-            'pointer-events-none absolute bottom-0 h-full w-full touch-none border border-red-200',
+            'pointer-events-none absolute bottom-0 h-full w-full touch-none',
             overlay.top &&
-              'before:absolute before:top-0 before:h-10 before:w-full before:bg-red-200',
+              'before:absolute before:top-0 before:h-20 before:w-full before:bg-gradient-to-b before:from-white before:to-transparent',
             overlay.bottom &&
-              'after:absolute after:bottom-0 after:h-10 after:w-full after:bg-red-200'
+              'after:absolute after:bottom-0 after:h-20 after:w-full after:bg-gradient-to-t after:from-white after:to-transparent'
           )}
         ></div>
       </div>
