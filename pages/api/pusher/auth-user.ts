@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
 import { getServerSession } from '@/lib/auth';
 import { pusherServerClient } from '@/lib/pusher';
 
