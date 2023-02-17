@@ -6,6 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { message, sender } = req.body;
+  console.log(message, sender)
   await pusherServerClient.trigger('chat', 'chat-event', {
     message,
     sender,
