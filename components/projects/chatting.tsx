@@ -27,7 +27,18 @@ function Chat() {
       <div className="w-full rounded bg-green-100 p-2 font-semibold text-green-800">
         {active} active users.
       </div>
-      <div className="grow"></div>
+      <div className="grow">
+        <ul className="divide-y divide-gray-200">
+          {messages.map((message, index) => (
+            <li key={index}>
+              <div>
+                <p>{message.sender}</p>
+                <p>{message.message}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
       <form
         onSubmit={e => {
           e.preventDefault();
