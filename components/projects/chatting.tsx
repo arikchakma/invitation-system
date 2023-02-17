@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   PusherProvider,
   useCurrentMemberCount,
@@ -7,8 +8,15 @@ import useProject from '@/utils/use-project';
 
 function Chat() {
   const { project } = useProject();
+  const [messages, setMessages] = useState<
+    {
+      sender: string;
+      message: string;
+    }[]
+  >([]);
   useSubscribeToEvent('chat-event', data => {
     console.log(data);
+    setMessages(messages => [...messages, data as any]);
   });
 
   const active = useCurrentMemberCount();
@@ -16,6 +24,9 @@ function Chat() {
 
   return (
     <main className="flex h-full flex-col">
+      <div className="w-full rounded bg-green-100 p-2 font-semibold text-green-800">
+        {active} active users.
+      </div>
       <div className="grow"></div>
       <form
         onSubmit={e => {
