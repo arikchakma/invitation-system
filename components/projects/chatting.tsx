@@ -36,7 +36,7 @@ function Chat() {
         <ul className="flex flex-col justify-end divide-y divide-gray-200 py-2">
           {messages.map((message, index) => (
             <li key={index}>
-              <div className="p-1">
+              <div className="p-2">
                 <p className="text-xs font-medium text-gray-600">
                   {message.sender}
                 </p>
