@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   PusherProvider,
   useCurrentMemberCount,
@@ -7,6 +7,7 @@ import {
 import useProject from '@/utils/use-project';
 
 function Chat() {
+  const ref = useRef<HTMLDivElement>(null);
   const { project } = useProject();
   const [messages, setMessages] = useState<
     {
@@ -19,15 +20,19 @@ function Chat() {
     setMessages(messages => [...messages, data as any]);
   });
 
+  useEffect(() => {
+    ref.current?.scrollTo(0, ref.current.scrollHeight);
+  }, [messages]);
+
   const active = useCurrentMemberCount();
   console.log(active);
 
   return (
-    <main className="flex max-h-[356px] flex-col">
-      <div className="w-full rounded bg-green-100 p-2 font-semibold text-green-800">
+    <main className="flex max-h-[356px] min-h-full flex-col">
+      <div className="w-full rounded bg-gray-100 p-2 font-semibold text-gray-800">
         {active} active users.
       </div>
-      <div className="h-[calc(100%-77px)] overflow-y-auto">
+      <div className="h-[calc(100%-77px)] overflow-y-auto" ref={ref}>
         <ul className="flex flex-col justify-end divide-y divide-gray-200 py-2">
           {messages.map((message, index) => (
             <li key={index}>
