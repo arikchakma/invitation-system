@@ -23,17 +23,19 @@ function Chat() {
   console.log(active);
 
   return (
-    <main className="flex h-full flex-col">
+    <main className="flex max-h-[356px] flex-col">
       <div className="w-full rounded bg-green-100 p-2 font-semibold text-green-800">
         {active} active users.
       </div>
-      <div className="grow">
-        <ul className="divide-y divide-gray-200">
+      <div className="h-[calc(100%-77px)] overflow-y-auto">
+        <ul className="flex flex-col justify-end divide-y divide-gray-200 py-2">
           {messages.map((message, index) => (
             <li key={index}>
-              <div>
-                <p>{message.sender}</p>
-                <p>{message.message}</p>
+              <div className="p-1">
+                <p className="text-xs font-medium text-gray-600">
+                  {message.sender}
+                </p>
+                <p className="font-medium">{message.message}</p>
               </div>
             </li>
           ))}
@@ -74,7 +76,7 @@ function Chat() {
 
 export default function ChatWrapper() {
   const { project } = useProject();
-  
+
   return (
     <PusherProvider slug={`project-${project?.id}`}>
       <Chat />
