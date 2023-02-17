@@ -14,11 +14,10 @@ export default withProjectAuth(async function handler(
     // POST /api/projects/[slug]/message
     const { message, sender } = req.body;
     console.log(message, sender);
-    await pusherServerClient.trigger(
-      `project-${project?.id}`,
-      'chat-event',
-      {}
-    );
+    await pusherServerClient.trigger(`project-${project?.id}`, 'chat-event', {
+      message,
+      sender,
+    });
     res.status(200).json({ message, sender });
   } else {
     res.setHeader('Allow', ['GET', 'POST']);
