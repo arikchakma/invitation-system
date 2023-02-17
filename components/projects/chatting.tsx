@@ -15,7 +15,8 @@ function Chat() {
   console.log(active);
 
   return (
-    <main>
+    <main className="flex h-full flex-col">
+      <div className="grow"></div>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -31,11 +32,20 @@ function Chat() {
           });
         }}
       >
-        <div>
-          <input type="text" name="name" placeholder="Name" />
-          <input type="text" name="message" placeholder="Message" />
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            name="message"
+            placeholder="Message"
+            className="block w-full grow appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          />
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-black px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          >
+            Send
+          </button>
         </div>
-        <button type="submit">Send</button>
       </form>
     </main>
   );
