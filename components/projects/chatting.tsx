@@ -26,7 +26,10 @@ function Chat() {
   });
 
   useEffect(() => {
-    ref.current?.scrollTo(0, ref.current.scrollHeight);
+    ref.current?.scrollTo(
+      0,
+      ref.current.scrollHeight - ref.current.clientHeight
+    );
   }, [messages]);
 
   useEffect(() => {
@@ -36,28 +39,31 @@ function Chat() {
     if (target.scrollHeight > target.clientHeight)
       setOverlay(prev => ({ ...prev, top: true }));
 
-    console.log(target.scrollHeight, target.clientHeight);
     const scroll = (e: Event) => {
       if (target.scrollTop === 0) {
         console.log('Scrolled to top');
         setOverlay(prev => ({ top: false, bottom: true }));
       } else if (
-        target.scrollTop + target.clientHeight ===
+        Math.round(target.scrollTop + target.clientHeight) ===
         target.scrollHeight
       ) {
         console.log('Scrolled to bottom');
         setOverlay(prev => ({ top: true, bottom: false }));
-      } else {
+      } else if (target.scrollTop + target.clientHeight < target.scrollHeight) {
+        console.log('Scrolled to middle');
         setOverlay(prev => ({ top: true, bottom: true }));
+      } else {
+        console.log('Scrolled to unknown');
+        setOverlay(prev => ({ top: false, bottom: false }));
       }
     };
 
     target.addEventListener('scroll', scroll);
     return () => target.removeEventListener('scroll', scroll);
-  }, []);
+  }, [messages]);
 
   const active = useCurrentMemberCount();
-  console.log(active, overlay);
+  // console.log(active, overlay);
 
   return (
     <main className="flex max-h-[356px] min-h-full flex-col">
@@ -66,8 +72,8 @@ function Chat() {
       </div>
       <div className="relative h-[calc(100%-77px)] overflow-hidden">
         <div className="h-full overflow-y-auto" ref={ref}>
-          <ul className="flex flex-col justify-end divide-y divide-gray-200 py-2">
-            {/* {messages.map((message, index) => (
+          <ul className="flex flex-col justify-end divide-y divide-gray-200">
+            {messages.map((message, index) => (
               <li key={index}>
                 <div className="p-2">
                   <p className="text-xs font-medium text-gray-600">
@@ -76,18 +82,19 @@ function Chat() {
                   <p className="font-medium">{message.message}</p>
                 </div>
               </li>
-            ))} */}
-            {new Array(20).fill(0).map((_, index) => (
+            ))}
+            {/* {new Array(20).fill(0).map((_, index) => (
               <li key={index}>
                 <div className="p-2">
                   <p className="text-xs font-medium text-gray-600">{index}</p>
                   <p className="font-medium">{index}</p>
                 </div>
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
         <div
+          aria-hidden
           className={cn(
             'pointer-events-none absolute bottom-0 h-full w-full touch-none',
             overlay.top &&
@@ -111,7 +118,7 @@ function Chat() {
           });
         }}
       >
-        <div className="flex items-center gap-2">
+        <div className="relative z-10 flex items-center gap-2">
           <input
             type="text"
             name="message"
