@@ -13,8 +13,8 @@ export default withProjectAuth(async function handler(
     res.status(200).json(project);
   } else if (req.method === 'POST') {
     // POST /api/projects/[slug]/message
-    const { message, sender } = req.body;
-    console.log(message, sender);
+    const { message } = req.body;
+    console.log(message);
     await pusherServerClient.trigger(`project-${project?.id}`, 'chat-event', {
       message,
       sender: session?.user?.email,

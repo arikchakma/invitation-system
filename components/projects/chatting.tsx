@@ -42,7 +42,6 @@ function Chat() {
       <form
         onSubmit={e => {
           e.preventDefault();
-          const name = (e.currentTarget.name as any).value;
           const message = e.currentTarget.message.value;
           console.log(name, message);
           fetch(`/api/projects/${project?.slug}/message`, {
@@ -50,7 +49,7 @@ function Chat() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ sender: name, message }),
+            body: JSON.stringify({ message }),
           });
         }}
       >
