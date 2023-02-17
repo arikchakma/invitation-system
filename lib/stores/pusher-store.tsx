@@ -27,7 +27,7 @@ const pusher_server_port = parseInt(
   10
 );
 const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
-const pusher_server_cluster = process.env.NEXT_PUBLIC_PUSHER_SERVER_CLUSTER!;
+const pusher_server_cluster = 'ap2'
 
 const createPusherStore = (slug: string) => {
   let pusherClient: Pusher;
