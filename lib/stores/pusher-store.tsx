@@ -1,5 +1,17 @@
+/**
+ * Pusher Context
+ *
+ * This context is used to provide the pusher store to all components
+ */
+import { createContext } from 'react';
+
+/**
+ * Provider for Pusher Context
+ */
+import React, { useEffect, useState } from 'react';
 import Pusher, { Channel, PresenceChannel } from 'pusher-js';
-import { createStore } from 'zustand/vanilla';
+import { useStore } from 'zustand';
+import { StoreApi, createStore } from 'zustand/vanilla';
 
 interface PusherZustandStore {
   pusherClient: Pusher;
@@ -60,4 +72,73 @@ const createPusherStore = (slug: string) => {
   presenceChannel.bind('pusher:member_removed', updateMembers);
 
   return store;
+};
+
+export const PusherContext = createContext<StoreApi<PusherZustandStore>>(null!);
+
+export const PusherProvider: React.FC<
+  React.PropsWithChildren<{ slug: string }>
+> = ({ children, slug }) => {
+  const [store, updateStore] = useState<ReturnType<typeof createPusherStore>>();
+
+  useEffect(() => {
+    const newStore = createPusherStore(slug);
+    updateStore(newStore);
+    const unsubscribe = newStore.subscribe(() => {
+      console.log('Pusher Store Updated', newStore.getState());
+    });
+    return () => {
+      const pusher = newStore.getState().pusherClient;
+      console.log('disconnecting pusher and destroying store', pusher);
+      console.log(
+        '(Expect a warning in terminal after this, React Dev Mode and all)'
+      );
+      pusher.disconnect();
+      unsubscribe();
+    };
+  }, [slug]);
+
+  if (!store) return null;
+
+  return (
+    <PusherContext.Provider value={store}>{children}</PusherContext.Provider>
+  );
+};
+
+/**
+ * Section 3: "The Hooks"
+ *
+ * The exported hooks you use to interact with this store (in this case just an event sub)
+ *
+ * (I really want useEvent tbh)
+ */
+export function useSubscribeToEvent<MessageType>(
+  eventName: string,
+  callback: (data: MessageType) => void
+) {
+  const store = React.useContext(PusherContext);
+  const channel = useStore(store, s => s.channel);
+
+  const stableCallback = React.useRef(callback);
+
+  // Keep callback sync'd
+  React.useEffect(() => {
+    stableCallback.current = callback;
+  }, [callback]);
+
+  React.useEffect(() => {
+    const reference = (data: MessageType) => {
+      stableCallback.current(data);
+    };
+    channel.bind(eventName, reference);
+    return () => {
+      channel.unbind(eventName, reference);
+    };
+  }, [channel, eventName]);
+}
+
+export const useCurrentMemberCount = () => {
+  const store = React.useContext(PusherContext);
+  const members = useStore(store, s => s.members);
+  return members.size;
 };
