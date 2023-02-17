@@ -1,3 +1,4 @@
+import ChatWrapper from '@/components/projects/chatting';
 import InvitationsTable from '@/components/projects/invitations-table';
 import InviteUserForm from '@/components/projects/invite-user-form';
 import UsersTable from '@/components/projects/users-table';
@@ -24,15 +25,16 @@ export default function ProjectPage() {
             </>
           )}
         </div>
-        {status === 'success' && (
-          <>
+        <div className="mt-10 grid grid-cols-2 gap-2">
+          <div>
             <InviteUserForm />
             <div className="mt-10">
               <UsersTable />
               <InvitationsTable />
             </div>
-          </>
-        )}
+          </div>
+          <ChatWrapper />
+        </div>
 
         {status === 'error' && (
           <div className="font-semibold text-red-500">

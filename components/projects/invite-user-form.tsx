@@ -32,7 +32,7 @@ export default function InviteUserForm() {
     });
   });
   return (
-    <form onSubmit={onSubmit} className="mt-10">
+    <form onSubmit={onSubmit}>
       <label>
         <span>
           Invite a user to{' '}

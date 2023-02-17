@@ -5,7 +5,6 @@
   "quoteProps": "consistent",
   "singleQuote": true,
   "trailingComma": "es5",
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "^(next/(.*)$)|^(next$)",
     "^(react/(.*)$)|^(react$)",
@@ -17,5 +16,9 @@
     "^[./]"
   ],
   "importOrderSeparation": false,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ]
 }
