@@ -126,7 +126,7 @@ function Chat() {
         onSubmit={e => {
           e.preventDefault();
           const message = e.currentTarget.message.value;
-          console.log(name, message);
+          console.log(message);
           fetch(`/api/projects/${project?.slug}/message`, {
             method: 'POST',
             headers: {
