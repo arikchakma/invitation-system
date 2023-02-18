@@ -27,7 +27,7 @@ const pusher_server_port = parseInt(
   10
 );
 const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
-const pusher_server_cluster = 'ap2'
+const pusher_server_cluster = 'ap2';
 
 const createPusherStore = (slug: string) => {
   let pusherClient: Pusher;
@@ -43,6 +43,10 @@ const createPusherStore = (slug: string) => {
       forceTLS: pusher_server_tls,
       disableStats: true,
       authEndpoint: '/api/pusher/auth-channel',
+      userAuthentication: {
+        endpoint: '/api/pusher/auth-user',
+        transport: 'jsonp',
+      },
     });
   }
 

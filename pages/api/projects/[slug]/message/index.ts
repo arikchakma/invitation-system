@@ -41,12 +41,12 @@ export default withProjectAuth(async function handler(
         projectId: project?.id!,
       },
     });
-    console.log(req.headers['x-pusher-socket-id'] )
-    await pusherServerClient.trigger(
+    const pusherRes = await pusherServerClient.trigger(
       `project-${project?.id}`,
       'chat-event',
-      {},
+      {}
     );
+    console.log(pusherRes);
     res.status(200).json({ message, sender: session?.user?.email });
   } else {
     res.setHeader('Allow', ['GET', 'POST']);
