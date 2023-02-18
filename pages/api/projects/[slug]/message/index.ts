@@ -34,25 +34,18 @@ export default withProjectAuth(async function handler(
   } else if (req.method === 'POST') {
     // POST /api/projects/[slug]/message
     const { message } = req.body;
-    prisma.projectMessages
-      .create({
-        data: {
-          message,
-          userId: session?.user?.id!,
-          projectId: project?.id!,
-        },
-      })
-      .then(async m => {
-        await pusherServerClient.trigger(
-          `project-${project?.id}`,
-          'chat-event',
-          {
-            id: m.id,
-            message,
-            sender: session?.user?.email,
-          }
-        );
-      });
+    const m = await prisma.projectMessages.create({
+      data: {
+        message,
+        userId: session?.user?.id!,
+        projectId: project?.id!,
+      },
+    });
+    await pusherServerClient.trigger(`project-${project?.id}`, 'chat-event', {
+      id: m.id,
+      message,
+      sender: session?.user?.email,
+    });
     res.status(200).json({ message, sender: session?.user?.email });
   } else {
     res.setHeader('Allow', ['GET', 'POST']);
