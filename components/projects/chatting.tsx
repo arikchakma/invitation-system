@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'clsx';
+import { useSession } from 'next-auth/react';
 import { flushSync } from 'react-dom';
 import {
   PusherProvider,
@@ -11,6 +12,7 @@ import useProject from '@/utils/use-project';
 function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
     top: false,
@@ -87,14 +89,21 @@ function Chat() {
       <div className="relative h-[calc(100%-77px)] overflow-hidden">
         <div className="h-full overflow-y-auto" ref={ref}>
           <ul
-            className="flex h-full flex-col justify-end divide-y divide-gray-200"
+            className="flex flex-col justify-end divide-y divide-gray-200"
             ref={listRef}
           >
             {messages.map((message, index) => (
               <li key={index}>
-                <div className="p-2">
+                <div
+                  className={cn(
+                    'flex flex-col p-2',
+                    data?.user?.email === message.sender && 'items-end'
+                  )}
+                >
                   <p className="text-xs font-medium text-gray-600">
-                    {message.sender}
+                    {data?.user?.email === message.sender
+                      ? 'me'
+                      : message.sender}
                   </p>
                   <p className="font-medium">{message.message}</p>
                 </div>
