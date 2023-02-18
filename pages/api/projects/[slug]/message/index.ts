@@ -12,6 +12,27 @@ export default withProjectAuth(async function handler(
   if (req.method === 'GET') {
     // GET /api/projects/[slug]/message
     res.status(200).json(project);
+    const messages = await prisma.projectMessages.findMany({
+      where: {
+        projectId: project?.id,
+      },
+      select: {
+        id: true,
+        message: true,
+        user: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    });
+    const formattedMessages = messages.map(m => ({
+      id: m.id,
+      message: m.message,
+      sender: m.user.email,
+    }));
+    res.status(200).json({messages: formattedMessages});
+    
   } else if (req.method === 'POST') {
     // POST /api/projects/[slug]/message
     const { message } = req.body;
