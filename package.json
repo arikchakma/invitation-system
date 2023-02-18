@@ -33,6 +33,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.41.3",
     "react-wrap-balancer": "^0.2.4",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "uglify-js": "^3.17.4",
     "utf-8-validate": "^6.0.0",
     "zustand": "^4.3.3"

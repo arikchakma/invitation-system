@@ -99,7 +99,7 @@ function Chat() {
         {active} active users.
       </div>
       <div className="relative h-[calc(100%-77px)] overflow-hidden">
-        <div className="h-full overflow-y-auto" ref={ref}>
+        <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
           <ul
             className="flex flex-col justify-end divide-y divide-gray-200"
             ref={listRef}
