@@ -83,14 +83,6 @@ function Chat() {
                 </div>
               </li>
             ))}
-            {/* {new Array(20).fill(0).map((_, index) => (
-              <li key={index}>
-                <div className="p-2">
-                  <p className="text-xs font-medium text-gray-600">{index}</p>
-                  <p className="font-medium">{index}</p>
-                </div>
-              </li>
-            ))} */}
           </ul>
         </div>
         <div
