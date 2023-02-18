@@ -41,14 +41,15 @@ function Chat() {
 
   console.log(fetchedMessages.data);
 
-  useSubscribeToEvent('chat-event', data => {
-    console.log(data);
+  // useSubscribeToEvent('chat-event', data => {
+  //   console.log(data);
 
-    // Updates the dom synchronously
-    // flushSync(() => {
-    setMessages(messages => [...messages, data as any]);
-    // });
-  });
+  //   // Updates the dom synchronously
+  //   // flushSync(() => {
+  //   setMessages(messages => [...messages, data as any]);
+  //   // });
+  // });
+  useSubscribeToEvent('chat-event', () => fetchedMessages.refetch());
 
   // Might use later
   useEffect(() => {
