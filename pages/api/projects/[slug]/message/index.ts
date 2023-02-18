@@ -23,11 +23,12 @@ export default withProjectAuth(async function handler(
           projectId: project?.id!,
         },
       })
-      .then(async () => {
+      .then(async m => {
         await pusherServerClient.trigger(
           `project-${project?.id}`,
           'chat-event',
           {
+            id: m.id,
             message,
             sender: session?.user?.email,
           }
