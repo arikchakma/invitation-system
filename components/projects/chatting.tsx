@@ -87,7 +87,7 @@ function Chat() {
       <div className="relative h-[calc(100%-77px)] overflow-hidden">
         <div className="h-full overflow-y-auto" ref={ref}>
           <ul
-            className="flex flex-col justify-end divide-y divide-gray-200"
+            className="flex h-full flex-col justify-end divide-y divide-gray-200"
             ref={listRef}
           >
             {messages.map((message, index) => (
