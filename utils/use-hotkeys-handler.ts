@@ -11,6 +11,14 @@ export function useHotkeysHandler(
 
   const downHandler = useCallback(
     (event: KeyboardEvent) => {
+      if (
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement ||
+        event.repeat
+      ) {
+        return;
+      }
+
       downKeys.add(event.key);
       if (keys.every(key => downKeys.has(key))) {
         handler(downKeys);
@@ -21,6 +29,14 @@ export function useHotkeysHandler(
 
   const upHandler = useCallback(
     (event: KeyboardEvent) => {
+      if (
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement ||
+        event.repeat
+      ) {
+        return;
+      }
+
       downKeys.delete(event.key);
       if (keyUpHandler) {
         keyUpHandler(downKeys);

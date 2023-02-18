@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import cn from 'clsx';
+import { useSession } from 'next-auth/react';
+import { flushSync } from 'react-dom';
 import {
   PusherProvider,
   useCurrentMemberCount,
   useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
+import { QueryError, fetcher } from '@/utils/fetcher';
 import useProject from '@/utils/use-project';
 
 function Chat() {
   const ref = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
     top: false,
@@ -20,16 +26,38 @@ function Chat() {
       message: string;
     }[]
   >([]);
+
+  const fetchedMessages = useQuery<any, QueryError>(
+    ['messages', project?.id],
+    () => fetcher(`/api/projects/${project?.slug}/message`),
+    {
+      enabled: !!project,
+      onSuccess: data => {
+        if (data.messages.length !== messages.length)
+          setMessages(data.messages);
+      },
+    }
+  );
+
+  console.log(fetchedMessages.data);
+
   useSubscribeToEvent('chat-event', data => {
     console.log(data);
+
+    // Updates the dom synchronously
+    // flushSync(() => {
     setMessages(messages => [...messages, data as any]);
+    // });
   });
 
+  // Might use later
   useEffect(() => {
-    ref.current?.scrollTo(
-      0,
-      ref.current.scrollHeight - ref.current.clientHeight
-    );
+    let lastChild = listRef.current?.lastElementChild;
+    lastChild?.scrollIntoView({
+      block: 'end',
+      inline: 'nearest',
+      behavior: 'smooth',
+    });
   }, [messages]);
 
   useEffect(() => {
@@ -71,26 +99,28 @@ function Chat() {
         {active} active users.
       </div>
       <div className="relative h-[calc(100%-77px)] overflow-hidden">
-        <div className="h-full overflow-y-auto" ref={ref}>
-          <ul className="flex flex-col justify-end divide-y divide-gray-200">
+        <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
+          <ul
+            className="flex flex-col justify-end divide-y divide-gray-200"
+            ref={listRef}
+          >
             {messages.map((message, index) => (
               <li key={index}>
-                <div className="p-2">
+                <div
+                  className={cn(
+                    'flex flex-col p-2',
+                    data?.user?.email === message.sender && 'items-end'
+                  )}
+                >
                   <p className="text-xs font-medium text-gray-600">
-                    {message.sender}
+                    {data?.user?.email === message.sender
+                      ? 'me'
+                      : message.sender}
                   </p>
                   <p className="font-medium">{message.message}</p>
                 </div>
               </li>
             ))}
-            {/* {new Array(20).fill(0).map((_, index) => (
-              <li key={index}>
-                <div className="p-2">
-                  <p className="text-xs font-medium text-gray-600">{index}</p>
-                  <p className="font-medium">{index}</p>
-                </div>
-              </li>
-            ))} */}
           </ul>
         </div>
         <div
@@ -108,7 +138,7 @@ function Chat() {
         onSubmit={e => {
           e.preventDefault();
           const message = e.currentTarget.message.value;
-          console.log(name, message);
+          console.log(message);
           fetch(`/api/projects/${project?.slug}/message`, {
             method: 'POST',
             headers: {
