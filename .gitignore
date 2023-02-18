@@ -38,5 +38,5 @@ next-env.d.ts
 .env
 
 # prisma migration
-/prisma/migrations
+# /prisma/migrations
 .mailing
