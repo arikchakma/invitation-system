@@ -1,6 +1,7 @@
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 generator client {
@@ -24,6 +25,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -32,6 +34,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -73,6 +77,9 @@ model ProjectUser {
   userId    String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
+
+  @@index([userId])
+  @@index([projectId])
 }
 
 model ProjectInvite {
@@ -83,6 +90,7 @@ model ProjectInvite {
   createdAt DateTime @default(now())
 
   @@unique([email, projectId])
+  @@index([projectId])
 }
 
 model ProjectMessages {
@@ -94,4 +102,7 @@ model ProjectMessages {
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
   message   String
+
+  @@index([userId])
+  @@index([projectId])
 }
