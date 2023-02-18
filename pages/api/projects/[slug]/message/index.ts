@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withProjectAuth } from '@/lib/auth';
+import prisma from '@/lib/prisma';
 import { pusherServerClient } from '@/lib/pusher';
 
 export default withProjectAuth(async function handler(
@@ -14,7 +15,6 @@ export default withProjectAuth(async function handler(
   } else if (req.method === 'POST') {
     // POST /api/projects/[slug]/message
     const { message } = req.body;
-    console.log(message);
     await pusherServerClient.trigger(`project-${project?.id}`, 'chat-event', {
       message,
       sender: session?.user?.email,
