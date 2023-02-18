@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import cn from 'clsx';
 import { useSession } from 'next-auth/react';
 import { flushSync } from 'react-dom';
@@ -7,6 +8,7 @@ import {
   useCurrentMemberCount,
   useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
+import { QueryError, fetcher } from '@/utils/fetcher';
 import useProject from '@/utils/use-project';
 
 function Chat() {
@@ -24,29 +26,39 @@ function Chat() {
       message: string;
     }[]
   >([]);
+
+  const fetchedMessages = useQuery<any, QueryError>(
+    ['messages', project?.id],
+    () => fetcher(`/api/projects/${project?.slug}/message`),
+    {
+      enabled: !!project,
+      onSuccess: data => {
+        if (data.messages.length !== messages.length)
+          setMessages(data.messages);
+      },
+    }
+  );
+
+  console.log(fetchedMessages.data);
+
   useSubscribeToEvent('chat-event', data => {
     console.log(data);
 
     // Updates the dom synchronously
-    flushSync(() => {
-      setMessages(messages => [...messages, data as any]);
-    });
+    // flushSync(() => {
+    setMessages(messages => [...messages, data as any]);
+    // });
+  });
 
+  // Might use later
+  useEffect(() => {
     let lastChild = listRef.current?.lastElementChild;
     lastChild?.scrollIntoView({
       block: 'end',
       inline: 'nearest',
       behavior: 'smooth',
     });
-  });
-
-  // Might use later
-  // useEffect(() => {
-  //   ref.current?.scrollTo(
-  //     0,
-  //     ref.current.scrollHeight - ref.current.clientHeight
-  //   );
-  // }, [messages]);
+  }, [messages]);
 
   useEffect(() => {
     const target = ref.current;
