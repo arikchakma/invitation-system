@@ -11,7 +11,7 @@ export default function ProjectPage() {
 
   return (
     <Container>
-      <MaxWidthWrapper>
+      <MaxWidthWrapper className="pb-5">
         <div>
           {!(status === 'success') ? (
             <>
