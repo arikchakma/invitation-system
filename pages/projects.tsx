@@ -55,7 +55,7 @@ export default function Projects() {
 
         <div className="mt-10">
           <h2 className="text-2xl font-bold">Projects</h2>
-          <div className="mt-5 grid grid-cols-4 gap-5">
+          <div className="mt-5 grid grid-cols-4 gap-5 -lg:grid-cols-3 -md:grid-cols-2 -sm:grid-cols-1">
             {isSuccess &&
               projects?.map((project, index) => (
                 <NextLink
