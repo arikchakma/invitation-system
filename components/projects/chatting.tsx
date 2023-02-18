@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'clsx';
+import { flushSync } from 'react-dom';
 import {
   PusherProvider,
   useCurrentMemberCount,
@@ -9,6 +10,7 @@ import useProject from '@/utils/use-project';
 
 function Chat() {
   const ref = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
     top: false,
@@ -22,15 +24,27 @@ function Chat() {
   >([]);
   useSubscribeToEvent('chat-event', data => {
     console.log(data);
-    setMessages(messages => [...messages, data as any]);
+
+    // Updates the dom synchronously
+    flushSync(() => {
+      setMessages(messages => [...messages, data as any]);
+    });
+
+    let lastChild = listRef.current?.lastElementChild;
+    lastChild?.scrollIntoView({
+      block: 'end',
+      inline: 'nearest',
+      behavior: 'smooth',
+    });
   });
 
-  useEffect(() => {
-    ref.current?.scrollTo(
-      0,
-      ref.current.scrollHeight - ref.current.clientHeight
-    );
-  }, [messages]);
+  // Might use later
+  // useEffect(() => {
+  //   ref.current?.scrollTo(
+  //     0,
+  //     ref.current.scrollHeight - ref.current.clientHeight
+  //   );
+  // }, [messages]);
 
   useEffect(() => {
     const target = ref.current;
@@ -72,7 +86,10 @@ function Chat() {
       </div>
       <div className="relative h-[calc(100%-77px)] overflow-hidden">
         <div className="h-full overflow-y-auto" ref={ref}>
-          <ul className="flex flex-col justify-end divide-y divide-gray-200">
+          <ul
+            className="flex flex-col justify-end divide-y divide-gray-200"
+            ref={listRef}
+          >
             {messages.map((message, index) => (
               <li key={index}>
                 <div className="p-2">
