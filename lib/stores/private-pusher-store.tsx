@@ -15,9 +15,7 @@ import { StoreApi, createStore } from 'zustand/vanilla';
 
 interface PusherZustandStore {
   pusherClient: Pusher;
-  // channel: Channel;
-  presenceChannel: PresenceChannel;
-  members: Map<string, any>;
+  privateChannel: PresenceChannel;
 }
 
 const pusher_key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY!;
@@ -50,37 +48,31 @@ const createPusherStore = (slug: string) => {
     });
   }
 
-  // const channel = pusherClient.subscribe(slug);
 
-  const presenceChannel = pusherClient.subscribe(
-    `presence-${slug}`
+  const privateChannel = pusherClient.subscribe(
+    `private-${slug}`
   ) as PresenceChannel;
 
   const store = createStore<PusherZustandStore>(set => ({
     pusherClient,
-    // channel,
-    presenceChannel,
-    members: new Map(),
+    privateChannel,
   }));
 
-  // Update helper that sets 'members' to contents of presence channel's current members
-  const updateMembers = () => {
-    store.setState({
-      members: new Map(Object.entries(presenceChannel.members.members)),
-    });
-  };
-
   // Bind all "present users changed" events to trigger updateMembers
-  presenceChannel.bind('pusher:subscription_succeeded', updateMembers);
-  presenceChannel.bind('pusher:member_added', updateMembers);
-  presenceChannel.bind('pusher:member_removed', updateMembers);
+  privateChannel.bind('pusher:subscription_succeeded', () => {
+    store.setState({
+      privateChannel
+    });
+  });
 
   return store;
 };
 
-export const PusherContext = createContext<StoreApi<PusherZustandStore>>(null!);
+export const PrivatePusherContext = createContext<StoreApi<PusherZustandStore>>(
+  null!
+);
 
-export const PusherProvider: React.FC<
+export const PrivatePusherProvider: React.FC<
   React.PropsWithChildren<{ slug: string }>
 > = ({ children, slug }) => {
   const [store, updateStore] = useState<ReturnType<typeof createPusherStore>>();
@@ -105,7 +97,9 @@ export const PusherProvider: React.FC<
   if (!store) return null;
 
   return (
-    <PusherContext.Provider value={store}>{children}</PusherContext.Provider>
+    <PrivatePusherContext.Provider value={store}>
+      {children}
+    </PrivatePusherContext.Provider>
   );
 };
 
@@ -116,12 +110,12 @@ export const PusherProvider: React.FC<
  *
  * (I really want useEvent tbh)
  */
-export function useSubscribeToEvent<MessageType>(
+export function usePrivateSubscribeToEvent<MessageType>(
   eventName: string,
   callback: (data: MessageType) => void
 ) {
-  const store = React.useContext(PusherContext);
-  const channel = useStore(store, s => s.presenceChannel);
+  const store = React.useContext(PrivatePusherContext);
+  const channel = useStore(store, s => s.privateChannel);
 
   const stableCallback = React.useRef(callback);
 
@@ -140,9 +134,3 @@ export function useSubscribeToEvent<MessageType>(
     };
   }, [channel, eventName]);
 }
-
-export const useCurrentMemberCount = () => {
-  const store = React.useContext(PusherContext);
-  const members = useStore(store, s => s.members);
-  return members.size;
-};

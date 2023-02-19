@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import KBD from '@/components/shared/kbd';
+import Notification from '@/components/shared/notification';
 import { useHotkeysHandler } from '@/utils/use-hotkeys-handler';
 
 export default function Header() {
@@ -24,7 +25,7 @@ export default function Header() {
       ) : (
         <div className="h-9 w-72 rounded bg-slate-200" />
       )}
-      <div className="mt-2 flex gap-2">
+      <div className="mt-2 flex items-center gap-2">
         <NextLink
           href="/"
           className="inline-block rounded bg-black px-4 py-1 text-white"
@@ -45,6 +46,7 @@ export default function Header() {
         >
           Log Out
         </button>
+        <Notification />
       </div>
 
       <p className="mt-5 font-semibold text-gray-800">
