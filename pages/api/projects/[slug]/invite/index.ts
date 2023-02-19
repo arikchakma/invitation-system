@@ -99,7 +99,7 @@ export default withProjectAuth(
 
         await pusherServerClient.trigger(
           `private-user-${user?.id}`,
-          'new-invite',
+          'new-project-invitations',
           {
             message: `You have been invited to join ${project?.name}`,
           }

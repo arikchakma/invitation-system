@@ -1,6 +1,16 @@
 import { CSSProperties, SVGProps } from 'react';
+import { PendingInvitationsProps } from '@/types/project';
+import { useQuery } from '@tanstack/react-query';
+import { fetcher } from '@/utils/fetcher';
 
 export default function Notification() {
+  const { data: pendingInivatations } = useQuery<PendingInvitationsProps[]>(
+    ['pendingInvitations'],
+    async () => {
+      return await fetcher('/api/projects/get-user-invitations');
+    }
+  );
+
   return (
     <div
       className="relative inline-flex after:absolute after:right-0 after:top-0 after:z-10 after:h-4 after:w-4 after:translate-x-1 after:-translate-y-1 after:rounded-full after:bg-black after:text-center after:text-[10px] after:font-bold after:leading-4 after:text-white after:ring-1 after:ring-white after:content-[var(--content)]"
