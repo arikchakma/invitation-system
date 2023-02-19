@@ -6,10 +6,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { socket_id } = req.body;
+  const callback = req.query.callback;
+  const socket_id = req.query.socket_id;
 
   // Check that the socket_id is present
-  if (!socket_id)
+  if (!socket_id || Array.isArray(socket_id) || !callback)
     return res.status(400).send('Bad request. Missing socket_id.');
 
   // Get user's details from the server
@@ -18,10 +19,14 @@ export default async function handler(
   // If the session doesn't exist or the user is not authenticated, return an error
   if (!session) return res.status(401).send('Unauthorized');
 
-  const auth = pusherServerClient.authenticateUser(socket_id, {
+  const auth = JSON.stringify(pusherServerClient.authenticateUser(socket_id, {
     id: session.user?.id!,
     email: session.user?.email!,
-  });
+  }))
 
-  res.send(auth);
+  const cb = (callback as string).replace(/\\"/g,"") + "(" + auth + ");";
+
+  res.setHeader("Content-Type", "application/javascript");
+
+  res.send(cb);
 }

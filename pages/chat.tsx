@@ -3,11 +3,16 @@ import Pusher from 'pusher-js';
 
 export default function Chat() {
   useEffect(() => {
+    Pusher.logToConsole = true;
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
-      cluster: 'ap2',
+      cluster: 'us2',
+      // userAuthentication: {
+      //   endpoint: '/api/pusher/auth-user',
+      //   transport: 'jsonp',
+      // }
     });
     const channel = pusher.subscribe('chat');
-    channel.bind('chat-event', (data: any) => {
+    pusher.user.bind('chat-event', (data: any) => {
       console.log(data);
     });
 

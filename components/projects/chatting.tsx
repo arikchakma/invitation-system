@@ -33,23 +33,30 @@ function Chat() {
     {
       enabled: !!project,
       onSuccess: data => {
-        if (data.messages.length !== messages.length)
-          setMessages(data.messages);
+        setMessages((data as any).messages);
       },
     }
   );
 
-  console.log(fetchedMessages.data);
+  function scrollToLastChild() {
+    let lastChild = listRef.current?.lastElementChild;
+    lastChild?.scrollIntoView({
+      block: 'end',
+      inline: 'nearest',
+      behavior: 'smooth',
+    });
+  }
 
-  // useSubscribeToEvent('chat-event', data => {
-  //   console.log(data);
+  useSubscribeToEvent('chat-event', data => {
+    console.log(data);
 
-  //   // Updates the dom synchronously
-  //   // flushSync(() => {
-  //   setMessages(messages => [...messages, data as any]);
-  //   // });
-  // });
-  useSubscribeToEvent('chat-event', () => fetchedMessages.refetch());
+    // Updates the dom synchronously
+    // flushSync(() => {
+    setMessages(messages => [...messages, data as any]);
+    // });
+    // scrollToLastChild();
+  });
+  // useSubscribeToEvent('chat-event', () => fetchedMessages.refetch());
 
   // Might use later
   useEffect(() => {
@@ -70,19 +77,19 @@ function Chat() {
 
     const scroll = (e: Event) => {
       if (target.scrollTop === 0) {
-        console.log('Scrolled to top');
+        // console.log('Scrolled to top');
         setOverlay(prev => ({ top: false, bottom: true }));
       } else if (
         Math.round(target.scrollTop + target.clientHeight) ===
         target.scrollHeight
       ) {
-        console.log('Scrolled to bottom');
+        // console.log('Scrolled to bottom');
         setOverlay(prev => ({ top: true, bottom: false }));
       } else if (target.scrollTop + target.clientHeight < target.scrollHeight) {
-        console.log('Scrolled to middle');
+        // console.log('Scrolled to middle');
         setOverlay(prev => ({ top: true, bottom: true }));
       } else {
-        console.log('Scrolled to unknown');
+        // console.log('Scrolled to unknown');
         setOverlay(prev => ({ top: false, bottom: false }));
       }
     };
