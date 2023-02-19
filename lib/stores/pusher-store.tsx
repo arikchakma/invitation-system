@@ -15,7 +15,7 @@ import { StoreApi, createStore } from 'zustand/vanilla';
 
 interface PusherZustandStore {
   pusherClient: Pusher;
-  channel: Channel;
+  // channel: Channel;
   presenceChannel: PresenceChannel;
   members: Map<string, any>;
 }
@@ -29,9 +29,7 @@ const pusher_server_port = parseInt(
 const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
 const pusher_server_cluster = 'us2';
 
-const createPusherStore = (
-  slug: string,
-) => {
+const createPusherStore = (slug: string) => {
   let pusherClient: Pusher;
   if (Pusher.instances.length) {
     pusherClient = Pusher.instances[0];
@@ -52,7 +50,7 @@ const createPusherStore = (
     });
   }
 
-  const channel = pusherClient.subscribe(slug);
+  // const channel = pusherClient.subscribe(slug);
 
   const presenceChannel = pusherClient.subscribe(
     `presence-${slug}`
@@ -60,7 +58,7 @@ const createPusherStore = (
 
   const store = createStore<PusherZustandStore>(set => ({
     pusherClient,
-    channel,
+    // channel,
     presenceChannel,
     members: new Map(),
   }));
@@ -83,7 +81,7 @@ const createPusherStore = (
 export const PusherContext = createContext<StoreApi<PusherZustandStore>>(null!);
 
 export const PusherProvider: React.FC<
-  React.PropsWithChildren<{ slug: string; }>
+  React.PropsWithChildren<{ slug: string }>
 > = ({ children, slug }) => {
   const [store, updateStore] = useState<ReturnType<typeof createPusherStore>>();
 
@@ -123,7 +121,7 @@ export function useSubscribeToEvent<MessageType>(
   callback: (data: MessageType) => void
 ) {
   const store = React.useContext(PusherContext);
-  const channel = useStore(store, s => s.channel);
+  const channel = useStore(store, s => s.presenceChannel);
 
   const stableCallback = React.useRef(callback);
 

@@ -42,8 +42,8 @@ export default withProjectAuth(async function handler(
       },
     });
     const pusherRes = await pusherServerClient.trigger(
-      `project-${project?.id}`,
-      'chat-event',
+      `presence-project-${project?.id}`,
+      'new-message',
       {
         message,
         id: m.id,

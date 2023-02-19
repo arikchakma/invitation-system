@@ -47,7 +47,7 @@ function Chat() {
     });
   }
 
-  useSubscribeToEvent('chat-event', data => {
+  useSubscribeToEvent('new-message', data => {
     console.log(data);
 
     // Updates the dom synchronously
@@ -56,7 +56,7 @@ function Chat() {
     // });
     // scrollToLastChild();
   });
-  // useSubscribeToEvent('chat-event', () => fetchedMessages.refetch());
+  // useSubscribeToEvent('new-message', () => fetchedMessages.refetch());
 
   // Might use later
   useEffect(() => {
