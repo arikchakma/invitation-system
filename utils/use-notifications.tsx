@@ -26,7 +26,7 @@ export function useNotifications() {
     'new-project-invitations',
     invitation => {
       refetch();
-      setNotificationsCount(c => c++);
+      setNotificationsCount(c => c + 1);
     }
   );
 

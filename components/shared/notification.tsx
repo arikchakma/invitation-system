@@ -1,27 +1,39 @@
 import { CSSProperties, SVGProps } from 'react';
 import { PendingInvitationsProps } from '@/types/project';
 import { useQuery } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import { PrivatePusherProvider } from '@/lib/stores/private-pusher-store';
 import { fetcher } from '@/utils/fetcher';
+import { useNotifications } from '@/utils/use-notifications';
 
-export default function Notification() {
-  const { data: pendingInivatations } = useQuery<PendingInvitationsProps[]>(
-    ['pendingInvitations'],
-    async () => {
-      return await fetcher('/api/projects/get-user-invitations');
-    }
+function NotificationWrapper() {
+  const { data } = useSession();
+  if (!data) return null;
+  return (
+    <PrivatePusherProvider slug={`user-${data?.user?.id}`}>
+      <Notification />
+    </PrivatePusherProvider>
   );
+}
+
+function Notification() {
+  const { notifications, count, reset } = useNotifications();
+
+  console.log(notifications);
 
   return (
-    <div
+    <button
+    aria-label='Notifications'
       className="relative inline-flex after:absolute after:right-0 after:top-0 after:z-10 after:h-4 after:w-4 after:translate-x-1 after:-translate-y-1 after:rounded-full after:bg-black after:text-center after:text-[10px] after:font-bold after:leading-4 after:text-white after:ring-1 after:ring-white after:content-[var(--content)]"
       style={
         {
-          '--content': '"12"',
+          '--content': `"${count}"`,
         } as CSSProperties
       }
+      onClick={reset}
     >
       <BellIcon className="h-5 w-5 stroke-black stroke-2" />
-    </div>
+    </button>
   );
 }
 
@@ -47,3 +59,5 @@ function BellIcon({
     </svg>
   );
 }
+
+export default NotificationWrapper
