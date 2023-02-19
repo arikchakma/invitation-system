@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PendingInvitationsProps } from '@/types/project';
 import { useQuery } from '@tanstack/react-query';
+import { useNotificationsStore } from '@/lib/stores/notifications-store';
 import { usePrivateSubscribeToEvent } from '@/lib/stores/private-pusher-store';
 import { fetcher } from './fetcher';
 
@@ -8,7 +9,7 @@ export function useNotifications() {
   const [notifications, setNotifications] = useState<PendingInvitationsProps[]>(
     []
   );
-  const [notificationsCount, setNotificationsCount] = useState(0);
+  const { count, reset, increase } = useNotificationsStore();
 
   const { refetch } = useQuery<PendingInvitationsProps[]>(
     ['pendingInvitations'],
@@ -26,13 +27,9 @@ export function useNotifications() {
     'new-project-invitations',
     invitation => {
       refetch();
-      setNotificationsCount(c => c + 1);
+      increase();
     }
   );
 
-  const resetCount = () => {
-    setNotificationsCount(0);
-  };
-
-  return { notifications, count: notificationsCount, reset: resetCount };
+  return { notifications, count, reset };
 }
