@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto';
 import { withProjectAuth } from '@/lib/auth';
 import { hashToken } from '@/lib/hash-token';
 import prisma from '@/lib/prisma';
+import { pusherServerClient } from '@/lib/pusher';
 
 export default withProjectAuth(
   async (req: NextApiRequest, res: NextApiResponse, project) => {
@@ -51,6 +52,12 @@ export default withProjectAuth(
        * TODO: 7. Return a success message
        */
       const { email } = JSON.parse(req.body);
+      const user = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+
       const alreadyInTeam = await prisma.projectUser.findFirst({
         where: {
           projectId: project?.id,
@@ -89,6 +96,14 @@ export default withProjectAuth(
             expires,
           },
         });
+
+        await pusherServerClient.trigger(
+          `private-user-${user?.id}`,
+          'new-invite',
+          {
+            message: `You have been invited to join ${project?.name}`,
+          }
+        );
 
         const params = new URLSearchParams({
           callbackUrl: `${process.env.NEXTAUTH_URL}/`,

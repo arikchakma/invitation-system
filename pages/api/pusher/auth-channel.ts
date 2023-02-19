@@ -12,18 +12,23 @@ export default async function pusherAuthEndpoint(
   if (!socket_id)
     return res.status(400).send('Bad request. Missing socket_id.');
 
-  // Get user's details from the server
-  const session = await getServerSession(req, res);
+  let auth;
 
-  // If the session doesn't exist or the user is not authenticated, return an error
-  if (!session) return res.status(401).send('Unauthorized');
+  if (/presence-/.test(channel_name)) {
+    // Get user's details from the server
+    const session = await getServerSession(req, res);
 
-  const auth = pusherServerClient.authorizeChannel(socket_id, channel_name, {
-    user_id: session.user?.id!,
-    user_info: {
-      name: session.user?.name!,
-      email: session.user?.email!,
-    },
-  });
+    // If the session doesn't exist or the user is not authenticated, return an error
+    if (!session) return res.status(401).send('Unauthorized');
+    auth = pusherServerClient.authorizeChannel(socket_id, channel_name, {
+      user_id: session.user?.id!,
+      user_info: {
+        name: session.user?.name!,
+        email: session.user?.email!,
+      },
+    });
+  } else {
+    auth = pusherServerClient.authorizeChannel(socket_id, channel_name);
+  }
   res.send(auth);
 }
