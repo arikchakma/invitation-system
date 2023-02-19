@@ -14,6 +14,7 @@ import useProject from '@/utils/use-project';
 function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const [message, setMessage] = useState('');
   const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
@@ -145,15 +146,13 @@ function Chat() {
       <form
         onSubmit={e => {
           e.preventDefault();
-          const message = e.currentTarget.message.value;
-          console.log(message);
           fetch(`/api/projects/${project?.slug}/message`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ message }),
-          });
+          }).then(() => setMessage(''));
         }}
       >
         <div className="relative z-10 flex items-center gap-2">
@@ -161,6 +160,8 @@ function Chat() {
             type="text"
             name="message"
             placeholder="Message"
+            value={message}
+            onChange={e => setMessage(e.target.value)}
             className="block w-full grow appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
           <button
