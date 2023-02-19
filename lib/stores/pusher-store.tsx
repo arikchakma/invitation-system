@@ -27,9 +27,12 @@ const pusher_server_port = parseInt(
   10
 );
 const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
-const pusher_server_cluster = 'us2'
+const pusher_server_cluster = 'us2';
 
-const createPusherStore = (slug: string, type: "presence" | "private" = "presence") => {
+const createPusherStore = (
+  slug: string,
+  type: 'presence' | 'private' = 'presence'
+) => {
   let pusherClient: Pusher;
   if (Pusher.instances.length) {
     pusherClient = Pusher.instances[0];
@@ -53,7 +56,7 @@ const createPusherStore = (slug: string, type: "presence" | "private" = "presenc
   const channel = pusherClient.subscribe(slug);
 
   const presenceChannel = pusherClient.subscribe(
-    `presence-${slug}`
+    `${type}-${slug}`
   ) as PresenceChannel;
 
   const store = createStore<PusherZustandStore>(set => ({
@@ -81,12 +84,12 @@ const createPusherStore = (slug: string, type: "presence" | "private" = "presenc
 export const PusherContext = createContext<StoreApi<PusherZustandStore>>(null!);
 
 export const PusherProvider: React.FC<
-  React.PropsWithChildren<{ slug: string }>
-> = ({ children, slug }) => {
+  React.PropsWithChildren<{ slug: string; type: 'presence' | 'private' }>
+> = ({ children, slug, type = 'presence' }) => {
   const [store, updateStore] = useState<ReturnType<typeof createPusherStore>>();
 
   useEffect(() => {
-    const newStore = createPusherStore(slug);
+    const newStore = createPusherStore(slug, type);
     updateStore(newStore);
     const unsubscribe = newStore.subscribe(() => {
       console.log('Pusher Store Updated', newStore.getState());
@@ -100,7 +103,7 @@ export const PusherProvider: React.FC<
       pusher.disconnect();
       unsubscribe();
     };
-  }, [slug]);
+  }, [slug, type]);
 
   if (!store) return null;
 
