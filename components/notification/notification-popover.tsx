@@ -11,15 +11,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '../shared/popover';
 
 export default function NotificationPopover() {
   const { notifications } = useNotifications();
+  console.log(notifications)
 
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <NotificationButton />
       </PopoverTrigger>
       <PopoverContent align="end">
         <div className="flex flex-col space-y-4">
-          {notifications.map(notification => (
+          {/* {notifications?.map(notification => (
             <div
               key={notification.project.slug}
               className="flex items-center space-x-4"
@@ -30,7 +31,8 @@ export default function NotificationPopover() {
                 </p>
               </div>
             </div>
-          ))}
+          ))} */}
+          <p>Notifications</p>
         </div>
       </PopoverContent>
     </Popover>

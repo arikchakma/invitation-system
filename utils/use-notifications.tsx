@@ -14,7 +14,7 @@ export function useNotifications() {
   const { refetch } = useQuery<PendingInvitationsProps[]>(
     ['pendingInvitations'],
     async () => {
-      return await fetcher('/api/projects/get-user-invitations');
+      return await fetcher('/api/notifications');
     },
     {
       onSuccess: data => {
