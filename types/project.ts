@@ -27,3 +27,11 @@ export interface InvitationsProps {
   email: string;
   invitedAt: Date;
 }
+
+export interface NotificationsUnseenProps {
+  id: string;
+  type: 'INVITE' | 'MESSAGE';
+  message: string;
+  createdAt: Date;
+  seen: boolean;
+}
