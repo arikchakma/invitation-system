@@ -10,8 +10,7 @@ import { useNotifications } from '@/utils/use-notifications';
 import { Popover, PopoverContent, PopoverTrigger } from '../shared/popover';
 
 export default function NotificationPopover() {
-  const { notifications, reset } = useNotifications();
-  console.log(notifications);
+  const { notifications } = useNotifications();
 
   return (
     <Popover>
