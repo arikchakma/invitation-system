@@ -1,5 +1,5 @@
 import { withUserAuth } from '@/lib/auth';
-import prisma  from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 export default withUserAuth(
   async (req, res, session, user) => {
@@ -14,8 +14,17 @@ export default withUserAuth(
         select: {
           id: true,
           type: true,
-        }
-      })
+          message: true,
+          createdAt: true,
+          seen: true,
+        },
+      });
+
+      if (!notifications) {
+        return res.status(404).json({ message: 'No notifications found' });
+      }
+
+      return res.status(200).json({ notifications });
     }
   },
   {
