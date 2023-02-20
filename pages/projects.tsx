@@ -50,7 +50,7 @@ export default function Projects() {
 
   return (
     <Container>
-      <MaxWidthWrapper>
+      <MaxWidthWrapper className="pb-10">
         <CreateProject />
 
         <div className="mt-10">
