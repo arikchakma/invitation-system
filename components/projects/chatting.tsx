@@ -17,7 +17,6 @@ function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [message, setMessage] = useState('');
-  const [shouldScroll, setShouldScroll] = useState(true);
   const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
@@ -37,12 +36,10 @@ function Chat() {
     {
       enabled: !!project,
       onSuccess: data => {
+        // if (messages.length !== (data as any).messages.length) {
+        //   setMessages((data as any).messages);
+        // }
         setMessages((data as any).messages);
-        if (messages.length === (data as any).messages.length) {
-          setShouldScroll(false);
-        } else {
-          setShouldScroll(true);
-        }
       },
     }
   );
@@ -60,7 +57,6 @@ function Chat() {
     // Updates the dom synchronously
     // flushSync(() => {
     setMessages(messages => [...messages, data as any]);
-    setShouldScroll(true);
     // });
     // scrollToLastChild();
   });
@@ -75,13 +71,13 @@ function Chat() {
     //   behavior: 'smooth',
     // });
     const target = ref.current;
-    if (target && shouldScroll) {
+    if (target) {
       target.scrollTo({
         top: target.scrollHeight,
         behavior: 'smooth',
       });
     }
-  }, [shouldScroll]);
+  }, [messages]);
 
   useEffect(() => {
     const target = ref.current;
@@ -134,7 +130,10 @@ function Chat() {
         </div>
       </div>
       <div className="relative h-[calc(100%-77px)] min-h-[280px] overflow-hidden">
-        <div className="h-full min-h-[280px] overflow-y-auto scrollbar-hide" ref={ref}>
+        <div
+          className="h-full min-h-[280px] overflow-y-auto scrollbar-hide"
+          ref={ref}
+        >
           <ul
             className="flex flex-col justify-end divide-y divide-gray-200"
             ref={listRef}

@@ -19,7 +19,6 @@ export function useHotkeysHandler(
         return;
       }
 
-      console.log(event.key);
       downKeys.add(event.key);
       if (keys.every(key => downKeys.has(key))) {
         handler(downKeys, event);
