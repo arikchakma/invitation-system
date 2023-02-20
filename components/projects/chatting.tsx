@@ -40,9 +40,9 @@ function Chat() {
       onSuccess: data => {
         setMessages((data as any).messages);
         if (messages.length === (data as any).messages.length) {
-          setShouldScroll(false)
+          setShouldScroll(false);
         } else {
-          setShouldScroll(true)
+          setShouldScroll(true);
         }
       },
     }
@@ -61,7 +61,7 @@ function Chat() {
     // Updates the dom synchronously
     // flushSync(() => {
     setMessages(messages => [...messages, data as any]);
-    setShouldScroll(true)
+    setShouldScroll(true);
     // });
     // scrollToLastChild();
   });
