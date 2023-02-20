@@ -111,7 +111,7 @@ function Chat() {
 
     target.addEventListener('scroll', scroll);
     return () => target.removeEventListener('scroll', scroll);
-  }, [messages]);
+  }, []);
 
   const active = useCurrentMemberCount();
   const isSubscribed = useIsSubscribed();
