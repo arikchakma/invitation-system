@@ -10,12 +10,14 @@ import {
   useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
 import { QueryError, fetcher } from '@/utils/fetcher';
+import { useHotkeysHandler } from '@/utils/use-hotkeys-handler';
 import useProject from '@/utils/use-project';
 
 function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [message, setMessage] = useState('');
+  const msgInputRef = useRef<HTMLInputElement>(null);
   const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
@@ -69,6 +71,11 @@ function Chat() {
       behavior: 'smooth',
     });
   }, [messages]);
+
+  useHotkeysHandler(['m'], (keys, e) => {
+    e.preventDefault();
+    if (msgInputRef.current) msgInputRef.current.focus();
+  });
 
   useEffect(() => {
     const target = ref.current;
@@ -163,6 +170,7 @@ function Chat() {
             placeholder="Message"
             value={message}
             onChange={e => setMessage(e.target.value)}
+            ref={msgInputRef}
             className="block w-full grow appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
           <button

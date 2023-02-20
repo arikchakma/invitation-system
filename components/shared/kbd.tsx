@@ -8,17 +8,21 @@ type KBDProps = {
 
 const KBD: React.FC<KBDProps> = forwardRef(
   ({ children, className }, ref: ForwardedRef<HTMLUnknownElement>) => {
-    const [isDown, setIsDown] = useState(false)
+    const [isDown, setIsDown] = useState(false);
     const key = children as string;
-    useHotkeysHandler([key], () => {
-      setIsDown(true)
-    }, () => {
-      setIsDown(false)
-    },);
+    useHotkeysHandler(
+      [key],
+      () => {
+        setIsDown(true);
+      },
+      () => {
+        setIsDown(false);
+      }
+    );
     return (
       <kbd
         className={cn(
-          'inline-flex h-[22px] px-1.5 text-sm select-none items-center justify-center rounded border border-gray-600 bg-gray-200 uppercase text-gray-900',
+          'inline-flex h-[22px] select-none items-center justify-center rounded border border-gray-600 bg-gray-200 px-1.5 text-sm uppercase text-gray-900',
           isDown && 'opacity-70',
           className
         )}

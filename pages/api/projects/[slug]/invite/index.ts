@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { randomBytes } from 'crypto';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { withProjectAuth } from '@/lib/auth';
 import { hashToken } from '@/lib/hash-token';
 import prisma from '@/lib/prisma';

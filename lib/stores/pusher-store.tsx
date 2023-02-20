@@ -3,12 +3,10 @@
  *
  * This context is used to provide the pusher store to all components
  */
-import { createContext } from 'react';
 
 /**
  * Provider for Pusher Context
- */
-import React, { useEffect, useState } from 'react';
+ */ import React, { createContext, useEffect, useState } from 'react';
 import Pusher, { Channel, PresenceChannel } from 'pusher-js';
 import { useStore } from 'zustand';
 import { StoreApi, createStore } from 'zustand/vanilla';

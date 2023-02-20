@@ -3,7 +3,7 @@ import { Inter } from '@next/font/google';
 import { signIn } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
-let i =0
+let i = 0;
 export default function Home() {
   const [email, setEmail] = useState('');
   const [status = 'idle', setStatus] = useState<

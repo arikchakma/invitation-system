@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
-type KeyHandler = (keys: Set<string>) => void;
+type KeyHandler = (keys: Set<string>, event: KeyboardEvent) => void;
 
 export function useHotkeysHandler(
   keys: string[],
@@ -21,7 +21,7 @@ export function useHotkeysHandler(
 
       downKeys.add(event.key);
       if (keys.every(key => downKeys.has(key))) {
-        handler(downKeys);
+        handler(downKeys, event);
       }
     },
     [downKeys, handler, keys]
@@ -39,7 +39,7 @@ export function useHotkeysHandler(
 
       downKeys.delete(event.key);
       if (keyUpHandler) {
-        keyUpHandler(downKeys);
+        keyUpHandler(downKeys, event);
       }
     },
     [downKeys, keyUpHandler]

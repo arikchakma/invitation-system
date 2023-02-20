@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Pusher from 'pusher-js';
-import { PrivatePusherProvider, usePrivateSubscribeToEvent } from '@/lib/stores/private-pusher-store';
-
+import {
+  PrivatePusherProvider,
+  usePrivateSubscribeToEvent,
+} from '@/lib/stores/private-pusher-store';
 
 export default function Notification() {
   const { data } = useSession();
@@ -24,11 +26,11 @@ export default function Notification() {
 function NotificationBox() {
   const { data } = useSession();
   const [invites, setInvites] = useState<any[]>([]);
-  
-  Pusher.logToConsole = true
-  usePrivateSubscribeToEvent('new-invite', (data:any) => {
-    setInvites(prev=> [...prev, data])
-  })
+
+  Pusher.logToConsole = true;
+  usePrivateSubscribeToEvent('new-invite', (data: any) => {
+    setInvites(prev => [...prev, data]);
+  });
 
   console.log(invites);
 

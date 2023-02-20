@@ -1,5 +1,5 @@
-import Script from 'next/script';
 import { useEffect } from 'react';
+import Script from 'next/script';
 import Pusher from 'pusher-js';
 
 export default function Chat() {

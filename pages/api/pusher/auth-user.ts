@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const socket_id = req.body.socket_id;
-  console.log(socket_id)
+  console.log(socket_id);
 
   // Check that the socket_id is present
   if (!socket_id || Array.isArray(socket_id))
@@ -22,7 +22,7 @@ export default async function handler(
   const auth = pusherServerClient.authenticateUser(socket_id, {
     id: session.user?.id!,
     email: session.user?.email!,
-  })
+  });
 
   res.send(auth);
 }
