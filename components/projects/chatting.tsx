@@ -105,7 +105,6 @@ function Chat() {
   const active = useCurrentMemberCount();
   const isSubscribed = useIsSubscribed();
   const members = useMembers();
-  console.log(members);
 
   return (
     <main className="flex max-h-[356px] min-h-full flex-col">
