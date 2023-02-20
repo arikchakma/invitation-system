@@ -25,9 +25,10 @@ export default function NotificationPopover() {
         <NotificationButton />
       </PopoverTrigger>
       <PopoverContent align="end">
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 divide-y">
           {notifications?.map(notification => (
             <div key={notification.id} className="flex items-center space-x-4">
+              <span></span>
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">
                   {notification.message}
