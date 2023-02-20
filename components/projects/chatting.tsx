@@ -115,7 +115,7 @@ function Chat() {
           {isSubscribed && (
             <>
               {members.map(m => (
-                <span key={m.id} className="text-sm font-normal">
+                <span key={m.id} className="text-sm font-medium">
                   {m.email}
                 </span>
               ))}
