@@ -6,6 +6,7 @@ import { flushSync } from 'react-dom';
 import {
   PusherProvider,
   useCurrentMemberCount,
+  useIsSubscribed,
   useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
 import { QueryError, fetcher } from '@/utils/fetcher';
@@ -100,7 +101,7 @@ function Chat() {
   }, [messages]);
 
   const active = useCurrentMemberCount();
-  // console.log(active, overlay);
+  const isSubscribed = useIsSubscribed();
 
   return (
     <main className="flex max-h-[356px] min-h-full flex-col">
@@ -166,7 +167,8 @@ function Chat() {
           />
           <button
             type="submit"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-black px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            disabled={!isSubscribed}
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-black px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-60"
           >
             Send
           </button>
