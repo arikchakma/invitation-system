@@ -10,7 +10,6 @@ import {
   useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
 import { QueryError, fetcher } from '@/utils/fetcher';
-import { useHotkeysHandler } from '@/utils/use-hotkeys-handler';
 import useProject from '@/utils/use-project';
 
 function Chat() {
@@ -71,11 +70,6 @@ function Chat() {
       behavior: 'smooth',
     });
   }, [messages]);
-
-  useHotkeysHandler(['m'], (keys, e) => {
-    e.preventDefault();
-    if (msgInputRef.current) msgInputRef.current.focus();
-  });
 
   useEffect(() => {
     const target = ref.current;
