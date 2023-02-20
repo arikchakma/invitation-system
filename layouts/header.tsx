@@ -1,8 +1,8 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
+import Notification from '@/components/notification';
 import KBD from '@/components/shared/kbd';
-import Notification from '@/components/shared/notification';
 import { useHotkeysHandler } from '@/utils/use-hotkeys-handler';
 
 export default function Header() {
