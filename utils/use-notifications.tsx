@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NotificationsUnseenProps } from '@/types/project';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { usePrivateSubscribeToEvent } from '@/lib/stores/private-pusher-store';
 import { fetcher } from './fetcher';
 
@@ -23,6 +23,20 @@ export function useNotifications() {
     }
   );
 
+  const seen = useMutation({
+    mutationFn: async () => {
+      return (
+        await fetch('/api/notifications', {
+          method: 'PUT',
+          // body: JSON.stringify(''),
+        })
+      ).json() as Promise<{ message: string }>;
+    },
+    onSuccess: () => {
+      setCount(0);
+    },
+  });
+
   usePrivateSubscribeToEvent<NotificationsUnseenProps>(
     'new-project-invitations',
     invitation => {
@@ -30,5 +44,5 @@ export function useNotifications() {
     }
   );
 
-  return { notifications, count };
+  return { notifications, count, seen: seen.mutate };
 }

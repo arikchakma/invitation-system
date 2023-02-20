@@ -39,7 +39,7 @@ export default withUserAuth(
         return res.status(404).json({ message: 'Notification not found' });
       }
 
-      return res.status(200).json({ notification });
+      return res.status(200).json({ message: 'Notifications updated.' });
     }
   },
   {
