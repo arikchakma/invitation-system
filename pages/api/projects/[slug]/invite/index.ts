@@ -135,7 +135,9 @@ export default withProjectAuth(
           subject: `You have been invited to join ${project?.name}`,
           to: email,
           html: `<p>You have been invited to join ${project?.name}.</p>
-          Click <a href="${url}">here</a> to accept the invitation.
+          Click <a href="${url}">here</a> to accept the invitation or copy and paste the following link into your browser: ${url}
+          <br />
+          <p>If you did not request this invitation, please ignore this email.</p>
           `,
         });
 
