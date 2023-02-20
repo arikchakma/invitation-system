@@ -18,7 +18,6 @@ function Chat() {
   const listRef = useRef<HTMLUListElement>(null);
   const [message, setMessage] = useState('');
   const [shouldScroll, setShouldScroll] = useState(true);
-  const msgInputRef = useRef<HTMLInputElement>(null);
   const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
@@ -189,7 +188,6 @@ function Chat() {
             placeholder="Message"
             value={message}
             onChange={e => setMessage(e.target.value)}
-            ref={msgInputRef}
             className="block w-full grow appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
           <button
