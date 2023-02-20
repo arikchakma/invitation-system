@@ -17,7 +17,7 @@ function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [message, setMessage] = useState('');
-  const msgInputRef = useRef<HTMLInputElement>(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
   const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
@@ -38,6 +38,11 @@ function Chat() {
       enabled: !!project,
       onSuccess: data => {
         setMessages((data as any).messages);
+        if (messages.length === (data as any).messages.length) {
+          setShouldScroll(false);
+        } else {
+          setShouldScroll(true);
+        }
       },
     }
   );
@@ -52,11 +57,10 @@ function Chat() {
   }
 
   useSubscribeToEvent('new-message', data => {
-    console.log(data);
-
     // Updates the dom synchronously
     // flushSync(() => {
     setMessages(messages => [...messages, data as any]);
+    setShouldScroll(true);
     // });
     // scrollToLastChild();
   });
@@ -64,13 +68,20 @@ function Chat() {
 
   // Might use later
   useEffect(() => {
-    let lastChild = listRef.current?.lastElementChild;
-    lastChild?.scrollIntoView({
-      block: 'end',
-      inline: 'nearest',
-      behavior: 'smooth',
-    });
-  }, [messages]);
+    // let lastChild = listRef.current?.lastElementChild;
+    // lastChild?.scrollIntoView({
+    //   block: 'end',
+    //   inline: 'nearest',
+    //   behavior: 'smooth',
+    // });
+    const target = ref.current;
+    if (target && shouldScroll) {
+      target.scrollTo({
+        top: target.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [shouldScroll]);
 
   useEffect(() => {
     const target = ref.current;
@@ -100,12 +111,11 @@ function Chat() {
 
     target.addEventListener('scroll', scroll);
     return () => target.removeEventListener('scroll', scroll);
-  }, [messages]);
+  }, []);
 
   const active = useCurrentMemberCount();
   const isSubscribed = useIsSubscribed();
   const members = useMembers();
-  console.log(members);
 
   return (
     <main className="flex max-h-[356px] min-h-full flex-col">
@@ -123,8 +133,8 @@ function Chat() {
           )}
         </div>
       </div>
-      <div className="relative h-[calc(100%-77px)] overflow-hidden">
-        <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
+      <div className="relative h-[calc(100%-77px)] min-h-[280px] overflow-hidden">
+        <div className="h-full min-h-[280px] overflow-y-auto scrollbar-hide" ref={ref}>
           <ul
             className="flex flex-col justify-end divide-y divide-gray-200"
             ref={listRef}
@@ -178,7 +188,6 @@ function Chat() {
             placeholder="Message"
             value={message}
             onChange={e => setMessage(e.target.value)}
-            ref={msgInputRef}
             className="block w-full grow appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm placeholder:text-gray-400 focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
           <button
