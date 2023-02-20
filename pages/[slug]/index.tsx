@@ -12,7 +12,7 @@ export default function ProjectPage() {
 
   return (
     <Container>
-      <MaxWidthWrapper className="pb-5">
+      <MaxWidthWrapper className="pb-10">
         <div>
           {!(status === 'success') ? (
             <>
@@ -28,8 +28,8 @@ export default function ProjectPage() {
         </div>
         <div
           className={cn(
-            'mt-10',
-            isOwner ? 'grid grid-cols-2 gap-2 -sm:grid-cols-1 -sm:gap-20' : ''
+            'mt-10 grid gap-2 -sm:grid-cols-1 -sm:gap-20',
+            isOwner ? 'grid-cols-2' : 'grid-cols-1'
           )}
         >
           {isOwner && (

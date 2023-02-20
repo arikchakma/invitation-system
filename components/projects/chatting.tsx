@@ -123,7 +123,7 @@ function Chat() {
           )}
         </div>
       </div>
-      <div className="relative h-[calc(100%-77px)] min-h-[280px] overflow-hidden">
+      <div className="relative h-[calc(100%-77px)] overflow-hidden">
         <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
           <ul
             className="flex flex-col justify-end divide-y divide-gray-200"
@@ -184,7 +184,7 @@ function Chat() {
           <button
             type="submit"
             disabled={!isSubscribed}
-            className="inline-flex h-full min-h-[42px] items-center justify-center rounded-md border border-transparent bg-black px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-60"
+            className="inline-flex h-full items-center justify-center rounded-md border border-transparent bg-black px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-60"
           >
             Send
           </button>
