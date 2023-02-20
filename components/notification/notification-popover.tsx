@@ -10,8 +10,8 @@ import { useNotifications } from '@/utils/use-notifications';
 import { Popover, PopoverContent, PopoverTrigger } from '../shared/popover';
 
 export default function NotificationPopover() {
-  const { notifications } = useNotifications();
-  console.log(notifications)
+  const { notifications, reset } = useNotifications();
+  console.log(notifications);
 
   return (
     <Popover>
@@ -20,19 +20,15 @@ export default function NotificationPopover() {
       </PopoverTrigger>
       <PopoverContent align="end">
         <div className="flex flex-col space-y-4">
-          {/* {notifications?.map(notification => (
-            <div
-              key={notification.project.slug}
-              className="flex items-center space-x-4"
-            >
+          {notifications?.map(notification => (
+            <div key={notification.id} className="flex items-center space-x-4">
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">
-                  {notification.project.name}
+                  {notification.message}
                 </p>
               </div>
             </div>
-          ))} */}
-          <p>Notifications</p>
+          ))}
         </div>
       </PopoverContent>
     </Popover>
@@ -44,7 +40,7 @@ const NotificationButton = forwardRef(
     props: ButtonHTMLAttributes<HTMLButtonElement>,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
-    const { count, reset } = useNotifications();
+    const { count } = useNotifications();
     return (
       <button
         {...props}
@@ -58,7 +54,6 @@ const NotificationButton = forwardRef(
             '--content': `"${count}"`,
           } as CSSProperties
         }
-        onClick={reset}
       >
         <BellIcon className="h-5 w-5 stroke-black stroke-2" />
       </button>

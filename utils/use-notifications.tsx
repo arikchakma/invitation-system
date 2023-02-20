@@ -6,13 +6,13 @@ import { usePrivateSubscribeToEvent } from '@/lib/stores/private-pusher-store';
 import { fetcher } from './fetcher';
 
 export function useNotifications() {
-  const [notifications, setNotifications] = useState<PendingInvitationsProps[]>(
+  const [notifications, setNotifications] = useState<any[]>(
     []
   );
   const { count, reset, increase } = useNotificationsStore();
 
-  const { refetch } = useQuery<PendingInvitationsProps[]>(
-    ['pendingInvitations'],
+  const { refetch } = useQuery<any[]>(
+    ['notifications'],
     async () => {
       return await fetcher('/api/notifications');
     },
@@ -23,7 +23,7 @@ export function useNotifications() {
     }
   );
 
-  usePrivateSubscribeToEvent<PendingInvitationsProps>(
+  usePrivateSubscribeToEvent<any>(
     'new-project-invitations',
     invitation => {
       refetch();

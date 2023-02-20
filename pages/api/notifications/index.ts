@@ -24,7 +24,7 @@ export default withUserAuth(
         return res.status(404).json({ message: 'No notifications found' });
       }
 
-      return res.status(200).json({ notifications });
+      return res.status(200).json(notifications);
     } else if (req.method === 'PUT') {
       const { id } = req.body;
 
