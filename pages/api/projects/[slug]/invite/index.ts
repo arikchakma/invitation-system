@@ -97,13 +97,31 @@ export default withProjectAuth(
           },
         });
 
-        await pusherServerClient.trigger(
-          `private-user-${user?.id}`,
-          'new-project-invitations',
-          {
-            message: `You have been invited to join ${project?.name}`,
-          }
-        );
+        if (user) {
+          await prisma.notifications.create({
+            data: {
+              message: `You have been invited to join ${project?.name}`,
+              type: 'INVITE',
+              user: {
+                connect: {
+                  id: user?.id,
+                },
+              },
+              project: {
+                connect: {
+                  id: project?.id,
+                },
+              },
+            },
+          });
+          await pusherServerClient.trigger(
+            `private-user-${user?.id}`,
+            'new-project-invitations',
+            {
+              message: `You have been invited to join ${project?.name}`,
+            }
+          );
+        }
 
         const params = new URLSearchParams({
           callbackUrl: `${process.env.NEXTAUTH_URL}/`,
@@ -122,6 +140,11 @@ export default withProjectAuth(
        * DELETE: /api/projects/[slug]/invite – delete an invitation
        */
       const { email } = JSON.parse(req.body);
+      const user = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
       const invite = await prisma.projectInvite.findFirst({
         where: {
           projectId: project?.id,
@@ -139,6 +162,25 @@ export default withProjectAuth(
           },
         },
       });
+
+      if (user) {
+        await prisma.notifications.delete({
+          where: {
+            userId_projectId: {
+              userId: user?.id,
+              projectId: project?.id!,
+            },
+          },
+        });
+
+        await pusherServerClient.trigger(
+          `private-user-${user?.id}`,
+          'project-invitation-delete',
+          {
+            message: `You have been removed from ${project?.name}`,
+          }
+        );
+      }
       return res.status(200).json({ message: 'Invite deleted' });
     } else {
       res.setHeader('Allow', ['GET', 'POST', 'DELETE']);

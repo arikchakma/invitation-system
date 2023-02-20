@@ -1,35 +1,43 @@
 import { useState } from 'react';
-import { PendingInvitationsProps } from '@/types/project';
-import { useQuery } from '@tanstack/react-query';
-import { useNotificationsStore } from '@/lib/stores/notifications-store';
+import { NotificationsUnseenProps } from '@/types/project';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { usePrivateSubscribeToEvent } from '@/lib/stores/private-pusher-store';
 import { fetcher } from './fetcher';
 
 export function useNotifications() {
-  const [notifications, setNotifications] = useState<PendingInvitationsProps[]>(
-    []
-  );
-  const { count, reset, increase } = useNotificationsStore();
+  const [notifications, setNotifications] = useState<
+    NotificationsUnseenProps[]
+  >([]);
+  const [count, setCount] = useState(0);
 
-  const { refetch } = useQuery<PendingInvitationsProps[]>(
-    ['pendingInvitations'],
+  const { refetch } = useQuery<NotificationsUnseenProps[]>(
+    ['notifications'],
     async () => {
-      return await fetcher('/api/projects/get-user-invitations');
+      return await fetcher('/api/notifications');
     },
     {
       onSuccess: data => {
         setNotifications(data);
+        setCount(data.filter(n => !n.seen).length);
       },
     }
   );
 
-  usePrivateSubscribeToEvent<PendingInvitationsProps>(
-    'new-project-invitations',
-    invitation => {
+  const seeNotification = useMutation({
+    mutationFn: async () => {
+      return (
+        await fetch('/api/notifications', {
+          method: 'PUT',
+        })
+      ).json() as Promise<{ message: string }>;
+    },
+    onSuccess: () => {
       refetch();
-      increase();
-    }
-  );
+    },
+  });
 
-  return { notifications, count, reset };
+  usePrivateSubscribeToEvent('new-project-invitations', () => refetch());
+  usePrivateSubscribeToEvent('project-invitation-delete', () => refetch());
+
+  return { notifications, count, seen: seeNotification.mutate };
 }

@@ -48,6 +48,7 @@ model User {
   sessions        Session[]
   projects        ProjectUser[]
   ProjectMessages ProjectMessages[]
+  Notifications   Notifications[]
 }
 
 model VerificationToken {
@@ -66,6 +67,7 @@ model Project {
   users           ProjectUser[]
   invites         ProjectInvite[]
   ProjectMessages ProjectMessages[]
+  Notifications   Notifications[]
 }
 
 model ProjectUser {
@@ -103,6 +105,28 @@ model ProjectMessages {
   projectId String
   message   String
 
+  @@index([userId])
+  @@index([projectId])
+}
+
+enum NotificationType {
+  INVITE
+  MESSAGE
+}
+
+model Notifications {
+  id        String           @id @default(cuid())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  project   Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  message   String
+  seen      Boolean          @default(false)
+  type      NotificationType
+
+  @@unique([userId, projectId])
   @@index([userId])
   @@index([projectId])
 }
