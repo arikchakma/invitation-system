@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import sendMail from 'emails';
 import { withProjectAuth } from '@/lib/auth';
 import { hashToken } from '@/lib/hash-token';
 import prisma from '@/lib/prisma';
@@ -130,6 +131,13 @@ export default withProjectAuth(
         });
 
         const url = `${process.env.NEXTAUTH_URL}/api/auth/callback/email?${params}`;
+        sendMail({
+          subject: `You have been invited to join ${project?.name}`,
+          to: email,
+          html: `<p>You have been invited to join ${project?.name}.</p>
+          Click <a href="${url}">here</a> to accept the invitation.
+          `,
+        });
 
         return res.status(200).json({ message: 'Invite sent', url });
       } catch (error) {
