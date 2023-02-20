@@ -17,6 +17,7 @@ function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [message, setMessage] = useState('');
+  const [shouldScroll, setShouldScroll] = useState(true);
   const msgInputRef = useRef<HTMLInputElement>(null);
   const { data } = useSession();
   const { project } = useProject();
@@ -38,6 +39,11 @@ function Chat() {
       enabled: !!project,
       onSuccess: data => {
         setMessages((data as any).messages);
+        if (messages.length === (data as any).messages.length) {
+          setShouldScroll(false)
+        } else {
+          setShouldScroll(true)
+        }
       },
     }
   );
@@ -52,11 +58,10 @@ function Chat() {
   }
 
   useSubscribeToEvent('new-message', data => {
-    console.log(data);
-
     // Updates the dom synchronously
     // flushSync(() => {
     setMessages(messages => [...messages, data as any]);
+    setShouldScroll(true)
     // });
     // scrollToLastChild();
   });
@@ -64,13 +69,20 @@ function Chat() {
 
   // Might use later
   useEffect(() => {
-    let lastChild = listRef.current?.lastElementChild;
-    lastChild?.scrollIntoView({
-      block: 'end',
-      inline: 'nearest',
-      behavior: 'smooth',
-    });
-  }, [messages]);
+    // let lastChild = listRef.current?.lastElementChild;
+    // lastChild?.scrollIntoView({
+    //   block: 'end',
+    //   inline: 'nearest',
+    //   behavior: 'smooth',
+    // });
+    const target = ref.current;
+    if (target && shouldScroll) {
+      target.scrollTo({
+        top: target.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [shouldScroll]);
 
   useEffect(() => {
     const target = ref.current;
