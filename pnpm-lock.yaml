@@ -23,7 +23,6 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   eslint-plugin-react: ^7.32.2
   eslint-plugin-tailwindcss: ^3.8.3
-  lucide-react: ^0.115.0
   mailing: ^0.9.10
   mailing-core: ^0.9.10
   mjml: ^4.13.0
@@ -63,7 +62,6 @@ dependencies:
   encoding: 0.1.13
   eslint: 8.29.0
   eslint-config-next: 13.0.7_ha6vam6werchizxrnqvarmz2zu
-  lucide-react: 0.115.0_react@18.2.0
   mailing-core: 0.9.10_a37btljrart7w22t3urww6glry
   mjml: 4.13.0_encoding@0.1.13
   mjml-react: 2.0.8_7tbcn2mecc3yvuxakflodiks3m
@@ -3599,14 +3597,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
-
-  /lucide-react/0.115.0_react@18.2.0:
-    resolution: {integrity: sha512-VGL7jBKN6pEXi6peXoyn9t9O7olvinaAonnoe+iFi/F2q7/yQzAFM5KR1OY15u9PlrB3scI9HvcTFoOrIjUaVQ==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
