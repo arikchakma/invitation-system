@@ -4,10 +4,11 @@ import InviteUserForm from '@/components/projects/invite-user-form';
 import UsersTable from '@/components/projects/users-table';
 import Container from '@/layouts/container';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
+import { cn } from '@/utils/cn';
 import useProject from '@/utils/use-project';
 
 export default function ProjectPage() {
-  const { project, status, error } = useProject();
+  const { project, status, error, isOwner } = useProject();
 
   return (
     <Container>
@@ -25,14 +26,21 @@ export default function ProjectPage() {
             </>
           )}
         </div>
-        <div className="mt-10 grid grid-cols-2 gap-2 -sm:grid-cols-1 -sm:gap-20">
-          <div className="-sm:row-start-2">
-            <InviteUserForm />
-            <div className="mt-10">
-              <UsersTable />
-              <InvitationsTable />
+        <div
+          className={cn(
+            'mt-10',
+            isOwner ? 'grid grid-cols-2 gap-2 -sm:grid-cols-1 -sm:gap-20' : ''
+          )}
+        >
+          {isOwner && (
+            <div className="-sm:row-start-2">
+              <InviteUserForm />
+              <div className="mt-10">
+                <UsersTable />
+                <InvitationsTable />
+              </div>
             </div>
-          </div>
+          )}
           <ChatWrapper />
         </div>
 
