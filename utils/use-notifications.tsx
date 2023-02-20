@@ -36,12 +36,8 @@ export function useNotifications() {
     },
   });
 
-  usePrivateSubscribeToEvent<NotificationsUnseenProps>(
-    'new-project-invitations',
-    invitation => {
-      refetch();
-    }
-  );
+  usePrivateSubscribeToEvent('new-project-invitations', () => refetch());
+  usePrivateSubscribeToEvent('project-invitation-delete', () => refetch());
 
   return { notifications, count, seen: seeNotification.mutate };
 }
