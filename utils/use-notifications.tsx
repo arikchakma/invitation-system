@@ -23,17 +23,16 @@ export function useNotifications() {
     }
   );
 
-  const seen = useMutation({
+  const seeNotification = useMutation({
     mutationFn: async () => {
       return (
         await fetch('/api/notifications', {
           method: 'PUT',
-          // body: JSON.stringify(''),
         })
       ).json() as Promise<{ message: string }>;
     },
     onSuccess: () => {
-      setCount(0);
+      refetch();
     },
   });
 
@@ -44,5 +43,5 @@ export function useNotifications() {
     }
   );
 
-  return { notifications, count, seen: seen.mutate };
+  return { notifications, count, seen: seeNotification.mutate };
 }

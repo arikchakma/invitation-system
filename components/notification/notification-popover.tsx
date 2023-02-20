@@ -4,16 +4,23 @@ import {
   ForwardedRef,
   SVGProps,
   forwardRef,
+  useState,
 } from 'react';
 import { cn } from '@/utils/cn';
 import { useNotifications } from '@/utils/use-notifications';
 import { Popover, PopoverContent, PopoverTrigger } from '../shared/popover';
 
 export default function NotificationPopover() {
-  const { notifications } = useNotifications();
+  const [open, setOpen] = useState(false);
+  const { notifications, seen } = useNotifications();
+
+  const onOpenChange = () => {
+    setOpen(p => !p);
+    seen();
+  };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <NotificationButton />
       </PopoverTrigger>
