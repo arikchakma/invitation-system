@@ -21,6 +21,7 @@
     "encoding": "^0.1.13",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.7",
+    "lucide-react": "^0.115.0",
     "mailing-core": "^0.9.10",
     "mjml": "^4.13.0",
     "mjml-react": "^2.0.8",

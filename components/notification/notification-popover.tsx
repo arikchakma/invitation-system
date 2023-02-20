@@ -8,7 +8,18 @@ import {
 } from 'react';
 import { cn } from '@/utils/cn';
 import { useNotifications } from '@/utils/use-notifications';
+import {
+  InvitationSeenIcon,
+  InvitationUnseenIcon,
+} from '../icons/message-icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../shared/popover';
+
+const icons = {
+  INVITE_UNSEEN: <InvitationUnseenIcon />,
+  INVITE_SEEN: <InvitationSeenIcon />,
+  MESSAGE_UNSEEN: <InvitationUnseenIcon />,
+  MESSAGE_SEEN: <InvitationSeenIcon />,
+};
 
 export default function NotificationPopover() {
   const [open, setOpen] = useState(false);
@@ -16,7 +27,9 @@ export default function NotificationPopover() {
 
   const onOpenChange = () => {
     setOpen(p => !p);
-    seen();
+    if (open) {
+      seen();
+    }
   };
 
   return (
@@ -25,10 +38,24 @@ export default function NotificationPopover() {
         <NotificationButton />
       </PopoverTrigger>
       <PopoverContent align="end">
-        <div className="flex flex-col space-y-4 divide-y">
-          {notifications?.map(notification => (
-            <div key={notification.id} className="flex items-center space-x-4">
-              <span></span>
+        <div className="flex flex-col divide-y">
+          {notifications?.map((notification, index) => (
+            <div
+              key={notification.id}
+              className={cn(
+                'flex items-center space-x-4',
+                index === 0 ? 'pb-4' : 'pt-4'
+              )}
+            >
+              <span>
+                {
+                  icons[
+                    `${notification.type}_${
+                      notification.seen ? 'SEEN' : 'UNSEEN'
+                    }`
+                  ]
+                }
+              </span>
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">
                   {notification.message}
