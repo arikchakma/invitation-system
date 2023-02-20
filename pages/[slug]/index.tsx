@@ -25,7 +25,7 @@ export default function ProjectPage() {
             </>
           )}
         </div>
-        <div className="mt-10 grid grid-cols-2 gap-2 -sm:grid-cols-1">
+        <div className="mt-10 grid grid-cols-2 gap-2 -sm:grid-cols-1 -sm:gap-20">
           <div className="-sm:row-start-2">
             <InviteUserForm />
             <div className="mt-10">
