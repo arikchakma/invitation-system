@@ -37,15 +37,12 @@ export default function NotificationPopover() {
       <PopoverTrigger asChild>
         <NotificationButton />
       </PopoverTrigger>
-      <PopoverContent align="end">
+      <PopoverContent align="end" className="p-0">
         <div className="flex flex-col divide-y">
           {notifications?.map((notification, index) => (
             <div
               key={notification.id}
-              className={cn(
-                'flex items-center space-x-4',
-                index === 0 ? 'pb-4' : 'pt-4'
-              )}
+              className={cn('flex items-center space-x-4 p-4')}
             >
               <span>
                 {
