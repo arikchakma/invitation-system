@@ -7,6 +7,7 @@ import {
   PusherProvider,
   useCurrentMemberCount,
   useIsSubscribed,
+  useMembers,
   useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
 import { QueryError, fetcher } from '@/utils/fetcher';
@@ -103,13 +104,26 @@ function Chat() {
 
   const active = useCurrentMemberCount();
   const isSubscribed = useIsSubscribed();
+  const members = useMembers();
+  console.log(members);
 
   return (
     <main className="flex max-h-[356px] min-h-full flex-col">
       <div className="w-full rounded bg-gray-100 p-2 font-semibold text-gray-800">
         {active} active users.
+        <div className="flex w-full gap-2 overflow-x-auto scrollbar-hide">
+          {isSubscribed && (
+            <>
+              {members.map(m => (
+                <span key={m.id} className="text-sm font-normal">
+                  {m.email}
+                </span>
+              ))}
+            </>
+          )}
+        </div>
       </div>
-      <div className="relative h-[calc(100%-77px)] overflow-hidden">
+      <div className="relative h-[calc(100%-77px)] min-h-[280px] overflow-hidden">
         <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
           <ul
             className="flex flex-col justify-end divide-y divide-gray-200"

@@ -156,3 +156,15 @@ export const useIsSubscribed = () => {
   const store = React.useContext(PusherContext);
   return useStore(store, s => s.isSubscribed);
 };
+
+export const useMembers = () => {
+  const store = React.useContext(PusherContext);
+  return Array.from(
+    useStore(store, s => s.members),
+    ([id, member]) => ({
+      id,
+      email: member.email,
+      name: member.name,
+    })
+  ) as { id: string; email: string; name: string }[];
+};
