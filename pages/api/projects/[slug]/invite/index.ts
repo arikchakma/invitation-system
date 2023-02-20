@@ -97,13 +97,31 @@ export default withProjectAuth(
           },
         });
 
-        await pusherServerClient.trigger(
-          `private-user-${user?.id}`,
-          'new-project-invitations',
-          {
-            message: `You have been invited to join ${project?.name}`,
-          }
-        );
+        if (user) {
+          await prisma.notifications.create({
+            data: {
+              message: `You have been invited to join ${project?.name}`,
+              type: 'INVITE',
+              user: {
+                connect: {
+                  id: user?.id,
+                },
+              },
+              project: {
+                connect: {
+                  id: project?.id,
+                },
+              }
+            },
+          });
+          await pusherServerClient.trigger(
+            `private-user-${user?.id}`,
+            'new-project-invitations',
+            {
+              message: `You have been invited to join ${project?.name}`,
+            }
+          );
+        }
 
         const params = new URLSearchParams({
           callbackUrl: `${process.env.NEXTAUTH_URL}/`,
