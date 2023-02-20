@@ -26,11 +26,9 @@ export default withUserAuth(
 
       return res.status(200).json(notifications);
     } else if (req.method === 'PUT') {
-      const { id } = req.body;
-
-      const notification = await prisma.notifications.update({
+      const notification = await prisma.notifications.updateMany({
         where: {
-          id,
+          seen: false,
         },
         data: {
           seen: true,
