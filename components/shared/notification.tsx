@@ -1,9 +1,6 @@
 import { CSSProperties, SVGProps } from 'react';
-import { PendingInvitationsProps } from '@/types/project';
-import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { PrivatePusherProvider } from '@/lib/stores/private-pusher-store';
-import { fetcher } from '@/utils/fetcher';
 import { useNotifications } from '@/utils/use-notifications';
 
 function NotificationWrapper() {
