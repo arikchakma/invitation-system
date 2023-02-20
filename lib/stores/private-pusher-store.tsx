@@ -3,12 +3,10 @@
  *
  * This context is used to provide the pusher store to all components
  */
-import { createContext } from 'react';
 
 /**
  * Provider for Pusher Context
- */
-import React, { useEffect, useState } from 'react';
+ */ import React, { createContext, useEffect, useState } from 'react';
 import Pusher, { Channel, PresenceChannel } from 'pusher-js';
 import { useStore } from 'zustand';
 import { StoreApi, createStore } from 'zustand/vanilla';
@@ -48,7 +46,6 @@ const createPusherStore = (slug: string) => {
     });
   }
 
-
   const privateChannel = pusherClient.subscribe(
     `private-${slug}`
   ) as PresenceChannel;
@@ -61,7 +58,7 @@ const createPusherStore = (slug: string) => {
   // Bind all "present users changed" events to trigger updateMembers
   privateChannel.bind('pusher:subscription_succeeded', () => {
     store.setState({
-      privateChannel
+      privateChannel,
     });
   });
 

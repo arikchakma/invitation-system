@@ -3,12 +3,10 @@
  *
  * This context is used to provide the pusher store to all components
  */
-import { createContext } from 'react';
 
 /**
  * Provider for Pusher Context
- */
-import React, { useEffect, useState } from 'react';
+ */ import React, { createContext, useEffect, useState } from 'react';
 import Pusher, { Channel, PresenceChannel } from 'pusher-js';
 import { useStore } from 'zustand';
 import { StoreApi, createStore } from 'zustand/vanilla';
@@ -18,6 +16,7 @@ interface PusherZustandStore {
   // channel: Channel;
   presenceChannel: PresenceChannel;
   members: Map<string, any>;
+  isSubscribed: boolean;
 }
 
 const pusher_key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY!;
@@ -61,6 +60,7 @@ const createPusherStore = (slug: string) => {
     // channel,
     presenceChannel,
     members: new Map(),
+    isSubscribed: false,
   }));
 
   // Update helper that sets 'members' to contents of presence channel's current members
@@ -71,7 +71,12 @@ const createPusherStore = (slug: string) => {
   };
 
   // Bind all "present users changed" events to trigger updateMembers
-  presenceChannel.bind('pusher:subscription_succeeded', updateMembers);
+  presenceChannel.bind('pusher:subscription_succeeded', () => {
+    updateMembers();
+    store.setState({
+      isSubscribed: true,
+    });
+  });
   presenceChannel.bind('pusher:member_added', updateMembers);
   presenceChannel.bind('pusher:member_removed', updateMembers);
 
@@ -145,4 +150,21 @@ export const useCurrentMemberCount = () => {
   const store = React.useContext(PusherContext);
   const members = useStore(store, s => s.members);
   return members.size;
+};
+
+export const useIsSubscribed = () => {
+  const store = React.useContext(PusherContext);
+  return useStore(store, s => s.isSubscribed);
+};
+
+export const useMembers = () => {
+  const store = React.useContext(PusherContext);
+  return Array.from(
+    useStore(store, s => s.members),
+    ([id, member]) => ({
+      id,
+      email: member.email,
+      name: member.name,
+    })
+  ) as { id: string; email: string; name: string }[];
 };

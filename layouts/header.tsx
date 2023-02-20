@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <header className="mb-10">
       {session.data ? (
-        <h1 className="bg-gradient-to-br from-slate-900 to-slate-200 bg-clip-text text-3xl font-bold text-transparent">
+        <h1 className="bg-gradient-to-br from-slate-900 to-slate-200 bg-clip-text text-3xl font-bold text-transparent -sm:text-2xl">
           {session?.data?.user?.email}
         </h1>
       ) : (
@@ -51,7 +51,7 @@ export default function Header() {
         <Notification />
       </div>
 
-      <p className="mt-5 font-semibold text-gray-800">
+      <p className="mt-5 font-semibold text-gray-800 -xs:hidden">
         Press <KBD>h</KBD> to go home and <KBD>p</KBD> to go projects.
       </p>
     </header>

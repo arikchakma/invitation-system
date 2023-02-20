@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import { useRouter } from 'next/router';
 import { ProjectProps } from '@/types/project';
 import { useQuery } from '@tanstack/react-query';
 import { QueryError, fetcher } from './fetcher';
