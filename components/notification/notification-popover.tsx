@@ -17,7 +17,7 @@ export default function NotificationPopover() {
       <PopoverTrigger>
         <NotificationButton />
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent align="end">
         <div className="flex flex-col space-y-4">
           {notifications.map(notification => (
             <div
