@@ -1,4 +1,4 @@
-import ChatWrapper from '@/components/projects/chatting';
+import ChatWrapper from '@/components/chat';
 import InvitationsTable from '@/components/projects/invitations-table';
 import InviteUserForm from '@/components/projects/invite-user-form';
 import UsersTable from '@/components/projects/users-table';
@@ -32,8 +32,9 @@ export default function ProjectPage() {
             isOwner ? 'grid-cols-2' : 'grid-cols-1'
           )}
         >
+          <ChatWrapper />
           {isOwner && (
-            <div className="-sm:row-start-2">
+            <div>
               <InviteUserForm />
               <div className="mt-10">
                 <UsersTable />
@@ -41,7 +42,6 @@ export default function ProjectPage() {
               </div>
             </div>
           )}
-          <ChatWrapper />
         </div>
 
         {status === 'error' && (

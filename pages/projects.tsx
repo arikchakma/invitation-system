@@ -31,6 +31,9 @@ export default function Projects() {
       queryClient.prefetchQuery(['invitations', slug], async () => {
         return fetcher(`/api/projects/${slug}/invite`);
       });
+      queryClient.prefetchQuery(['messages', slug], async () => {
+        return fetcher(`/api/projects/${slug}/message`);
+      });
       cache.set(slug, true);
     },
     [cache, queryClient]

@@ -31,7 +31,7 @@ function Chat() {
   >([]);
 
   const fetchedMessages = useQuery<any, QueryError>(
-    ['messages', project?.id],
+    ['messages', project?.slug],
     () => fetcher(`/api/projects/${project?.slug}/message`),
     {
       enabled: !!project,
