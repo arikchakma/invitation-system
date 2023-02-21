@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import cn from 'clsx';
 import { useSession } from 'next-auth/react';
-import { flushSync } from 'react-dom';
+// import { flushSync } from 'react-dom';
 import {
   PusherProvider,
   useCurrentMemberCount,
@@ -17,7 +17,6 @@ import SendMessage from './send-message';
 function Chat() {
   const ref = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
-  const [message, setMessage] = useState('');
   const { data } = useSession();
   const { project } = useProject();
   const [overlay, setOverlay] = useState({
@@ -37,9 +36,6 @@ function Chat() {
     {
       enabled: !!project,
       onSuccess: data => {
-        // if (messages.length !== (data as any).messages.length) {
-        //   setMessages((data as any).messages);
-        // }
         setMessages((data as any).messages);
       },
     }
@@ -61,16 +57,9 @@ function Chat() {
     // });
     // scrollToLastChild();
   });
-  // useSubscribeToEvent('new-message', () => fetchedMessages.refetch());
 
   // Might use later
   useEffect(() => {
-    // let lastChild = listRef.current?.lastElementChild;
-    // lastChild?.scrollIntoView({
-    //   block: 'end',
-    //   inline: 'nearest',
-    //   behavior: 'smooth',
-    // });
     const target = ref.current;
     if (target) {
       target.scrollTo({
@@ -167,7 +156,7 @@ function Chat() {
             overlay.bottom &&
               'after:absolute after:bottom-0 after:h-20 after:w-full after:bg-gradient-to-t after:from-white after:to-transparent'
           )}
-        ></div>
+        />
       </div>
       <SendMessage />
     </main>
