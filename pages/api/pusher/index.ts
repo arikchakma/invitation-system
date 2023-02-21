@@ -6,14 +6,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { message, sender } = req.body;
-  console.log(message, sender);
-  // console.log('Pusher: ', pusherServerClient)
   try {
     const response = await pusherServerClient.trigger('chat', 'chat-event', {
       message,
       sender,
     });
-    console.log('Response: ', response);
   } catch (error) {
     console.error('Pusher error: ', error);
   }

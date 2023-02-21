@@ -78,14 +78,17 @@ export const PrivatePusherProvider: React.FC<
     const newStore = createPusherStore(slug);
     updateStore(newStore);
     const unsubscribe = newStore.subscribe(() => {
-      console.log('Pusher Store Updated', newStore.getState());
+      if (process.env.NODE_ENV === 'development')
+        console.log('Pusher Store Updated', newStore.getState());
     });
     return () => {
       const pusher = newStore.getState().pusherClient;
-      console.log('disconnecting pusher and destroying store', pusher);
-      console.log(
-        '(Expect a warning in terminal after this, React Dev Mode and all)'
-      );
+      if (process.env.NODE_ENV === 'development')
+        console.log('disconnecting pusher and destroying store', pusher);
+      if (process.env.NODE_ENV === 'development')
+        console.log(
+          '(Expect a warning in terminal after this, React Dev Mode and all)'
+        );
       pusher.disconnect();
       unsubscribe();
     };
