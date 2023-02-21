@@ -41,7 +41,7 @@ export default withProjectAuth(async function handler(
         projectId: project?.id!,
       },
     });
-    const pusherRes = await pusherServerClient.trigger(
+    await pusherServerClient.trigger(
       `presence-project-${project?.id}`,
       'new-message',
       {
@@ -50,7 +50,6 @@ export default withProjectAuth(async function handler(
         sender: session?.user?.email,
       }
     );
-    console.log(pusherRes);
     res.status(200).json({ message, sender: session?.user?.email });
   } else {
     res.setHeader('Allow', ['GET', 'POST']);

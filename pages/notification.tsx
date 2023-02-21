@@ -32,7 +32,5 @@ function NotificationBox() {
     setInvites(prev => [...prev, data]);
   });
 
-  console.log(invites);
-
   return <>Hello</>;
 }
