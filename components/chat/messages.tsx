@@ -108,6 +108,7 @@ export default function Messages() {
         </ul>
       </div>
       <div
+        aria-label="Messages overflow overlay"
         aria-hidden
         className={cn(
           'pointer-events-none absolute bottom-0 h-full w-full touch-none',
