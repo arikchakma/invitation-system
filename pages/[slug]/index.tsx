@@ -1,4 +1,4 @@
-import ChatWrapper from '@/components/projects/chatting';
+import ChatWrapper from '@/components/chat';
 import InvitationsTable from '@/components/projects/invitations-table';
 import InviteUserForm from '@/components/projects/invite-user-form';
 import UsersTable from '@/components/projects/users-table';
