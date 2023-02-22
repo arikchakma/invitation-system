@@ -84,11 +84,8 @@ export default function Messages() {
   }, []);
 
   return (
-    <div className="relative h-[calc(100%-77px)] min-h-[280px] overflow-hidden">
-      <div
-        className="h-full min-h-[280px] overflow-y-auto scrollbar-hide"
-        ref={ref}
-      >
+    <div className="relative h-full overflow-hidden">
+      <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
         <ul className="flex flex-col justify-end divide-y divide-gray-200">
           {messages.map((message, index) => (
             <li key={index}>
