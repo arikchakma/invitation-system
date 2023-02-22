@@ -29,7 +29,7 @@ const pusher_server_port = parseInt(
 const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
 const pusher_server_cluster = 'us2';
 
-const createPusherStore = (slug: string, userId: string) => {
+const createPusherStore = (slug: string) => {
   Pusher.logToConsole = process.env.NODE_ENV === 'development';
   let pusherClient: Pusher;
   if (Pusher.instances.length) {
@@ -47,15 +47,11 @@ const createPusherStore = (slug: string, userId: string) => {
       userAuthentication: {
         endpoint: '/api/pusher/auth-user',
         transport: 'jsonp',
-        // params: { user_id: userId },
-      },
-      auth: {
-        headers: { user_id: userId },
       },
     });
   }
 
-  pusherClient.signin()
+  pusherClient.signin();
 
   // const channel = pusherClient.subscribe(slug);
 
@@ -97,10 +93,9 @@ export const PusherProvider: React.FC<
   React.PropsWithChildren<{ slug: string }>
 > = ({ children, slug }) => {
   const [store, updateStore] = useState<ReturnType<typeof createPusherStore>>();
-  const id = useSession().data?.user?.id;
 
   useEffect(() => {
-    const newStore = createPusherStore(slug, id!);
+    const newStore = createPusherStore(slug);
     updateStore(newStore);
     const unsubscribe = newStore.subscribe(() => {
       if (process.env.NODE_ENV === 'development')
@@ -117,7 +112,7 @@ export const PusherProvider: React.FC<
       pusher.disconnect();
       unsubscribe();
     };
-  }, [slug, id]);
+  }, [slug]);
 
   if (!store) return null;
 

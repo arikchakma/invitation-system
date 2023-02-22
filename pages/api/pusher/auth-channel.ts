@@ -8,11 +8,6 @@ export default async function pusherAuthEndpoint(
   res: NextApiResponse
 ) {
   const { channel_name, socket_id } = req.body;
-  const { user_id } = req.headers;
-
-  if (!user_id || typeof user_id !== 'string') {
-    return res.status(404).send('Missing user id.');
-  }
 
   // Check that the socket_id is present
   if (!socket_id)
@@ -26,9 +21,6 @@ export default async function pusherAuthEndpoint(
 
     // If the session doesn't exist or the user is not authenticated, return an error
     if (!session) return res.status(401).send('Unauthorized');
-
-    if (session.user?.id !== user_id)
-      return res.status(401).send('Unauthorized');
 
     const projectId = channel_name.split('-')[2];
 
