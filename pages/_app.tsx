@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css';
+import { PusherWrapper } from '@/lib/stores/pusher-wrapper-store';
 
 const queryClient = new QueryClient();
 
@@ -12,7 +13,9 @@ export default function App({
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <PusherWrapper>
+          <Component {...pageProps} />
+        </PusherWrapper>
       </SessionProvider>
     </QueryClientProvider>
   );

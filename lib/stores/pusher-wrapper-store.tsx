@@ -7,7 +7,7 @@
 /**
  * Provider for Pusher Context
  */ import React, { createContext, useEffect, useState } from 'react';
-import Pusher, { PresenceChannel } from 'pusher-js';
+import Pusher from 'pusher-js';
 import { useStore } from 'zustand';
 import { StoreApi, createStore } from 'zustand/vanilla';
 import { getRandomId } from '@/utils/get-random-id';
@@ -91,6 +91,8 @@ export const PusherWrapper: React.FC<React.PropsWithChildren<{}>> = ({
       unsubscribe();
     };
   }, []);
+
+  console.log('Store Provider: ', store?.getState());
 
   if (!store) return null;
 
