@@ -51,14 +51,20 @@ export default function Chat() {
         </form>
 
         <div className="grid grid-rows-[1fr_280px_1fr]">
-          <div className="w-full rounded bg-gray-100 p-2 font-semibold text-gray-800">
+          <div className="w-full animate-pulse rounded bg-gray-100 p-2 font-semibold text-gray-800">
             <div className="h-9 w-1/2 rounded bg-gray-300" />
             <div className="mt-0.5 h-5 rounded bg-gray-300/80" />
           </div>
           <div className="relative h-full overflow-hidden">
             <ul className="flex h-full flex-col justify-end divide-y divide-gray-200">
               {new Array(6).fill(0).map((_, index) => (
-                <li key={index}>
+                <li
+                  key={index}
+                  className="animate-pulse"
+                  style={{
+                    animationDelay: `0.${index}s`,
+                  }}
+                >
                   <div
                     className={cn(
                       'flex flex-col p-2',
@@ -90,7 +96,7 @@ export default function Chat() {
               )}
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex animate-pulse gap-2">
             <div className="h-10 grow rounded bg-gray-200" />
             <div className="h-10 w-20 rounded bg-gray-600" />
           </div>
