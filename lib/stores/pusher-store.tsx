@@ -60,8 +60,6 @@ const createPusherStore = (slug: string) => {
     });
   }
 
-  pusherClient.signin();
-
   // const channel = pusherClient.subscribe(slug);
 
   const presenceChannel = pusherClient.subscribe(
