@@ -26,6 +26,7 @@ export default function ProjectPage() {
             </>
           )}
         </div>
+
         <div
           className={cn(
             'mt-10 grid gap-2 -sm:grid-cols-1 -sm:gap-20',
