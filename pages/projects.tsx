@@ -41,6 +41,14 @@ export default function Projects() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.repeat
+      ) {
+        return;
+      }
+
       projects?.forEach((project, index) => {
         if (e.key === `${index + 1}`) {
           router.push(`/${project.slug}`);

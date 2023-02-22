@@ -18,6 +18,7 @@ export default withProjectAuth(async function handler(
       select: {
         id: true,
         message: true,
+        createdAt: true,
         user: {
           select: {
             email: true,
@@ -29,6 +30,7 @@ export default withProjectAuth(async function handler(
       id: m.id,
       message: m.message,
       sender: m.user.email,
+      createdAt: m.createdAt,
     }));
     res.status(200).json({ messages: formattedMessages });
   } else if (req.method === 'POST') {
@@ -48,6 +50,7 @@ export default withProjectAuth(async function handler(
         message,
         id: m.id,
         sender: session?.user?.email,
+        createdAt: m.createdAt,
       }
     );
     res.status(200).json({ message, sender: session?.user?.email });
