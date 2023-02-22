@@ -92,8 +92,6 @@ export const PusherWrapper: React.FC<React.PropsWithChildren<{}>> = ({
     };
   }, []);
 
-  console.log('Store Provider: ', store?.getState());
-
   if (!store) return null;
 
   return (
