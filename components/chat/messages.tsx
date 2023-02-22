@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { formatDistanceToNow } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import { useSubscribeToEvent } from '@/lib/stores/pusher-store';
 import { cn } from '@/utils/cn';
@@ -14,6 +15,8 @@ export default function Messages() {
     {
       sender: string;
       message: string;
+      id: string;
+      createdAt: Date;
     }[]
   >([]);
   const [overlay, setOverlay] = useState({
@@ -97,6 +100,13 @@ export default function Messages() {
               >
                 <p className="text-xs font-medium text-gray-600">
                   {data?.user?.email === message.sender ? 'me' : message.sender}
+                  <span aria-hidden="true" className="select-none px-1">
+                    ·
+                  </span>
+                  {formatDistanceToNow(new Date(message.createdAt), {
+                    addSuffix: true,
+                    includeSeconds: true,
+                  })}
                 </p>
                 <p className="font-medium">{message.message}</p>
               </div>
