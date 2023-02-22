@@ -7,10 +7,10 @@
 /**
  * Provider for Pusher Context
  */ import React, { createContext, useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
 import Pusher, { Channel, PresenceChannel } from 'pusher-js';
 import { useStore } from 'zustand';
 import { StoreApi, createStore } from 'zustand/vanilla';
+import { getRandomId } from '@/utils/get-random-id';
 
 interface PusherZustandStore {
   pusherClient: Pusher;
@@ -36,6 +36,7 @@ const createPusherStore = (slug: string) => {
     pusherClient = Pusher.instances[0];
     pusherClient.connect();
   } else {
+    const user_id = `${getRandomId()}`;
     pusherClient = new Pusher(pusher_key, {
       cluster: pusher_server_cluster,
       wsHost: pusher_server_host,
@@ -47,6 +48,14 @@ const createPusherStore = (slug: string) => {
       userAuthentication: {
         endpoint: '/api/pusher/auth-user',
         transport: 'jsonp',
+        headers: {
+          user_id,
+        },
+      },
+      auth: {
+        headers: {
+          user_id,
+        },
       },
     });
   }
