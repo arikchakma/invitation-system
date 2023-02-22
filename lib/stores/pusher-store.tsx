@@ -10,6 +10,7 @@
 import Pusher, { Channel, PresenceChannel } from 'pusher-js';
 import { useStore } from 'zustand';
 import { StoreApi, createStore } from 'zustand/vanilla';
+import { getRandomId } from '@/utils/get-random-id';
 
 interface PusherZustandStore {
   pusherClient: Pusher;
@@ -29,11 +30,13 @@ const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
 const pusher_server_cluster = 'us2';
 
 const createPusherStore = (slug: string) => {
+  Pusher.logToConsole = process.env.NODE_ENV === 'development';
   let pusherClient: Pusher;
   if (Pusher.instances.length) {
     pusherClient = Pusher.instances[0];
     pusherClient.connect();
   } else {
+    const user_id = `${getRandomId()}`;
     pusherClient = new Pusher(pusher_key, {
       cluster: pusher_server_cluster,
       wsHost: pusher_server_host,
@@ -45,9 +48,19 @@ const createPusherStore = (slug: string) => {
       userAuthentication: {
         endpoint: '/api/pusher/auth-user',
         transport: 'jsonp',
+        headers: {
+          user_id,
+        },
+      },
+      auth: {
+        headers: {
+          user_id,
+        },
       },
     });
   }
+
+  pusherClient.signin();
 
   // const channel = pusherClient.subscribe(slug);
 
@@ -149,25 +162,26 @@ export function useSubscribeToEvent<MessageType>(
   }, [channel, eventName]);
 }
 
-export const useCurrentMemberCount = () => {
-  const store = React.useContext(PusherContext);
-  const members = useStore(store, s => s.members);
-  return members.size;
-};
-
 export const useIsSubscribed = () => {
   const store = React.useContext(PusherContext);
   return useStore(store, s => s.isSubscribed);
 };
 
-export const useMembers = () => {
+export const useMembers = (): {
+  members: { id: string; email: string; name: string }[];
+  currentMemberCount: number;
+} => {
   const store = React.useContext(PusherContext);
-  return Array.from(
+  const members = Array.from(
     useStore(store, s => s.members),
     ([id, member]) => ({
       id,
       email: member.email,
       name: member.name,
     })
-  ) as { id: string; email: string; name: string }[];
+  ).filter(
+    (member, index, self) =>
+      index === self.findIndex(m => m.email === member.email)
+  );
+  return { members, currentMemberCount: members.length };
 };

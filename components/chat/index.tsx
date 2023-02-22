@@ -1,24 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import cn from 'clsx';
-import { useSession } from 'next-auth/react';
 // import { flushSync } from 'react-dom';
 import {
   PusherProvider,
-  useCurrentMemberCount,
   useIsSubscribed,
   useMembers,
-  useSubscribeToEvent,
 } from '@/lib/stores/pusher-store';
-import { QueryError, fetcher } from '@/utils/fetcher';
 import useProject from '@/utils/use-project';
 import Messages from './messages';
 import SendMessage from './send-message';
 
 function Chat() {
-  const active = useCurrentMemberCount();
   const isSubscribed = useIsSubscribed();
-  const members = useMembers();
+  const { members, currentMemberCount: active } = useMembers();
 
   return (
     <main className="flex max-h-[356px] min-h-full flex-col">
