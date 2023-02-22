@@ -7,6 +7,7 @@ import {
 import useProject from '@/utils/use-project';
 import Messages from './messages';
 import SendMessage from './send-message';
+import ChatSkeleton from './skeleton';
 
 function Chat() {
   const isSubscribed = useIsSubscribed();
@@ -35,11 +36,17 @@ function Chat() {
 }
 
 export default function ChatWrapper() {
-  const { project } = useProject();
+  const { project, status } = useProject();
 
   return (
-    <PusherProvider slug={`project-${project?.id}`}>
-      <Chat />
-    </PusherProvider>
+    <>
+      {status !== 'success' ? (
+        <ChatSkeleton />
+      ) : (
+        <PusherProvider slug={`project-${project?.id}`}>
+          <Chat />
+        </PusherProvider>
+      )}
+    </>
   );
 }
