@@ -17,9 +17,44 @@ interface PusherZustandStore {
   privateChannel: PresenceChannel;
 }
 
+const pusher_key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY!;
+const pusher_server_host = process.env.NEXT_PUBLIC_PUSHER_SERVER_HOST!;
+const pusher_server_port = parseInt(
+  process.env.NEXT_PUBLIC_PUSHER_SERVER_PORT!,
+  10
+);
+const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
+const pusher_server_cluster = 'us2';
+
 const createPusherStore = (slug: string) => {
-  let pusherClient = Pusher.instances[0];
-  pusherClient.connect();
+  let pusherClient: Pusher;
+  if (Pusher.instances.length) {
+    pusherClient = Pusher.instances[0];
+    pusherClient.connect();
+  } else {
+    const user_id = `${getRandomId()}`;
+    pusherClient = new Pusher(pusher_key, {
+      cluster: pusher_server_cluster,
+      wsHost: pusher_server_host,
+      wsPort: pusher_server_port,
+      enabledTransports: pusher_server_tls ? ['ws', 'wss'] : ['ws'],
+      forceTLS: pusher_server_tls,
+      disableStats: true,
+      authEndpoint: '/api/pusher/auth-channel',
+      userAuthentication: {
+        endpoint: '/api/pusher/auth-user',
+        transport: 'jsonp',
+        headers: {
+          user_id,
+        },
+      },
+      auth: {
+        headers: {
+          user_id,
+        },
+      },
+    });
+  }
 
   const privateChannel = pusherClient.subscribe(
     `private-${slug}`
