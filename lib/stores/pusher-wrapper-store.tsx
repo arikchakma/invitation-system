@@ -25,7 +25,7 @@ const pusher_server_port = parseInt(
 const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === 'true';
 const pusher_server_cluster = 'us2';
 
-const createPusherStore = (slug: string) => {
+const createPusherStore = () => {
   Pusher.logToConsole = process.env.NODE_ENV === 'development';
   let pusherClient: Pusher;
   if (Pusher.instances.length) {
@@ -67,13 +67,13 @@ export const PusherWrapperContext = createContext<
   StoreApi<PusherWrapperZustandStore>
 >(null!);
 
-export const PusherWrapper: React.FC<
-  React.PropsWithChildren<{ slug: string }>
-> = ({ children, slug }) => {
+export const PusherWrapper: React.FC<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const [store, updateStore] = useState<ReturnType<typeof createPusherStore>>();
 
   useEffect(() => {
-    const newStore = createPusherStore(slug);
+    const newStore = createPusherStore();
     updateStore(newStore);
     const unsubscribe = newStore.subscribe(() => {
       if (process.env.NODE_ENV === 'development')
@@ -90,7 +90,7 @@ export const PusherWrapper: React.FC<
       pusher.disconnect();
       unsubscribe();
     };
-  }, [slug]);
+  }, []);
 
   if (!store) return null;
 
