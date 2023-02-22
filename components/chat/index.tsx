@@ -13,7 +13,7 @@ function Chat() {
   const { members, currentMemberCount: active } = useMembers();
 
   return (
-    <main className="flex max-h-[356px] min-h-full flex-col">
+    <main className="grid max-h-[356px] min-h-full grid-rows-[1fr_min(280px,100%)_1fr]">
       <div className="w-full rounded bg-gray-100 p-2 font-semibold text-gray-800">
         {active} active users.
         <div className="flex w-full gap-2 overflow-x-auto scrollbar-hide">
