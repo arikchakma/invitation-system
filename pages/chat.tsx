@@ -27,7 +27,7 @@ export default function Chat() {
 
   return (
     <>
-      <main>
+      <main className="p-10">
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -51,13 +51,13 @@ export default function Chat() {
         </form>
 
         <div className="grid grid-rows-[1fr_280px_1fr]">
-          <div className="w-full rounded bg-red-100 p-2 font-semibold text-gray-800">
-            <div className="h-9 w-1/2 rounded bg-black" />
-            <div className="mt-0.5 h-5 rounded bg-black/50" />
+          <div className="w-full rounded bg-gray-100 p-2 font-semibold text-gray-800">
+            <div className="h-9 w-1/2 rounded bg-gray-300" />
+            <div className="mt-0.5 h-5 rounded bg-gray-300/80" />
           </div>
           <div className="relative h-full overflow-hidden">
             <ul className="flex h-full flex-col justify-end divide-y divide-gray-200">
-              {new Array(8).fill(0).map((_, index) => (
+              {new Array(6).fill(0).map((_, index) => (
                 <li key={index}>
                   <div
                     className={cn(
@@ -67,12 +67,12 @@ export default function Chat() {
                   >
                     <p
                       className={cn(
-                        'h-4 rounded bg-gray-600',
+                        'h-4 rounded bg-gray-300',
                         index % 2 === 0 ? 'w-[180px]' : 'w-[120px]'
                       )}
                     />
                     <p
-                      className="mt-0.5 h-6 rounded bg-black"
+                      className="mt-0.5 h-6 rounded bg-gray-400"
                       style={{
                         width: `${Math.floor(Math.random() * 100) + 10}%`,
                       }}
@@ -91,8 +91,8 @@ export default function Chat() {
             />
           </div>
           <div className="flex gap-2">
-            <div className="h-10 grow rounded bg-black" />
-            <div className="h-10 w-20 rounded bg-black" />
+            <div className="h-10 grow rounded bg-gray-200" />
+            <div className="h-10 w-20 rounded bg-gray-600" />
           </div>
         </div>
       </main>
