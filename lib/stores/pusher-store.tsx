@@ -162,25 +162,26 @@ export function useSubscribeToEvent<MessageType>(
   }, [channel, eventName]);
 }
 
-export const useCurrentMemberCount = () => {
-  const store = React.useContext(PusherContext);
-  const members = useStore(store, s => s.members);
-  return members.size;
-};
-
 export const useIsSubscribed = () => {
   const store = React.useContext(PusherContext);
   return useStore(store, s => s.isSubscribed);
 };
 
-export const useMembers = () => {
+export const useMembers = (): {
+  members: { id: string; email: string; name: string }[];
+  currentMemberCount: number;
+} => {
   const store = React.useContext(PusherContext);
-  return Array.from(
+  const members = Array.from(
     useStore(store, s => s.members),
     ([id, member]) => ({
       id,
       email: member.email,
       name: member.name,
     })
-  ) as { id: string; email: string; name: string }[];
+  ).filter(
+    (member, index, self) =>
+      index === self.findIndex(m => m.email === member.email)
+  );
+  return { members, currentMemberCount: members.length };
 };
