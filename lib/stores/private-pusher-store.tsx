@@ -99,7 +99,7 @@ export const PrivatePusherProvider: React.FC<
         console.log(
           '(Expect a warning in terminal after this, React Dev Mode and all)'
         );
-      pusher.disconnect();
+      pusher.unsubscribe(`private-${slug}`);
       unsubscribe();
     };
   }, [slug]);
