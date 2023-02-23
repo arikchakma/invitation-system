@@ -1,11 +1,13 @@
 # Invitation System
 
-This project is a simple invite system built using Next.js, Prisma, Next-Auth, React Query, mailing.run and Tailwind CSS. It allows you to invite team members to your project. I took the idea from the [dub](https://github.com/steven-tey/dub) project.
+This project is a simple invite system built using Next.js, Prisma, Next-Auth, React Query, mailing.run and Tailwind CSS. It allows you to invite team members to your project. I took the idea from [dub](https://github.com/steven-tey/dub), and [zepdos](https://github.com/pingdotgg/zapdos) project.
 
 ### Features
 
+- Real-time updates using Pusher
+- Database management using Prisma
 - User authentication and registration using Next-Auth
-- Invitation management using Prisma
+- Invitation system
 - Data Fetching using React Query
 - Sending mail using Mailing.run
 - Styling with Tailwind CSS
@@ -43,9 +45,11 @@ You can deploy this application to any environment that supports Next.js. I reco
 - [Next.js](https://nextjs.org) - The web framework used
 - [Prisma](https://prisma.io) - Database management
 - [Next-Auth](https://next-auth.js.org/) - Authentication and authorization
+- [Pusher](https://pusher.com/) - Real-time updates
 - [React Query](https://tanstack.com/query/latest) - Data Fetching
 - [Mailing.run](https://www.mailing.run/) - Sending mail
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Zustand](https://zustand-demo.pmnd.rs/) - State management
 
 ### Contributing
 
