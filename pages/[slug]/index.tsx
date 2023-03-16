@@ -1,14 +1,25 @@
+import { GetServerSideProps } from 'next';
+import { ProjectProps } from '@/types/project';
+import { getServerSession } from 'next-auth';
 import ChatWrapper from '@/components/chat';
 import InvitationsTable from '@/components/projects/invitations-table';
 import InviteUserForm from '@/components/projects/invite-user-form';
 import UsersTable from '@/components/projects/users-table';
+import prisma from '@/lib/prisma';
 import Container from '@/layouts/container';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { cn } from '@/utils/cn';
 import useProject from '@/utils/use-project';
+import { authOptions } from '../api/auth/[...nextauth]';
 
-export default function ProjectPage() {
-  const { project, status, error, isOwner } = useProject();
+export default function ProjectPage({
+  project: _project,
+}: {
+  project: ProjectProps;
+}) {
+  const { project, status, error, isOwner } = useProject({
+    initialData: _project,
+  });
 
   return (
     <Container>
@@ -54,3 +65,41 @@ export default function ProjectPage() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  const { slug } = context.query as {
+    slug: string;
+  };
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  const project = await prisma.project.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      users: {
+        where: {
+          userId: session?.user?.id,
+        },
+        select: {
+          role: true,
+        },
+      },
+    },
+  });
+
+  if (!project) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      project,
+    },
+  };
+};

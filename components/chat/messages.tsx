@@ -8,7 +8,7 @@ import { QueryError, fetcher } from '@/utils/fetcher';
 import useProject from '@/utils/use-project';
 
 export default function Messages() {
-  const { project } = useProject();
+  const { project } = useProject({});
   const { data } = useSession();
   const ref = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<

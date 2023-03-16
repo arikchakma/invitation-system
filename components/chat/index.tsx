@@ -36,7 +36,7 @@ function Chat() {
 }
 
 export default function ChatWrapper() {
-  const { project, status } = useProject();
+  const { project, status } = useProject({});
 
   return (
     <>
