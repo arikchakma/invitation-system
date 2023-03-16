@@ -12,7 +12,7 @@ export default function InvitationsTable() {
     slug: string;
   };
   const utils = useQueryClient();
-  const { isOwner } = useProject();
+  const { isOwner } = useProject({});
   const {
     data: invitations,
     status,

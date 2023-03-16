@@ -4,7 +4,11 @@ import { ProjectProps } from '@/types/project';
 import { useQuery } from '@tanstack/react-query';
 import { QueryError, fetcher } from './fetcher';
 
-export default function useProject() {
+export default function useProject({
+  initialData,
+}: {
+  initialData?: ProjectProps;
+}) {
   const router = useRouter();
   const { slug } = router.query as {
     slug: string;
@@ -20,6 +24,7 @@ export default function useProject() {
     },
     {
       enabled: !!slug,
+      initialData: initialData ?? undefined,
     }
   );
 

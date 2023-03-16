@@ -10,7 +10,7 @@ export default function InviteUserForm() {
   };
   const utils = useQueryClient();
   const { register, handleSubmit } = useForm();
-  const { project, status } = useProject();
+  const { project, status } = useProject({});
 
   const inviteUser = useMutation({
     mutationFn: async (data: { email: string }) => {

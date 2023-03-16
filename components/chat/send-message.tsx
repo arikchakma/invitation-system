@@ -6,7 +6,7 @@ import useProject from '@/utils/use-project';
 
 export default function SendMessage() {
   const [message, setMessage] = useState('');
-  const { project } = useProject();
+  const { project } = useProject({});
   const isSubscribed = useIsSubscribed();
 
   const { mutate: send, status } = useMutation({
