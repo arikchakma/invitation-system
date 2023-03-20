@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { formatDistanceToNow } from 'date-fns';
+import throttle from 'lodash.throttle';
 import { useSession } from 'next-auth/react';
 import { useSubscribeToEvent } from '@/lib/stores/pusher-store';
 import { cn } from '@/utils/cn';
@@ -63,7 +64,7 @@ export default function Messages() {
     if (target.scrollHeight > target.clientHeight)
       setOverlay(prev => ({ ...prev, top: true }));
 
-    const scroll = (e: Event) => {
+    const handleScroll = throttle((e: Event) => {
       if (target.scrollTop === 0) {
         // console.log('Scrolled to top');
         setOverlay(prev => ({ top: false, bottom: true }));
@@ -80,10 +81,11 @@ export default function Messages() {
         // console.log('Scrolled to unknown');
         setOverlay(prev => ({ top: false, bottom: false }));
       }
-    };
 
-    target.addEventListener('scroll', scroll);
-    return () => target.removeEventListener('scroll', scroll);
+      console.log('Re-rendering')
+    }, 500);
+    target.addEventListener('scroll', handleScroll);
+    return () => target.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -119,10 +121,10 @@ export default function Messages() {
         aria-hidden
         className={cn(
           'pointer-events-none absolute bottom-0 h-full w-full touch-none',
-          overlay.top &&
-            'before:absolute before:top-0 before:h-20 before:w-full before:bg-gradient-to-b before:from-white before:to-transparent',
-          overlay.bottom &&
-            'after:absolute after:bottom-0 after:h-20 after:w-full after:bg-gradient-to-t after:from-white after:to-transparent'
+          'before:absolute before:top-0 before:h-20 before:w-full before:origin-top before:bg-gradient-to-b before:from-white before:to-transparent before:transition-all before:duration-500 before:ease-in-out',
+          'after:absolute after:bottom-0 after:left-0 after:h-20 after:w-full after:origin-bottom after:bg-gradient-to-t after:from-white after:to-transparent after:transition-all after:duration-500 after:ease-in-out',
+          overlay.top ? 'before:scale-y-100' : 'before:scale-y-0',
+          overlay.bottom ? 'after:scale-y-100' : 'after:scale-y-0'
         )}
       />
     </div>

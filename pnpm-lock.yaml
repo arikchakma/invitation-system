@@ -8,6 +8,7 @@ specifiers:
   '@radix-ui/react-popover': ^1.0.3
   '@tailwindcss/forms': ^0.5.3
   '@tanstack/react-query': ^4.24.9
+  '@types/lodash.throttle': ^4.1.7
   '@types/mjml': ^4.7.0
   '@types/mjml-react': ^2.0.6
   '@types/ms': ^0.7.31
@@ -25,6 +26,7 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   eslint-plugin-react: ^7.32.2
   eslint-plugin-tailwindcss: ^3.8.3
+  lodash.throttle: ^4.1.1
   mailing: ^0.9.10
   mailing-core: ^0.9.10
   mjml: ^4.13.0
@@ -89,6 +91,7 @@ dependencies:
 devDependencies:
   '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.4
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.7
+  '@types/lodash.throttle': 4.1.7
   '@types/mjml': 4.7.0
   '@types/mjml-react': 2.0.6
   '@types/ms': 0.7.31
@@ -98,6 +101,7 @@ devDependencies:
   eslint-config-prettier: 8.6.0_eslint@8.29.0
   eslint-plugin-react: 7.32.2_eslint@8.29.0
   eslint-plugin-tailwindcss: 3.8.3_tailwindcss@3.2.7
+  lodash.throttle: 4.1.1
   mailing: 0.9.10_yon33puevdjlwlu7ifz3sm5xe4
   postcss: 8.4.21
   prettier: 2.8.4
@@ -1082,6 +1086,12 @@ packages:
       '@types/keygrip': 1.0.2
       '@types/koa-compose': 3.2.5
       '@types/node': 18.11.15
+    dev: true
+
+  /@types/lodash.throttle/4.1.7:
+    resolution: {integrity: sha512-znwGDpjCHQ4FpLLx19w4OXDqq8+OvREa05H89obtSyXyOFKL3dDjCslsmfBz0T2FU8dmf5Wx1QvogbINiGIu9g==}
+    dependencies:
+      '@types/lodash': 4.14.191
     dev: true
 
   /@types/lodash/4.14.191:
@@ -3495,6 +3505,10 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  /lodash.throttle/4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
+    dev: true
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
