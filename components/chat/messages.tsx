@@ -81,20 +81,19 @@ export default function Messages() {
         // console.log('Scrolled to unknown');
         setOverlay(prev => ({ top: false, bottom: false }));
       }
-
-      console.log('Re-rendering')
     }, 500);
     target.addEventListener('scroll', handleScroll);
     return () => target.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="relative h-full overflow-hidden">
-      <div className="h-full overflow-y-auto scrollbar-hide" ref={ref}>
-        <ul className="flex flex-col justify-end divide-y divide-gray-200">
-          {messages.map((message, index) => (
-            <li key={index}>
+    <div className="relative h-full w-full">
+      <div className="flex h-full flex-col items-stretch justify-end self-auto overflow-y-hidden scrollbar-hide">
+        <div className="flex-initial overflow-y-auto scrollbar-hide" ref={ref}>
+          <div className="divide-y divide-gray-200">
+            {messages.map((message, index) => (
               <div
+                key={message.id}
                 className={cn(
                   'flex flex-col p-2',
                   data?.user?.email === message.sender && 'items-end'
@@ -112,9 +111,9 @@ export default function Messages() {
                 </p>
                 <p className="font-medium">{message.message}</p>
               </div>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </div>
       </div>
       <div
         aria-label="Messages overflow overlay"
