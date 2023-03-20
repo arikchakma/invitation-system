@@ -30,6 +30,19 @@ module.exports = {
         '-xs': { max: '428px' },
         // => @media (max-width: 639px) { ... }
       },
+
+      // Transitions
+      keyframes: {
+        // Scale Y from 0 to 1
+        'scale-y': {
+          '0%': { transform: 'scaleY(0)' },
+          '100%': { transform: 'scaleY(1)' },
+        },
+      },
+      animation: {
+        // Scale Y from 0 to 1
+        'scale-y': 'scale-y 0.3s ease-in-out',
+      }
     },
   },
   plugins: [
