@@ -25,18 +25,39 @@ export const config = {
 
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain, path, key } = parse(req);
-  if (domain === 'app.localhost:3000') {
+  // if (domain === 'app.localhost:3000') {
+  //   return NextResponse.rewrite(new URL(`/app${path}`, req.url));
+  // }
+  // if (domain === 'api.localhost:3000') {
+  //   return NextResponse.rewrite(new URL(`/api${path}`, req.url));
+  // }
+
+  const currentHost = domain?.replace(`.localhost:3000`, '');
+
+  if (domain !== 'localhost:3000' && !currentHost) {
+    const session = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    if (!session?.email && path !== '/login') {
+      return NextResponse.redirect(new URL('/login', req.url));
+    } else if (session?.email && path === '/login') {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+  }
+  
+  if (currentHost === 'app') {
+    console.log('app');
     return NextResponse.rewrite(new URL(`/app${path}`, req.url));
   }
-  if (domain === 'api.localhost:3000') {
-    return NextResponse.rewrite(new URL(`/api${path}`, req.url));
+
+  // rewrite root application to `/home` folder
+  if (domain === 'localhost:3000') {
+    return NextResponse.rewrite(new URL(`/home${path}`, req.url));
   }
 
-  const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!session?.email && path !== '/login') {
-    return NextResponse.redirect(new URL('/login', req.url));
-  } else if (session?.email && path === '/login') {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
-  return NextResponse.rewrite(new URL(`${path}`, req.url));
+  // Rewrite remaining paths like (project.localhost:3000) to (localhost:3000/_sites/project)
+  return NextResponse.rewrite(
+    new URL(`/_sites/${currentHost}${path}`, req.url)
+  );
 }

@@ -10,7 +10,7 @@ import Container from '@/layouts/container';
 import MaxWidthWrapper from '@/layouts/max-width-wrapper';
 import { cn } from '@/utils/cn';
 import useProject from '@/utils/use-project';
-import { authOptions } from '../api/auth/[...nextauth]';
+import { authOptions } from '../../api/auth/[...nextauth]';
 
 export default function ProjectPage({
   project: _project,
